@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="banniriaradhisona.Core/banniriaradhisona.Core.csproj" Id="c221d1cb-3e30-4d5c-8d18-0e865240e5c9" />
+  <Project Path="banniriaradhisona.Infrastructure/banniriaradhisona.Infrastructure.csproj" Id="5f81df40-244c-4a4c-a2ba-9ba725ae9e3b" />
+  <Project Path="banniriaradhisona/banniriaradhisona.csproj" />
+</Solution>

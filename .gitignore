@@ -1,0 +1,253 @@
+# Ignore Visual Studio temporary files, build results, and settings directory
+.vscode/
+.vscode/*
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Logs
+*.log
+
+# npm package files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Roslyn generated files
+Generated_Code/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUNIT
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Core
+.efmigration/
+!wwwroot/**
+!/wwwroot/**
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Chutzpah Test files
+_Chutzpah*
+
+# Visual Studio Code Coverage Folder
+.vscoverage
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+!src/**/packages.config
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+
+# Python virtual environments
+.env/
+
+# Typescript v2 declaration files
+typings/
+
+# Visual Studio Code
+.vscode/
+.vs/
+
+# Rider
+.idea/
+.idea_modules/
+.idea_workspace.xml
+.idea_modules.xml
+.idea-project.iml
+.idea-setup-config/
+
+# ASP.NET
+# Uncomment if using ASP.NET
+# project.lock.json
+# project.fragment.lock.json
+# migrations/
+# published/
+# .published/
+
+# WebAPI
+*Swagger*.xml
+SwaggerConfig.cs
+
+# Node.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+package-lock.json
+
+# Dotenv environment variable files
+.env
+.env.*
+
+# Output build directories
+bin/
+obj/
+artifacts/
+
+# Publish
+publish/
+.publish/
+
+# Backup & Report files
+*.bak
+*.dmp
+*.bak*
+*.log
+
+# Rider
+.idea/
+.idea_modules/
+.idea_workspace.xml
+.idea_modules.xml
+.idea-project.iml
+.idea-setup-config/
+
+# Visual Studio for Mac
+.vscode/
+
+# Others
+.*~
+*.sublime-workspace
+*.sublime-project
+.cache/
+*.tmp
+*.tmx
+*.swp
+*.swo
+
+# Configuration files with sensitive information
+.env
+.env.*
+appsettings.json
+appsettings.*.json
+secrets.json
+
+# SSH keys and other private keys
+*.pem
+*.key
+
+# Certificate files
+*.crt
+*.cer
+*.pfx
+*.p12
+
+# Backup files and other temporary files
+*.bak
+*.old
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# Data files containing sensitive information
+*.sqlite
+*.sqlite3
+*.db
+*.data
+
+# Compiled binaries and executables
+*.exe
+*.dll
