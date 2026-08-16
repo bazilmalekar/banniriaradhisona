@@ -17,7 +17,7 @@ body {
 }
 
 /* APP BACKGROUND */
-.main {
+/*.main {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -32,6 +32,23 @@ body {
         inset: 0;
         pointer-events: none;
         background: radial-gradient(circle at 15% 20%, rgba(255,255,255,.45), transparent 35%), radial-gradient(circle at 80% 10%, rgba(255,255,255,.25), transparent 35%), radial-gradient(circle at 70% 80%, rgba(255,255,255,.20), transparent 35%);
+    }*/
+
+.main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient( 135deg, #005866 0%, #008599 45%, #BFE8EC 100% );
+}
+
+    .main::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient( circle at 15% 20%, rgba(0, 86, 102, .18), transparent 30% ), radial-gradient( circle at 85% 20%, rgba(255,255,255,.16), transparent 30% ), radial-gradient( circle at 70% 85%, rgba(0, 133, 153, .15), transparent 35% );
     }
 
 /* NAVBAR */

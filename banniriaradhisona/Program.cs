@@ -1,9 +1,10 @@
 using banniriaradhisona.Data;
+using banniriaradhisona.Infrastructure.Implementations;
+using banniriaradhisona.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.HttpOverrides;
-using banniriaradhisona.Infrastructure.Interfaces;
-using banniriaradhisona.Infrastructure.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +23,51 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddControllersWithViews();
 
 //Register repositories for dependency injection
 builder.Services.AddScoped<ISongRepository, SongRepository>();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 52428800; // 50 MB
+});
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Auth/Login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+    options.SlidingExpiration = true;
+    options.Cookie.HttpOnly = true;
+});
+
+builder.Services.AddAntiforgery(options =>
+{
+    options.Cookie.Expiration = TimeSpan.FromDays(7);
+});
 
 var app = builder.Build();
 

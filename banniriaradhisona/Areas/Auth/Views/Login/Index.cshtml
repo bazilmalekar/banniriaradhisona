@@ -1,9 +1,49 @@
-﻿@{
+﻿@model banniriaradhisona.Core.ViewModels.LoginVM
+
+@{
     ViewData["Title"] = "Login";
 }
 
-<head>
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
-</head>
+<section class="login_page">
+    <div class="login_form">
+        <div class="login_header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue</p>
+        </div>
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
+            <div class="form_group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="login_input" placeholder="Username" autocomplete="username" />
+                <span asp-validation-for="Username" class="validation_message"></span>
+            </div>
+            <div class="form_group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="login_input" type="password" placeholder="Password" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="validation_message"></span>
+            </div>
+            <div class="remember_me">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe"></label>
+            </div>
+            <button type="submit" class="login_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
+                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+                Login
+            </button>
+            <a href="/" class="home_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
+                </svg>
+                <span>Go Back Home</span>
+            </a>
+        </form>
+    </div>
+</section>
 
-<h1 class="login_test">This is login page</h1>
+@section Scripts {
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}
