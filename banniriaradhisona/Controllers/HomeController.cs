@@ -1,15 +1,28 @@
+using banniriaradhisona.Infrastructure.Interfaces;
 using banniriaradhisona.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Diagnostics;
 
 namespace banniriaradhisona.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
+        private readonly ISongRepository _songRepository;
 
-            return View();
+        public HomeController(ISongRepository songRepository)
+        {
+            _songRepository = songRepository;
+        }
+
+        public async Task<IActionResult> Index(int? id)
+        {
+            var song = await _songRepository.GetFirstOrSongByIdAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            return View(song);
         }
 
         public IActionResult Privacy()

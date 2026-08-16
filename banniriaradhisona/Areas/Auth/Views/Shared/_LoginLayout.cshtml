@@ -19,20 +19,16 @@
     }
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/banniriaradhisona.styles.css" asp-append-version="true" />
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
 </head>
 <body>
     <div class="main">
-        <partial name="_NavbarPratial" />
         <main class="app_body_wrapper">
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             @RenderBody()
         </main>
-        <footer class="custom_footer">
-            <p>&copy; @DateTime.Now.Year ಬನ್ನಿರಿ ಆರಾಧಿಸೋಣ. All rights reserved.</p>
-        </footer>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

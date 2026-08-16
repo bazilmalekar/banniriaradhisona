@@ -1,3 +1,30 @@
-﻿<div class="text-center">
-    <h1 class="display-4">Banniriaradhisona</h1>
+﻿@model Song
+@using banniriaradhisona.Helper
+
+@{
+    var stanzas = LyricsHelper.FormatLyrics(Model.SongLyr);
+}
+
+<div class="app_body">
+    <div class="sidebar_wrapper">
+        @await Component.InvokeAsync("Sidebar")
+    </div>
+    <div class="song_body_wrapper">
+        <div class="song_body">
+            <h1>@Model.SongTitleKa</h1>
+            @foreach (var stanza in stanzas)
+            {
+                <p>
+                    @foreach (var line in stanza)
+                    {
+                        @line
+                        <br />
+                    }
+                </p>
+            }
+        </div>
+        <div class="media_player">
+            Media Player
+        </div>
+    </div>
 </div>

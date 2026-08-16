@@ -1,31 +1,267 @@
-html {
-  font-size: 14px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #18453B;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* APP BACKGROUND */
+.main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: linear-gradient( 135deg, #88BDA4 0%, #B1D3B9 45%, #E6F2DD 100% );
+    position: relative;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    .main::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at 15% 20%, rgba(255,255,255,.45), transparent 35%), radial-gradient(circle at 80% 10%, rgba(255,255,255,.25), transparent 35%), radial-gradient(circle at 70% 80%, rgba(255,255,255,.20), transparent 35%);
+    }
+
+/* NAVBAR */
+
+.custom_nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .75rem;
+    flex-shrink: 0;
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.25);
 }
+
+.logo {
+    height: 60px;
+    width: auto;
+}
+
+/* MAIN CONTENT */
+.app_body_wrapper {
+    flex: 1;
+    overflow: hidden;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.app_body {
+    height: 100%;
+    display: flex;
+    gap: 1rem;
+}
+
+/* SIDEBAR */
+.sidebar_wrapper {
+    width: 320px;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.side_bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgba(255,255,255,.20);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+/* SEARCH */
+
+.sidebar_search {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,.30);
+}
+
+    .sidebar_search input {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 999px;
+        padding: .8rem 1rem;
+        background: rgba(255,255,255,.35);
+    }
+
+        .sidebar_search input::placeholder {
+            color: #5B6B65;
+        }
+
+/* SONG LIST */
+.sidebar_links {
+    flex: 1;
+    overflow-y: auto;
+    padding: .5rem;
+}
+
+/* SONG ITEM */
+.song_link {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    padding: .85rem 1rem;
+    margin-bottom: .35rem;
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    user-select: none;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.20);
+    box-shadow: 0 3px 8px rgba(0,0,0,.05);
+    transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+    .song_link::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,.45);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: width .35s ease, height .35s ease, opacity .35s ease;
+    }
+
+    .song_link:hover {
+        transform: translateX(4px);
+        background: rgba(255,255,255,.32);
+        border-color: rgba(255,255,255,.45);
+        box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    }
+
+    .song_link:active {
+        transform: translateX(4px) scale(.98);
+    }
+
+        .song_link:active::after {
+            width: 220px;
+            height: 220px;
+            opacity: 1;
+        }
+
+    .song_link.active {
+        background: rgba(93,156,122,.28);
+        border-color: rgba(93,156,122,.60);
+        box-shadow: 0 8px 22px rgba(93,156,122,.18);
+    }
+
+    .song_link h6 {
+        margin: 0 0 .2rem;
+        font-size: .75rem;
+        color: #5B6B65;
+    }
+
+    .song_link p {
+        margin: 0;
+        line-height: 1.35;
+        font-size: .95rem;
+        font-weight: 600;
+        color: #18453B;
+    }
+
+/* SONG AREA */
+.song_body_wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.song_body {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(255,255,255,.20);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+    .song_body h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.3rem;
+        color: #18453B;
+    }
+
+    .song_body p {
+        text-align: center;
+        font-size: 1.35rem;
+        line-height: 2.2;
+        margin-bottom: 2rem;
+        color: #173A33;
+    }
+
+/* MEDIA PLAYER */
+.media_player {
+    height: 90px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,.20);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+/* FOOTER */
+
+.custom_footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .6rem;
+    font-size: .8rem;
+    color: #18453B;
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+    .custom_footer p {
+        margin: 0;
+        padding: 0.5rem 0;
+    }
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(24,69,59,.35);
+    border-radius: 999px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(24,69,59,.55);
+    }

@@ -2,6 +2,8 @@ using banniriaradhisona.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using banniriaradhisona.Infrastructure.Interfaces;
+using banniriaradhisona.Infrastructure.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ if (!builder.Environment.IsDevelopment())
     {
         options.ListenAnyIP(5000);
     });
-};
+}
+;
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -22,6 +25,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+//Register repositories for dependency injection
+builder.Services.AddScoped<ISongRepository, SongRepository>();
 
 var app = builder.Build();
 
@@ -55,6 +61,10 @@ app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
