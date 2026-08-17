@@ -17,23 +17,6 @@ body {
 }
 
 /* APP BACKGROUND */
-/*.main {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: linear-gradient( 135deg, #88BDA4 0%, #B1D3B9 45%, #E6F2DD 100% );
-    position: relative;
-}
-
-    .main::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: radial-gradient(circle at 15% 20%, rgba(255,255,255,.45), transparent 35%), radial-gradient(circle at 80% 10%, rgba(255,255,255,.25), transparent 35%), radial-gradient(circle at 70% 80%, rgba(255,255,255,.20), transparent 35%);
-    }*/
-
 .main {
     height: 100vh;
     display: flex;
@@ -201,6 +184,26 @@ body {
         font-weight: 600;
         color: #18453B;
     }
+
+.no_songs_found {
+    display: none;
+}
+
+.song_link.filter_show {
+    animation: filterSongIn .3s ease-out;
+}
+
+@keyframes filterSongIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* SONG AREA */
 .song_body_wrapper {

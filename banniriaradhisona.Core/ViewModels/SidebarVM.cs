@@ -10,6 +10,8 @@ namespace banniriaradhisona.Core.ViewModels
 
         public int SongCount { get; set; }
 
-        public string SongTitle { get; set; }
+        public string SongTitle { get; set; } = string.Empty;
+
+        public string SongTitleEn { get; set; } = string.Empty;
     }
 }

@@ -4,7 +4,7 @@ using banniriaradhisona.Infrastructure.Interfaces;
 
 namespace banniriaradhisona.Components
 {
-    public class SidebarViewComponent: ViewComponent
+    public class SidebarViewComponent : ViewComponent
     {
         private readonly ISongRepository _songRepository;
 
@@ -16,13 +16,17 @@ namespace banniriaradhisona.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var songs = await _songRepository.GetAllSongs();
-            var songTitleList = songs.Select((s, i) => new SidebarVM
-            {
-                SongId = s.SongId,
-                SongCount = i + 1,
-                SongTitle = s.SongTitleKa
-            });
-            return View(songTitleList);  
+            var songTitleList = songs
+                .Select((s, i) => new SidebarVM
+                {
+                    SongId = s.SongId,
+                    SongCount = i + 1,
+                    SongTitle = s.SongTitleKa,
+                    SongTitleEn = s.SongTitleEn
+                })
+                .ToList();
+
+            return View(songTitleList);
         }
     }
 }

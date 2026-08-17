@@ -1,17 +1,148 @@
-﻿@model IEnumerable<banniriaradhisona.Core.ViewModels.SidebarVM>;
+﻿@model IEnumerable<banniriaradhisona.Core.ViewModels.SidebarVM>
 
 <div class="side_bar">
+
     <div class="sidebar_search">
-        <input type="text" placeholder="Search by song number or title..." />
+        <input type="text"
+               id="songSearch"
+               placeholder="Search by song number or title..."
+               autocomplete="off" />
     </div>
-    <div class="sidebar_links">
+
+    <div class="sidebar_links" id="songList">
+
         @foreach (var song in Model)
         {
-            <a class="song_link" asp-controller="Home" asp-action="Index" asp-route-songId="@song.SongId">
+            <a class="song_link"
+               asp-controller="Home"
+               asp-action="Index"
+               asp-route-songId="@song.SongId"
+               data-song-number="@song.SongCount"
+               data-song-title="@song.SongTitleEn">
+
                 <h6>Song No. @song.SongCount</h6>
+
                 <p>@song.SongTitle</p>
+
             </a>
         }
 
+        <div id="noSongsFound" class="no_songs_found">
+            No songs found
+        </div>
+
     </div>
+
 </div>
+
+@* <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+
+        const searchInput = document.getElementById("songSearch");
+        const songLinks = document.querySelectorAll(".song_link");
+        const noSongsFound = document.getElementById("noSongsFound");
+
+        if (!searchInput) {
+            return;
+        }
+
+        searchInput.addEventListener("input", () => {
+
+            const searchValue = searchInput.value
+                .trim()
+                .toLowerCase();
+
+            let visibleSongs = 0;
+
+            songLinks.forEach(song => {
+
+                const songNumber =
+                    song.dataset.songNumber?.toLowerCase() ?? "";
+
+                const songTitle =
+                    song.dataset.songTitle?.toLowerCase() ?? "";
+
+                const matches =
+                    songNumber.includes(searchValue) ||
+                    songTitle.includes(searchValue);
+
+                song.style.display = matches ? "block" : "none";
+
+                if (matches) {
+                    visibleSongs++;
+                }
+            });
+
+            noSongsFound.style.display =
+                visibleSongs === 0 ? "block" : "none";
+        });
+    });
+</script> *@
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const searchInput = document.getElementById("songSearch");
+        const songLinks = document.querySelectorAll(".song_link");
+        const noSongsFound = document.getElementById("noSongsFound");
+
+        if (!searchInput) {
+            return;
+        }
+
+        let searchTimeout;
+
+        searchInput.addEventListener("input", () => {
+
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+
+                const searchValue = searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+                let visibleSongs = 0;
+
+                songLinks.forEach(song => {
+
+                    const songNumber =
+                        song.dataset.songNumber?.toLowerCase() ?? "";
+
+                    const songTitle =
+                        song.dataset.songTitle?.toLowerCase() ?? "";
+
+                    const matches =
+                        songNumber.includes(searchValue) ||
+                        songTitle.includes(searchValue);
+
+                    if (matches) {
+
+                        song.style.display = "block";
+
+                        // Restart animation
+                        song.classList.remove("filter_show");
+
+                        void song.offsetWidth;
+
+                        song.classList.add("filter_show");
+
+                        visibleSongs++;
+                    }
+                    else {
+
+                        song.style.display = "none";
+
+                        song.classList.remove("filter_show");
+                    }
+                });
+
+                noSongsFound.style.display =
+                    visibleSongs === 0 ? "block" : "none";
+
+            }, 250); // 250ms debounce
+
+        });
+
+    });
+</script>
