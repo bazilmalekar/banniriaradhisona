@@ -70,6 +70,120 @@ body {
     gap: 1rem;
 }
 
+/*Toast Notification*/
+/*.toast_container {
+    position: fixed;
+    top: 6rem;
+    right: 1rem;
+    z-index: 9999;
+    padding: 1rem 1.25rem;
+    background: rgba(0, 86, 102, .92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: white;
+    border: 1px solid rgba(255,255,255,.30);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 59, 69, .25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+}
+
+    .toast_container.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }*/
+
+/* =========================
+   TOAST NOTIFICATION
+========================= */
+
+/* Toast Notification */
+
+/* =========================
+   TOAST NOTIFICATION
+========================= */
+
+.toast_container {
+    position: fixed;
+    top: 6rem;
+    right: 1rem;
+    z-index: 9999;
+    min-width: 280px;
+    max-width: 360px;
+    padding: 0.65rem 1.25rem;
+    background-color: #ffdde1;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: #E51A35;
+    border: 1px solid rgba(229, 26, 53, .35);
+    border-left: 5px solid #fe3d53;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(229, 26, 53, .12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(120%);
+    overflow: hidden;
+    transition: opacity .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1), visibility .3s ease;
+}
+
+
+    /* Active */
+    .toast_container.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+
+
+    /* 5 second progress indicator */
+
+    .toast_container::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 100%;
+        background: #E51A35;
+        transform: scaleX(0);
+        transform-origin: left;
+        opacity: .75;
+    }
+
+    .toast_container.active::before {
+        animation: toastProgress 3s linear forwards;
+    }
+
+@keyframes toastProgress {
+
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+
+/* Toast text */
+.toast_container strong {
+    display: block;
+    margin-bottom: .25rem;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #E51A35;
+}
+
+.toast_container .small {
+    font-size: .78rem;
+    line-height: 1.4;
+    color: #B91C32;
+}
+
 /* SIDEBAR */
 .sidebar_wrapper {
     width: 320px;
@@ -507,9 +621,9 @@ Song body animation
     }*/
 
 
-    /* 10 second text */
+/* 10 second text */
 
-    /*.player_secondary_button span {
+/*.player_secondary_button span {
         font-size: 0.6rem;
         font-weight: 700;
         line-height: 0;
@@ -529,9 +643,9 @@ Song body animation
 }*/
 
 
-    /* Time */
+/* Time */
 
-    /*.player_progress span {
+/*.player_progress span {
         min-width: 35px;
         font-size: .7rem;
         font-weight: 600;
@@ -561,9 +675,9 @@ Song body animation
 }*/
 
 
-    /* Chrome / Edge / Safari */
+/* Chrome / Edge / Safari */
 
-    /*#progressBar::-webkit-slider-thumb {
+/*#progressBar::-webkit-slider-thumb {
         appearance: none;
         -webkit-appearance: none;
         width: 11px;
@@ -580,9 +694,9 @@ Song body animation
         }*/
 
 
-    /* Firefox */
+/* Firefox */
 
-    /*#progressBar::-moz-range-thumb {
+/*#progressBar::-moz-range-thumb {
         width: 11px;
         height: 11px;
         border-radius: 50%;

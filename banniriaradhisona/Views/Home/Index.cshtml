@@ -6,6 +6,13 @@
 }
 
 <div class="app_body">
+    @* toast notification *@
+    <div id="trackToast" class="toast_container">
+        <strong>Track not available</strong>
+        <div class="small">
+            This song doesn't have an audio track yet.
+        </div>
+    </div>
     <div class="sidebar_wrapper">
         @await Component.InvokeAsync("Sidebar")
     </div>
@@ -26,14 +33,9 @@
                 </p>
             }
         </div>
-        @* <div class="media_player">
-            Media Player
-        </div> *@
 
         <div class="media_player">
-
             <div class="player_controls">
-
                 <button id="rewindBtn"
                         class="player_secondary_button"
                         type="button"
@@ -44,7 +46,6 @@
                         <path d="M.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696z" />
                     </svg>
                 </button>
-
                 <button id="playPauseBtn"
                         class="player_play_button"
                         type="button"
@@ -54,7 +55,6 @@
                         <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
                     </svg>
                 </button>
-
                 <button id="forwardBtn"
                         class="player_secondary_button"
                         type="button"
@@ -65,160 +65,153 @@
                         <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z" />
                     </svg>
                 </button>
-
             </div>
-
             <div class="player_progress">
-
                 <span id="currentTime">0:00</span>
-
                 <input type="range"
                        id="progressBar"
                        min="0"
                        max="100"
                        value="0"
                        aria-label="Song progress">
-
                 <span id="duration">0:00</span>
-
             </div>
-
-            <audio id="audioPlayer">
-                <source src="~/audio/song.mp3" type="audio/mpeg">
-            </audio>
-
+            @if (!string.IsNullOrWhiteSpace(Model.Song.AudioUrl))
+            {
+                <audio id="audioPlayer">
+                    <source src="@Model.Song.AudioUrl" type="audio/mpeg">
+                </audio>
+            }
         </div>
-
-
-
     </div>
 </div>
 
 
 <script type="text/javascript">
-           const audio = document.getElementById("audioPlayer");
-
+    const audio = document.getElementById("audioPlayer");
     const playPause = document.getElementById("playPauseBtn");
     const rewind = document.getElementById("rewindBtn");
     const forward = document.getElementById("forwardBtn");
-
     const progress = document.getElementById("progressBar");
-
     const currentTime = document.getElementById("currentTime");
     const duration = document.getElementById("duration");
-
+    const trackToast = document.getElementById("trackToast");
 
     function formatTime(seconds) {
-
         if (!Number.isFinite(seconds)) {
             return "0:00";
         }
-
         const minutes = Math.floor(seconds / 60);
-
         const remainingSeconds =
             Math.floor(seconds % 60)
                 .toString()
                 .padStart(2, "0");
-
         return `${minutes}:${remainingSeconds}`;
     }
 
-
     /* Play / Pause */
 
+    function showTrackToast() {
+
+        // Remove active class first
+        trackToast.classList.remove("active");
+
+        // Force browser reflow so animation can restart
+        void trackToast.offsetWidth;
+
+        // Show toast
+        trackToast.classList.add("active");
+
+        // Hide after 5 seconds
+        setTimeout(() => {
+            trackToast.classList.remove("active");
+        }, 3000);
+    }
+
+
     playPause.addEventListener("click", async () => {
-
-        if (audio.paused) {
-
-            await audio.play();
-
-            playPause.textContent = "❚❚";
-            playPause.setAttribute("aria-label", "Pause");
-
-        } else {
-
-            audio.pause();
-
-            playPause.textContent = "▶";
-            playPause.setAttribute("aria-label", "Play");
+        // NO AUDIO AVAILABLE
+        if (!audio) {
+            showTrackToast();
+            return;
         }
 
-    });
+        // PLAY
+        if (audio.paused) {
+            try {
+                await audio.play();
+                playPause.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         viewBox="0 0 16 16">
+                        <path d="M5.5 3.5A.5.5 0 0 1 6 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M10.5 3.5A.5.5 0 0 1 11 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                `;
+                playPause.setAttribute("aria-label", "Pause");
+                playPause.setAttribute("title", "Pause");
+            }
+            catch (error) {
+                console.error("Unable to play audio:", error);
+            }
+        }
 
+        // PAUSE
+        else {
+            audio.pause();
+            playPause.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                </svg>
+            `;
+            playPause.setAttribute("aria-label", "Play");
+            playPause.setAttribute("title", "Play");
+        }
+    });
 
     /* Duration */
-
     audio.addEventListener("loadedmetadata", () => {
-
-        duration.textContent =
-            formatTime(audio.duration);
-
+        duration.textContent = formatTime(audio.duration);
     });
-
 
     /* Progress */
-
     audio.addEventListener("timeupdate", () => {
-
         if (!audio.duration) {
             return;
         }
-
-        progress.value =
-            (audio.currentTime / audio.duration) * 100;
-
-        currentTime.textContent =
-            formatTime(audio.currentTime);
-
+        progress.value = (audio.currentTime / audio.duration) * 100;
+        currentTime.textContent = formatTime(audio.currentTime);
     });
-
 
     /* Seek */
-
     progress.addEventListener("input", () => {
-
         if (!audio.duration) {
             return;
         }
-
-        audio.currentTime =
-            (progress.value / 100) * audio.duration;
-
+        audio.currentTime = (progress.value / 100) * audio.duration;
     });
-
 
     /* Rewind 10 seconds */
-
     rewind.addEventListener("click", () => {
-
-        audio.currentTime =
-            Math.max(0, audio.currentTime - 10);
-
+        audio.currentTime = Math.max(0, audio.currentTime - 10);
     });
-
 
     /* Forward 10 seconds */
-
     forward.addEventListener("click", () => {
-
-        audio.currentTime =
-            Math.min(audio.duration, audio.currentTime + 10);
-
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
     });
 
-
     /* Reset when song ends */
-
     audio.addEventListener("ended", () => {
-
         playPause.textContent = "▶";
-
         playPause.setAttribute("aria-label", "Play");
-
         progress.value = 0;
-
         currentTime.textContent = "0:00";
-
     });
 </script>

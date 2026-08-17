@@ -21,5 +21,7 @@ namespace banniriaradhisona.Models
         [Required]
         [Display(Name = "Lyrics")]
         public string SongLyr { get; set; } = string.Empty;
+
+        public string? AudioUrl { get; set; }
     }
 }
