@@ -2,7 +2,6 @@
 @using banniriaradhisona.Helper
 
 @{
-    // var stanzas = LyricsHelper.FormatLyrics(Model.SongLyr);
     var stanzas = LyricsHelper.FormatLyrics(Model.Song.SongLyr);
 }
 
@@ -27,8 +26,199 @@
                 </p>
             }
         </div>
-        <div class="media_player">
+        @* <div class="media_player">
             Media Player
+        </div> *@
+
+        <div class="media_player">
+
+            <div class="player_controls">
+
+                <button id="rewindBtn"
+                        class="player_secondary_button"
+                        type="button"
+                        title="Rewind 10 seconds"
+                        aria-label="Rewind 10 seconds">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rewind-fill" viewBox="0 0 16 16">
+                        <path d="M8.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696z" />
+                        <path d="M.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696z" />
+                    </svg>
+                </button>
+
+                <button id="playPauseBtn"
+                        class="player_play_button"
+                        type="button"
+                        title="Play"
+                        aria-label="Play">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
+                    </svg>
+                </button>
+
+                <button id="forwardBtn"
+                        class="player_secondary_button"
+                        type="button"
+                        title="Forward 10 seconds"
+                        aria-label="Forward 10 seconds">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fast-forward-fill" viewBox="0 0 16 16">
+                        <path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                        <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                    </svg>
+                </button>
+
+            </div>
+
+            <div class="player_progress">
+
+                <span id="currentTime">0:00</span>
+
+                <input type="range"
+                       id="progressBar"
+                       min="0"
+                       max="100"
+                       value="0"
+                       aria-label="Song progress">
+
+                <span id="duration">0:00</span>
+
+            </div>
+
+            <audio id="audioPlayer">
+                <source src="~/audio/song.mp3" type="audio/mpeg">
+            </audio>
+
         </div>
+
+
+
     </div>
 </div>
+
+
+<script type="text/javascript">
+           const audio = document.getElementById("audioPlayer");
+
+    const playPause = document.getElementById("playPauseBtn");
+    const rewind = document.getElementById("rewindBtn");
+    const forward = document.getElementById("forwardBtn");
+
+    const progress = document.getElementById("progressBar");
+
+    const currentTime = document.getElementById("currentTime");
+    const duration = document.getElementById("duration");
+
+
+    function formatTime(seconds) {
+
+        if (!Number.isFinite(seconds)) {
+            return "0:00";
+        }
+
+        const minutes = Math.floor(seconds / 60);
+
+        const remainingSeconds =
+            Math.floor(seconds % 60)
+                .toString()
+                .padStart(2, "0");
+
+        return `${minutes}:${remainingSeconds}`;
+    }
+
+
+    /* Play / Pause */
+
+    playPause.addEventListener("click", async () => {
+
+        if (audio.paused) {
+
+            await audio.play();
+
+            playPause.textContent = "❚❚";
+            playPause.setAttribute("aria-label", "Pause");
+
+        } else {
+
+            audio.pause();
+
+            playPause.textContent = "▶";
+            playPause.setAttribute("aria-label", "Play");
+        }
+
+    });
+
+
+    /* Duration */
+
+    audio.addEventListener("loadedmetadata", () => {
+
+        duration.textContent =
+            formatTime(audio.duration);
+
+    });
+
+
+    /* Progress */
+
+    audio.addEventListener("timeupdate", () => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+        progress.value =
+            (audio.currentTime / audio.duration) * 100;
+
+        currentTime.textContent =
+            formatTime(audio.currentTime);
+
+    });
+
+
+    /* Seek */
+
+    progress.addEventListener("input", () => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+        audio.currentTime =
+            (progress.value / 100) * audio.duration;
+
+    });
+
+
+    /* Rewind 10 seconds */
+
+    rewind.addEventListener("click", () => {
+
+        audio.currentTime =
+            Math.max(0, audio.currentTime - 10);
+
+    });
+
+
+    /* Forward 10 seconds */
+
+    forward.addEventListener("click", () => {
+
+        audio.currentTime =
+            Math.min(audio.duration, audio.currentTime + 10);
+
+    });
+
+
+    /* Reset when song ends */
+
+    audio.addEventListener("ended", () => {
+
+        playPause.textContent = "▶";
+
+        playPause.setAttribute("aria-label", "Play");
+
+        progress.value = 0;
+
+        currentTime.textContent = "0:00";
+
+    });
+</script>

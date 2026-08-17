@@ -320,7 +320,7 @@ Song body animation
 }
 
 /* MEDIA PLAYER */
-.media_player {
+/*.media_player {
     height: 90px;
     flex-shrink: 0;
     background: rgba(255,255,255,.20);
@@ -328,11 +328,233 @@ Song body animation
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,.35);
     box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}*/
+
+/* =========================
+   MEDIA PLAYER
+========================= */
+
+/*.media_player {
+    height: 100px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: .6rem 1.5rem;
+    background: rgba(255,255,255,.20);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}*/
+
+
+/* =========================
+   CONTROL ROW
+========================= */
+
+/*.player_controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    height: 42px;
+}*/
+
+
+/* =========================
+   PLAY / PAUSE
+========================= */
+
+/*.player_play_button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #008599;
+    color: white;
+    font-size: .95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,86,102,.25);
+    transition: transform .18s ease, background-color .18s ease;
 }
+
+    .player_play_button:hover {
+        background: #006F80;
+        transform: scale(1.08);
+    }
+
+    .player_play_button:active {
+        transform: scale(.93);
+    }*/
+
+
+/* =========================
+   FORWARD / REWIND
+========================= */
+/*.player_secondary_button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,.30);
+    color: #005866;
+    cursor: pointer;
+    transition: transform .18s ease, background-color .18s ease;
+}
+
+    .player_secondary_button i {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .player_secondary_button span {
+        font-size: .5rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .player_secondary_button:hover {
+        background: rgba(255,255,255,.50);
+        transform: scale(1.08);
+    }
+
+    .player_secondary_button:active {
+        transform: scale(.92);
+    }*/
+
+/*.player_secondary_button {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.05rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,.30);
+    color: #005866;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform .18s ease, background-color .18s ease;
+}
+
+    .player_secondary_button:hover {
+        background: rgba(255,255,255,.50);
+        transform: scale(1.08);
+    }
+
+    .player_secondary_button:active {
+        transform: scale(.92);
+    }*/
+
+
+    /* 10 second text */
+
+    /*.player_secondary_button span {
+        font-size: 0.6rem;
+        font-weight: 700;
+        line-height: 0;
+    }*/
+
+
+/* =========================
+   PROGRESS ROW
+========================= */
+
+/*.player_progress {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    height: 22px;
+}*/
+
+
+    /* Time */
+
+    /*.player_progress span {
+        min-width: 35px;
+        font-size: .7rem;
+        font-weight: 600;
+        color: #005866;
+        font-variant-numeric: tabular-nums;
+    }
+
+#duration {
+    text-align: right;
+}*/
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+/*#progressBar {
+    flex: 1;
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    background: rgba(0,86,102,.16);
+}*/
+
+
+    /* Chrome / Edge / Safari */
+
+    /*#progressBar::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #008599;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: transform .15s ease;
+    }
+
+        #progressBar::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+        }*/
+
+
+    /* Firefox */
+
+    /*#progressBar::-moz-range-thumb {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #008599;
+        border: 2px solid white;
+        cursor: pointer;
+    }*/
+
+
+/* Hide native audio */
+
+/*#audioPlayer {
+    display: none;
+}*/
 
 /* FOOTER */
 
-.custom_footer {
+/*.custom_footer {
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -348,10 +570,10 @@ Song body animation
     .custom_footer p {
         margin: 0;
         padding: 0.5rem 0;
-    }
+    }*/
 
 /* SCROLLBAR */
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
     width: 8px;
 }
 
@@ -362,4 +584,194 @@ Song body animation
 
     ::-webkit-scrollbar-thumb:hover {
         background: rgba(24,69,59,.55);
+    }*/
+
+/* =========================
+   MEDIA PLAYER
+========================= */
+
+.media_player {
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: .6rem 1.5rem;
+    background: rgba(255, 255, 255, .20);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, .35);
+    box-shadow: 0 8px 30px rgba(0, 59, 69, .10);
+}
+
+
+/* =========================
+   PLAYER CONTROLS
+========================= */
+
+.player_controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    height: 42px;
+}
+
+
+/* =========================
+   PLAY BUTTON
+========================= */
+
+.player_play_button {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #008599;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 5px 14px rgba(0, 86, 102, .25);
+    transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+    .player_play_button svg {
+        width: 18px;
+        height: 18px;
     }
+
+    .player_play_button:hover {
+        background: #006f80;
+        transform: scale(1.08);
+        box-shadow: 0 7px 18px rgba(0, 86, 102, .30);
+    }
+
+    .player_play_button:active {
+        transform: scale(.93);
+    }
+
+
+/* =========================
+   REWIND / FORWARD
+========================= */
+
+.player_secondary_button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .30);
+    color: #005866;
+    cursor: pointer;
+    line-height: 0;
+    transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+    .player_secondary_button svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        fill: currentColor;
+        flex-shrink: 0;
+    }
+
+    .player_secondary_button:hover {
+        background: rgba(255, 255, 255, .50);
+        transform: scale(1.08);
+        box-shadow: 0 5px 12px rgba(0, 86, 102, .12);
+    }
+
+    .player_secondary_button:active {
+        transform: scale(.92);
+    }
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.player_progress {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    height: 22px;
+}
+
+    .player_progress span {
+        min-width: 35px;
+        font-size: .7rem;
+        font-weight: 600;
+        color: #005866;
+        font-variant-numeric: tabular-nums;
+    }
+
+#duration {
+    text-align: right;
+}
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+#progressBar {
+    flex: 1;
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    background: rgba(0, 86, 102, .16);
+}
+
+
+    /* Chrome / Edge / Safari */
+
+    #progressBar::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #008599;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 86, 102, .25);
+        cursor: pointer;
+        transition: transform .15s ease;
+    }
+
+        #progressBar::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+        }
+
+
+    /* Firefox */
+
+    #progressBar::-moz-range-thumb {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #008599;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 86, 102, .25);
+        cursor: pointer;
+    }
+
+
+/* Hide native audio */
+
+#audioPlayer {
+    display: none;
+}
