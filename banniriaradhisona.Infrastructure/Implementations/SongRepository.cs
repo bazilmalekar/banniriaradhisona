@@ -29,14 +29,9 @@ namespace banniriaradhisona.Infrastructure.Implementations
             }
         }
 
-        public Task<Song?> GetSongByPositionAsync(int position)
+        public async Task<IEnumerable<Song>> GetAllSongs ()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Song>> SearchSongsByTitleAsync(string title)
-        {
-            throw new NotImplementedException();
+            return await _context.Songs.OrderBy(s => s.SongTitleEn).ToListAsync();
         }
     }
 }

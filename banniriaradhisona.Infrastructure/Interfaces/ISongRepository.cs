@@ -9,8 +9,6 @@ namespace banniriaradhisona.Infrastructure.Interfaces
     {
         Task<Song?> GetFirstOrSongByIdAsync(int? songId);
 
-        Task<IEnumerable<Song>> SearchSongsByTitleAsync(string title);
-
-        Task<Song?> GetSongByPositionAsync(int position);
+        Task<IEnumerable<Song>> GetAllSongs();
     }
 }

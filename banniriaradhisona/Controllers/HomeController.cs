@@ -15,9 +15,9 @@ namespace banniriaradhisona.Controllers
             _songRepository = songRepository;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? songId)
         {
-            var song = await _songRepository.GetFirstOrSongByIdAsync(id);
+            var song = await _songRepository.GetFirstOrSongByIdAsync(songId);
             if (song == null)
             {
                 return NotFound();
