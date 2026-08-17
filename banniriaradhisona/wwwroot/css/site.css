@@ -114,7 +114,29 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: .5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 133, 153, .45) rgba(255, 255, 255, .10);
 }
+
+    .sidebar_links::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar_links::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .08);
+        border-radius: 999px;
+        margin: 8px 0;
+    }
+
+    .sidebar_links::-webkit-scrollbar-thumb {
+        background: rgba(0, 133, 153, .45);
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .20);
+    }
+
+        .sidebar_links::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 86, 102, .70);
+        }
 
 /* SONG ITEM */
 .song_link {
@@ -225,8 +247,32 @@ body {
     border: 1px solid rgba(255, 255, 255, .35);
     padding: 2.5rem;
     box-shadow: 0 8px 30px rgba(0, 59, 69, .10);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 133, 153, .55) rgba(255, 255, 255, .12);
 }
 
+    /* Chrome / Edge / Safari */
+
+    .song_body::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    .song_body::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .10);
+        border-radius: 999px;
+        margin: 12px 0;
+    }
+
+    .song_body::-webkit-scrollbar-thumb {
+        background: rgba(0, 133, 153, .55);
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .25);
+        transition: background-color .2s ease;
+    }
+
+        .song_body::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 86, 102, .75);
+        }
 
 /* =========================
    SONG HEADER
@@ -775,3 +821,22 @@ Song body animation
 #audioPlayer {
     display: none;
 }
+
+/*Footer*/
+.custom_footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .6rem;
+    font-size: .8rem;
+    color: #18453B;
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+    .custom_footer p {
+        margin: 0;
+        padding: 0.5rem 0;
+    }
