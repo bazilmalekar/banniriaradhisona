@@ -1,8 +1,9 @@
-﻿@model Song
+﻿@model SongVM
 @using banniriaradhisona.Helper
 
 @{
-    var stanzas = LyricsHelper.FormatLyrics(Model.SongLyr);
+    // var stanzas = LyricsHelper.FormatLyrics(Model.SongLyr);
+    var stanzas = LyricsHelper.FormatLyrics(Model.Song.SongLyr);
 }
 
 <div class="app_body">
@@ -11,7 +12,10 @@
     </div>
     <div class="song_body_wrapper">
         <div class="song_body">
-            <h1>@Model.SongTitleKa</h1>
+            <div class="song_header">
+                <h6>Song No. @Model.SongCount</h6>
+                <h1>@Model.Song.SongTitleKa</h1>
+            </div>
             @foreach (var stanza in stanzas)
             {
                 <p>
