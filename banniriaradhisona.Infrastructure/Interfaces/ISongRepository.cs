@@ -11,5 +11,7 @@ namespace banniriaradhisona.Infrastructure.Interfaces
         Task<SongVM?> GetFirstOrSongByIdAsync(int? songId);
 
         Task<IEnumerable<Song>> GetAllSongs();
+
+        Task<IEnumerable<SongVM>> GetAllSongsWithIndex();
     }
 }

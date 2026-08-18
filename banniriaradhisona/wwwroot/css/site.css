@@ -70,42 +70,7 @@ body {
     gap: 1rem;
 }
 
-/*Toast Notification*/
-/*.toast_container {
-    position: fixed;
-    top: 6rem;
-    right: 1rem;
-    z-index: 9999;
-    padding: 1rem 1.25rem;
-    background: rgba(0, 86, 102, .92);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    color: white;
-    border: 1px solid rgba(255,255,255,.30);
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 59, 69, .25);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
-}
-
-    .toast_container.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }*/
-
-/* =========================
-   TOAST NOTIFICATION
-========================= */
-
 /* Toast Notification */
-
-/* =========================
-   TOAST NOTIFICATION
-========================= */
-
 .toast_container {
     position: fixed;
     top: 6rem;

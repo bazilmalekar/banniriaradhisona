@@ -54,5 +54,16 @@ namespace banniriaradhisona.Infrastructure.Implementations
         {
             return await _context.Songs.OrderBy(s => s.SongTitleEn).ToListAsync();
         }
+
+        public async Task<IEnumerable<SongVM>> GetAllSongsWithIndex()
+        {
+            var songs = await _context.Songs.OrderBy(o => o.SongTitleEn).ToListAsync();
+
+            return songs.Select((song, index) => new SongVM
+            {
+                Song = song,
+                SongCount = index + 1
+            });
+        }
     }
 }
