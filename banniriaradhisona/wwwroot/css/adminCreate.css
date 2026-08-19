@@ -1,4 +1,4 @@
-﻿* {
+﻿/** {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,4 +13,539 @@ body {
 
 body {
     font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+*/
+
+/* =========================
+   ADD SONG
+========================= */
+
+.add_song {
+    width: 100%;
+    min-height: 100%;
+    padding: 2rem;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.create_song_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+.create_song_eyebrow {
+    display: block;
+    margin-bottom: .3rem;
+    color: #66A3BF;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+}
+
+
+.create_song_header h1 {
+    margin: 0;
+    color: #3368A0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+
+.create_song_header p {
+    margin: .35rem 0 0;
+    color: #6B7D84;
+    font-size: .85rem;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back_dashboard {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .55rem .85rem;
+    color: #3368A0;
+    background-color: #ffffff;
+    border: 1px solid #C8DFDB;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+
+    .back_dashboard:hover {
+        color: #3368A0;
+        background-color: #eef6f5;
+        border-color: #66A3BF;
+        transform: translateX(-2px);
+    }
+
+
+.add_song hr {
+    margin: 1.25rem 0;
+    border: 0;
+    border-top: 1px solid rgba(51, 104, 160, .15);
+    opacity: 1;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.create_song_form {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+    padding: 1.75rem;
+}
+
+
+/* =========================
+   FORM SECTION
+========================= */
+
+.song_form_section {
+    padding-bottom: 1.75rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid #edf1f2;
+}
+
+
+    .song_form_section:last-of-type {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+
+.song_form_section_header {
+    margin-bottom: 1.25rem;
+}
+
+
+    .song_form_section_header h2 {
+        margin: 0;
+        color: #3368A0;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+
+    .song_form_section_header span {
+        display: block;
+        margin-top: .25rem;
+        color: #6B7D84;
+        font-size: .75rem;
+    }
+
+.lyrics_label {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    margin-bottom: .4rem;
+}
+
+    .lyrics_label label {
+        margin: 0;
+    }
+
+    .lyrics_label span {
+        color: #3368A0;
+        background-color: #eef5f6;
+        padding: .2rem .45rem;
+        border-radius: 5px;
+        font-size: .7rem;
+        font-weight: 650;
+    }
+
+/* =========================
+   TITLE ROW
+========================= */
+
+.song_title_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+
+/* =========================
+   FORM GROUP
+========================= */
+
+.admin_form_group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+    .admin_form_group label {
+        margin-bottom: .45rem;
+        color: #36515B;
+        font-size: .78rem;
+        font-weight: 600;
+    }
+
+
+    .admin_form_group input,
+    .admin_form_group textarea {
+        width: 100%;
+        color: #263B45;
+        background-color: #fbfcfc;
+        border: 1px solid #d9e5e7;
+        border-radius: 8px;
+        outline: none;
+        font-family: inherit;
+        font-size: .85rem;
+        transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+
+    .admin_form_group input {
+        height: 42px;
+        padding: .7rem .85rem;
+    }
+
+
+    .admin_form_group textarea {
+        min-height: 320px;
+        padding: .85rem;
+        resize: vertical;
+        line-height: 1.7;
+    }
+
+
+        .admin_form_group input::placeholder,
+        .admin_form_group textarea::placeholder {
+            color: #9aabad;
+        }
+
+
+        /* FOCUS */
+
+        .admin_form_group input:focus,
+        .admin_form_group textarea:focus {
+            background-color: #ffffff;
+            border-color: #66A3BF;
+            box-shadow: 0 0 0 3px rgba(102, 163, 191, .15);
+        }
+
+
+/* =========================
+   VALIDATION
+========================= */
+
+.field_validation {
+    margin-top: .35rem;
+    color: #d14c5d;
+    font-size: .72rem;
+}
+
+
+.validation_summary {
+    margin-bottom: 1rem;
+    padding: .75rem 1rem;
+    color: #a83b4b;
+    background-color: #fff3f4;
+    border: 1px solid #f1c9cf;
+    border-radius: 8px;
+    font-size: .8rem;
+}
+
+
+    .validation_summary:empty {
+        display: none;
+    }
+
+
+/* =========================
+   AUDIO UPLOAD
+========================= */
+
+.audio_input {
+    width: 100%;
+}
+
+
+    /* Hide native file input */
+
+    .audio_input input[type="file"] {
+        display: none;
+    }
+
+
+.audio_upload_area {
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    padding: 2rem;
+    color: #36515B;
+    background-color: #f8fbfb;
+    border: 2px dashed #C8DFDB;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .18s ease;
+}
+
+
+    .audio_upload_area:hover {
+        background-color: #eef6f5;
+        border-color: #66A3BF;
+        box-shadow: 0 5px 15px rgba(51, 104, 160, .08);
+        transform: translateY(-1px);
+    }
+
+
+/* AUDIO ICON */
+
+.audio_upload_icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3368A0;
+    background-color: #C8DFDB;
+    border-radius: 50%;
+}
+
+
+.audio_upload_text {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+
+    .audio_upload_text strong {
+        color: #3368A0;
+        font-size: .9rem;
+    }
+
+
+    .audio_upload_text span {
+        color: #6B7D84;
+        font-size: .78rem;
+    }
+
+
+    .audio_upload_text b {
+        color: #3368A0;
+    }
+
+
+    .audio_upload_text small {
+        margin-top: .25rem;
+        color: #9aabad;
+        font-size: .68rem;
+    }
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.create_song_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .6rem;
+    padding-top: 1.5rem;
+}
+
+.admin_cancel_button {
+    cursor: pointer;
+}
+
+/* =========================
+   ADMIN MODAL
+========================= */
+
+.admin_modal {
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(51, 104, 160, .18);
+}
+
+
+    /* =========================
+   MODAL HEADER
+========================= */
+
+    .admin_modal .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.1rem 1.25rem;
+        background-color: #f8fbfb;
+        border-bottom: 1px solid #edf1f2;
+    }
+
+
+.modal_title_wrapper {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+
+.modal_icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #3368A0;
+    background-color: #C8DFDB;
+    border-radius: 50%;
+}
+
+
+.admin_modal .modal-title {
+    margin: 0;
+    color: #263B45;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+
+/* CLOSE BUTTON */
+
+.admin_modal .btn-close {
+    margin: 0;
+    opacity: .55;
+    transition: opacity .18s ease, transform .18s ease;
+}
+
+
+    .admin_modal .btn-close:hover {
+        opacity: .85;
+        transform: rotate(90deg);
+    }
+
+
+/* =========================
+   MODAL BODY
+========================= */
+
+.admin_modal .modal-body {
+    padding: 1.25rem;
+}
+
+
+    .admin_modal .modal-body p {
+        margin: 0 0 .35rem;
+        color: #36515B;
+        font-size: .9rem;
+        font-weight: 600;
+    }
+
+
+    .admin_modal .modal-body span {
+        color: #7a8b91;
+        font-size: .78rem;
+        line-height: 1.5;
+    }
+
+
+/* =========================
+   MODAL FOOTER
+========================= */
+
+.admin_modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: .6rem;
+    padding: .9rem 1.25rem;
+    background-color: #fbfcfc;
+    border-top: 1px solid #edf1f2;
+}
+
+
+/* =========================
+   STAY BUTTON
+========================= */
+
+.admin_modal_cancel {
+    min-height: 38px;
+    padding: .5rem .9rem;
+    color: #5d7077;
+    background-color: #ffffff;
+    border: 1px solid #d9e5e7;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+
+    .admin_modal_cancel:hover {
+        color: #3368A0;
+        background-color: #eef6f5;
+        border-color: #C8DFDB;
+    }
+
+
+/* =========================
+   LEAVE BUTTON
+========================= */
+
+.admin_modal_confirm {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 1rem;
+    color: #ffffff;
+    background-color: #3368A0;
+    border: 1px solid #3368A0;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+    .admin_modal_confirm:hover {
+        color: #ffffff;
+        background-color: #285887;
+        border-color: #285887;
+        box-shadow: 0 4px 10px rgba(51, 104, 160, .18);
+        transform: translateY(-1px);
+    }
+
+    .admin_modal_confirm:active {
+        transform: translateY(0);
+    }
+
+/*Required field*/
+.required::after {
+    content: " *";
+    color: #FF0000;
 }

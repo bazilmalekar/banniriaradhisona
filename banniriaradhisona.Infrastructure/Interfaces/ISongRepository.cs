@@ -13,5 +13,13 @@ namespace banniriaradhisona.Infrastructure.Interfaces
         Task<IEnumerable<Song>> GetAllSongs();
 
         Task<IEnumerable<SongVM>> GetAllSongsWithIndex();
+
+        Task<Song> GetSongById(int id);
+
+        Task AddSong(Song model);
+
+        Task EditSong(Song model);
+
+        Task DeleteSong(int id);
     }
 }

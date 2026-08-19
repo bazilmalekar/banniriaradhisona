@@ -65,5 +65,46 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 SongCount = index + 1
             });
         }
+
+        public async Task<Song> GetSongById(int id)
+        {
+            return await _context.Songs.FindAsync(id);
+        }
+
+        public async Task AddSong(Song model)
+        {
+            await _context.Songs.AddAsync(model);
+            await Save();
+        }
+
+        public async Task EditSong(Song model)
+        {
+            var song = await GetSongById(model.SongId);
+            if (song != null)
+            {
+                song.SongTitleEn = model.SongTitleEn;
+                song.SongTitleKa = model.SongTitleKa;
+                song.SongLyr = model.SongLyr;
+                song.UpdateDate = DateTime.UtcNow;
+                _context.Songs.Update(song);
+                await Save();
+            }
+        }
+
+        public async Task DeleteSong(int id)
+        {
+            var song = await GetSongById(id);
+            if (song == null)
+            {
+                return;
+            }
+            _context.Songs.Remove(song);
+            await Save();
+        }
+
+        private async Task Save()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

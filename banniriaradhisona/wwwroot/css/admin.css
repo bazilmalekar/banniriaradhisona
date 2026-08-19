@@ -51,7 +51,6 @@ body {
 
 
 /* BRAND */
-
 .admin_brand {
     height: 100%;
     display: flex;
@@ -75,6 +74,66 @@ body {
     display: block;
 }
 
+.admin_nav_actions {
+    position: absolute;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+
+.admin_view_site,
+.admin_logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    min-height: 34px;
+    padding: .4rem .7rem;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: .74rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+
+/* View Site */
+.admin_view_site {
+    color: #F2EFE7;
+    background-color: rgba(242, 239, 231, .10);
+    border: 1px solid rgba(242, 239, 231, .25);
+}
+
+    .admin_view_site:hover {
+        color: #3368A0;
+        background-color: #F2EFE7;
+        border-color: #F2EFE7;
+        transform: translateY(-1px);
+    }
+
+
+/* Logout */
+.admin_logout {
+    color: #F2EFE7;
+    background-color: transparent;
+    border: 1px solid rgba(242, 239, 231, .20);
+    cursor: pointer;
+}
+
+    .admin_logout:hover {
+        color: #ffffff;
+        background-color: rgba(190, 65, 80, .85);
+        border-color: rgba(190, 65, 80, .85);
+        transform: translateY(-1px);
+    }
+
+
+.admin_logout_form {
+    margin: 0;
+}
 
 /* =========================
    ADMIN BODY WRAPPER
@@ -306,6 +365,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+    text-decoration: none;
 }
 
 
@@ -480,6 +540,7 @@ body {
         color: #3368A0;
         background-color: #eef5f7;
         border: 1px solid #C8DFDB;
+        text-decoration: none;
     }
 
 
@@ -498,6 +559,7 @@ body {
         background-color: #fff3f4;
         border: 1px solid #f1c9cf;
         margin-left: .35rem;
+        text-decoration: none;
     }
 
 
@@ -534,6 +596,74 @@ body {
     .songs_empty_state span {
         font-size: .8rem;
     }
+
+.admin_modal_delete {
+    min-height: 38px;
+    padding: .5rem 1rem;
+    color: #a33a4a;
+    background-color: #fdf0f1;
+    border: 1px solid #efc7cc;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+    .admin_modal_delete:hover {
+        color: #ffffff;
+        background-color: #c94a5a;
+        border-color: #c94a5a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(201, 74, 90, .18);
+    }
+
+    .admin_modal_delete:active {
+        transform: translateY(0);
+    }
+
+.delete_song_details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+    margin: 1rem 0;
+    padding: .75rem;
+    background-color: #f7faf9;
+    border: 1px solid #e4eeee;
+    border-radius: 9px;
+}
+
+.delete_song_detail {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+    .delete_song_detail span {
+        color: #7a8b91;
+        font-size: .68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .04rem;
+    }
+
+    .delete_song_detail strong {
+        color: #3368A0;
+        font-size: .76rem;
+        font-weight: 650;
+    }
+
+.delete_warning {
+    color: #a33a4a !important;
+    font-size: .75rem !important;
+    font-weight: 600;
+}
+
+
+
+
+
 /* =========================
    FOOTER
 ========================= */

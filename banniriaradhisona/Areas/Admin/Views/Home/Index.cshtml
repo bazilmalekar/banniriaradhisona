@@ -9,7 +9,7 @@
             <p>Manage the songs available in Banniriaradhisona.</p>
         </div>
         <div class="admin_page_actions">
-            <button type="button" class="admin_primary_button">
+            <a type="button" class="admin_primary_button" asp-area="Admin" asp-controller="Home" asp-action="Upsert">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="16"
                      height="16"
@@ -18,7 +18,7 @@
                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                 </svg>
                 Add song
-            </button>
+            </a>
             <button type="button" class="admin_secondary_button">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="16"
@@ -32,6 +32,22 @@
             </button>
         </div>
     </div>
+    @if (TempData["successMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show admin_alert" role="alert">
+            <strong>Success!</strong>
+            @TempData["successMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["errorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show admin_alert" role="alert">
+            <strong>Error!</strong>
+            @TempData["errorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <!-- SONG TABLE -->
     <div class="songs_table_wrapper">
         <table class="songs_list">
@@ -42,6 +58,12 @@
                     </th>
                     <th>
                         Song Title
+                    </th>
+                    <th>
+                        Created
+                    </th>
+                    <th>
+                        Last Updated
                     </th>
                     <th class="song_manage_column">
                         Manage
@@ -60,28 +82,34 @@
                             <td class="song_title">
                                 @song.Song.SongTitleKa
                             </td>
+                            <td class="song_date">
+                                @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                    song.Song.CreatedDate,
+                                    "India Standard Time"
+                                ).ToString("dd MMM yyyy, hh:mm tt")
+                            </td>
+                            <td class="song_date">
+                                @if (song.Song.UpdateDate.HasValue)
+                                {
+                                    @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                        song.Song.UpdateDate.Value,
+                                        "India Standard Time"
+                                    ).ToString("dd MMM yyyy, hh:mm tt")
+                                }
+                                else
+                                {
+                                    <span class="not_updated">Not updated</span>
+                                }
+                            </td>
                             <td class="song_actions">
-                                <button type="button" class="song_action_button edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z" />
-                                        <path d="m12.939 2.69-8 8-.805 2.414 2.414-.805 8-8z" />
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                    </svg>
-                                    Edit
-                                </button>
-                                <button type="button" class="song_action_button delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5" />
-                                        <path d="M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1z" />
-                                    </svg>
+                                <a class="song_action_button edit" asp-area="Admin" asp-controller="Home" asp-action="Upsert" asp-route-id="@song.Song.SongId">Edit</a>
+                                <button type="button"
+                                        class="song_action_button delete"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-song-id="@song.Song.SongId"
+                                        data-song-title="@song.Song.SongTitleKa"
+                                        data-created-date="@TimeZoneInfo.ConvertTimeBySystemTimeZoneId(song.Song.CreatedDate, "India Standard Time").ToString("dd MMM yyyy, hh:mm tt")" data-updated-date="@(song.Song.UpdateDate.HasValue ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(song.Song.UpdateDate.Value, "India Standard Time").ToString("dd MMM yyyy, hh:mm tt") : "Not updated")">
                                     Delete
                                 </button>
                             </td>
@@ -91,7 +119,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="3">
+                        <td colspan="5">
                             <div class="songs_empty_state">
                                 <strong>No songs found</strong>
                                 <span>There are currently no songs available.</span>
@@ -103,3 +131,76 @@
         </table>
     </div>
 </div>
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin_modal">
+            <div class="modal-header">
+                <div class="modal_title_wrapper">
+                    <div class="modal_icon delete_modal_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                        </svg>
+                    </div>
+                    <h1 class="modal-title" id="deleteModalLabel">Delete song?</h1>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete<strong id="deleteSongTitle"></strong>?</p>
+                <div class="delete_song_details">
+                    <div class="delete_song_detail">
+                        <span>Created</span>
+                        <strong id="deleteCreatedDate"></strong>
+                    </div>
+                    <div class="delete_song_detail">
+                        <span>Last updated</span>
+                        <strong id="deleteUpdatedDate"></strong>
+                    </div>
+                </div>
+                <span class="delete_warning">This action cannot be undone.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="admin_modal_cancel" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteSongForm" method="post" asp-area="Admin" asp-controller="Home" asp-action="Delete">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteSongId" name="id" />
+                    <button type="submit" class="admin_modal_delete">Delete Song</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        // Alerts
+        const alerts = document.querySelectorAll(".admin_alert");
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                bootstrapAlert.close();
+            }, 5000);
+        });
+
+        // Delete modal
+        const deleteModal = document.getElementById("deleteModal");
+        const deleteSongId = document.getElementById("deleteSongId");
+        const deleteSongTitle = document.getElementById("deleteSongTitle");
+        const deleteCreatedDate = document.getElementById("deleteCreatedDate");
+        const deleteUpdatedDate = document.getElementById("deleteUpdatedDate");
+        deleteModal.addEventListener("show.bs.modal", event => {
+            const button = event.relatedTarget;
+            const songId = button.getAttribute("data-song-id");
+            const songTitle = button.getAttribute("data-song-title");
+            const createdDate = button.getAttribute("data-created-date");
+            const updatedDate = button.getAttribute("data-updated-date");
+            deleteSongId.value = songId;
+            deleteSongTitle.textContent = `"${songTitle}"`;
+            deleteCreatedDate.textContent = createdDate;
+            deleteUpdatedDate.textContent = updatedDate;
+        });
+    });
+</script>

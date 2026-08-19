@@ -1,0 +1,133 @@
+﻿@model Song
+
+<div class="add_song">
+    <!-- HEADER -->
+    <div class="create_song_header">
+        <div>
+            <span class="create_song_eyebrow">Content Management</span>
+            @if (Model.SongId == 0)
+            {
+                <h1>Add Song</h1>
+                <p>Add a new Kannada song to Banniriaradhisona.</p>
+            }
+            else
+            {
+                <h1>Edit Song</h1>
+                <p>Edit the Kannada song added to Banniriaradhisona.</p>
+            }
+        </div>
+        <button asp-area="Admin" asp-controller="Home" asp-action="Index" class="back_dashboard" data-bs-toggle="modal" data-bs-target="#upsertModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+            </svg>
+            Dashboard
+        </button>
+    </div>
+    <hr />
+    <!-- FORM -->
+    <form method="post" asp-area="Admin" asp-controller="Home" asp-action="Upsert" enctype="multipart/form-data" class="create_song_form">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
+        <input type="hidden" asp-for="@Model.SongId" />
+        <!-- SONG INFORMATION -->
+        <div class="song_form_section">
+            <div class="song_form_section_header">
+                <h2>Song Information</h2>
+                <span>Enter the Kannada and English titles.</span>
+            </div>
+            <div class="song_title_row">
+                <!-- KANNADA TITLE -->
+                <div class="admin_form_group">
+                    <label class="required" asp-for="SongTitleKa"></label>
+                    <input type="text" asp-for="SongTitleKa" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಶೀರ್ಷಿಕೆ" autocomplete="off" />
+                    <span asp-validation-for="SongTitleKa" class="field_validation"></span>
+                </div>
+                <!-- ENGLISH TITLE -->
+                <div class="admin_form_group">
+                    <label class="required" asp-for="SongTitleEn"></label>
+                    <input type="text" asp-for="SongTitleEn" placeholder="English song title" autocomplete="off" />
+                    <span asp-validation-for="SongTitleEn" class="field_validation"></span>
+                </div>
+            </div>
+        </div>
+        <!-- LYRICS -->
+        <div class="song_form_section">
+            <div class="song_form_section_header">
+                <h2>Lyrics</h2>
+                <span>Enter the complete Kannada lyrics.</span>
+            </div>
+            <div class="admin_form_group">
+                <div class="lyrics_label">
+                    <label class="required" asp-for="SongLyr"></label>
+                    <span>[Please add semicolon (;) at the end of each sentence.]</span>
+                </div>
+                <textarea asp-for="SongLyr" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಸಾಹಿತ್ಯವನ್ನು ಇಲ್ಲಿ ನಮೂದಿಸಿ..." rows="18"></textarea>
+                <span asp-validation-for="SongLyr" class="field_validation"></span>
+            </div>
+        </div>
+        <!-- AUDIO -->
+        <div class="song_form_section">
+            <div class="song_form_section_header">
+                <h2>Audio Track</h2>
+                <span>Add an audio track for this song.</span>
+            </div>
+            <div class="audio_input">
+                <input type="file" id="audioFile" name="audioFile" accept="audio/*" />
+                <label for="audioFile" class="audio_upload_area">
+                    <div class="audio_upload_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M11 2.5a.5.5 0 0 1 .5.5v7.5a2.5 2.5 0 1 1-1-2V4.07l-6 1.5V12a2.5 2.5 0 1 1-1-2V5.18a.5.5 0 0 1 .379-.485l7-1.75A.5.5 0 0 1 11 2.5" />
+                        </svg>
+                    </div>
+                    <div class="audio_upload_text">
+                        <strong>Drag and drop your audio file</strong>
+                        <span>or <b>click here</b> to browse</span>
+                        <small>MP3, WAV or other supported audio formats</small>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <!-- ACTIONS -->
+        <div class="create_song_actions">
+            <a class="admin_cancel_button" data-bs-toggle="modal" data-bs-target="#upsertModal">Cancel</a>
+            <button type="submit" class="admin_primary_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h5.5L14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+                    <path d="M5 1v5h6V1z" fill="#fff" />
+                </svg>
+                @(Model.SongId == 0 ? "Save Song" : "Update Song")
+            </button>
+        </div>
+    </form>
+</div>
+<!-- Leave confirmation modal -->
+<div class="modal fade" id="upsertModal" tabindex="-1" aria-labelledby="upsertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin_modal">
+            <div class="modal-header">
+                <div class="modal_title_wrapper">
+                    <div class="modal_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                        </svg>
+                    </div>
+                    <h1 class="modal-title" id="upsertModalLabel">Leave this page?</h1>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Any changes you've made will be discarded.</p>
+                <span>Are you sure you want to return to the dashboard?</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="admin_modal_cancel" data-bs-dismiss="modal">Stay</button>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="admin_modal_confirm">Leave &amp; Return</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
