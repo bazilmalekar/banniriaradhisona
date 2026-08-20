@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace banniriaradhisona.Models
+namespace banniriaradhisona.Core.Models
 {
     public class Song
     {

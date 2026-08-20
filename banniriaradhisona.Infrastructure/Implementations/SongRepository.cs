@@ -1,7 +1,7 @@
 ﻿using banniriaradhisona.Core.ViewModels;
 using banniriaradhisona.Data;
 using banniriaradhisona.Infrastructure.Interfaces;
-using banniriaradhisona.Models;
+using banniriaradhisona.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

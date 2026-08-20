@@ -5,10 +5,8 @@ using System.Text;
 
 namespace banniriaradhisona.Core.ViewModels
 {
-    public class SongVM
+    public class UserWithRoleVM : Users
     {
-        public Song Song { get; set; } = null!;
-
-        public int SongCount { get; set; }
+        public List<string> Roles { get; set; } = new();
     }
 }

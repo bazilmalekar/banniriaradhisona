@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +12,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/adminCreate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user.css" asp-append-version="true" />
 </head>
 <body>
     <div class="admin_main">
@@ -57,7 +62,7 @@
                     <span>Administration</span>
                 </div>
                 <nav class="admin_navigation">
-                    <a class="admin_link active" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <a class="admin_link @(currentController == "Home" ? "active" : "")" asp-area="Admin" asp-controller="Home" asp-action="Index">
                         <span class="admin_link_icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M8 3.293 1 9.293V15h5v-4h4v4h5V9.293z" />
@@ -65,7 +70,7 @@
                         </span>
                         <span>Dashboard</span>
                     </a>
-                    <a class="admin_link">
+                    <a class="admin_link @(currentController == "AppUser" ? "active" : "")" asp-area="Admin" asp-controller="AppUser" asp-action="Index">
                         <span class="admin_link_icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />

@@ -1,4 +1,4 @@
-﻿using banniriaradhisona.Models;
+﻿using banniriaradhisona.Core.Models;
 using banniriaradhisona.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

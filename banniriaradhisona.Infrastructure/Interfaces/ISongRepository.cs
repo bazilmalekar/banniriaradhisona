@@ -1,5 +1,5 @@
 ﻿using banniriaradhisona.Core.ViewModels;
-using banniriaradhisona.Models;
+using banniriaradhisona.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,6 +1,8 @@
+using banniriaradhisona.Core.Models;
 using banniriaradhisona.Data;
 using banniriaradhisona.Infrastructure.Implementations;
 using banniriaradhisona.Infrastructure.Interfaces;
+using banniriaradhisona.Services;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -23,14 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddControllersWithViews();
-
-//Register repositories for dependency injection
-builder.Services.AddScoped<ISongRepository, SongRepository>();
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
@@ -40,9 +35,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultUI()
-    .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultUI()
+.AddDefaultTokenProviders();
+
+//Register repositories for dependency injection
+builder.Services.AddScoped<ISongRepository, SongRepository>();
+
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -70,6 +70,9 @@ builder.Services.AddAntiforgery(options =>
 });
 
 var app = builder.Build();
+
+//calls the seed method once, when the application starts
+await SeedService.SeedDatabase(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
