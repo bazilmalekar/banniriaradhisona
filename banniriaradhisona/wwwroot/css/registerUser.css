@@ -1,0 +1,297 @@
+﻿/* =========================================
+   USER REGISTER / EDIT
+========================================= */
+
+.reg_wrapper {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem 3rem;
+}
+
+
+    /* =========================================
+   HEADER
+========================================= */
+
+    .reg_wrapper > div:first-child {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+    }
+
+        .reg_wrapper > div:first-child p:first-child {
+            margin: 0;
+            color: #3368A0;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .08rem;
+            text-transform: uppercase;
+        }
+
+    .reg_wrapper h1 {
+        margin: 0;
+        color: #3368A0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        font-weight: 700;
+        letter-spacing: -.02rem;
+    }
+
+    .reg_wrapper > div:first-child p:last-child {
+        margin: .15rem 0 0;
+        color: #6b7d84;
+        font-size: .9rem;
+    }
+
+
+    /* =========================================
+   DIVIDER
+========================================= */
+
+    .reg_wrapper > hr {
+        margin: 1.5rem 0 1.75rem;
+        border: 0;
+        border-top: 1px solid #dfe7e5;
+        opacity: 1;
+    }
+
+
+/* =========================================
+   FORM CONTAINER
+========================================= */
+
+.form_wrapper {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e2e9e7;
+    border-radius: 10px;
+    padding: 2rem 2.25rem;
+    box-shadow: 0 2px 8px rgba(38, 59, 69, .05);
+}
+
+
+    /* =========================================
+   FORM
+========================================= */
+
+    .form_wrapper form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+
+    /* =========================================
+   VALIDATION SUMMARY
+========================================= */
+
+    .form_wrapper .validation-summary-errors {
+        margin-bottom: .25rem;
+        padding: .75rem 1rem;
+        border: 1px solid #e8b4b4;
+        border-radius: 6px;
+        background-color: #fff5f5;
+        color: #9b3f3f;
+        font-size: .85rem;
+    }
+
+        .form_wrapper .validation-summary-errors ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+}
+
+    .form_group label {
+        color: #263B45;
+        font-size: .82rem;
+        font-weight: 700;
+    }
+
+
+        /* Required indicator */
+
+        .form_group label.required::after {
+            content: " *";
+            color: #b55b5b;
+        }
+
+
+    /* =========================================
+   INPUTS
+========================================= */
+
+    .form_group input,
+    .form_group select {
+        width: 100%;
+        min-height: 44px;
+        padding: .65rem .8rem;
+        border: 1px solid #d6e1df;
+        border-radius: 6px;
+        background-color: #ffffff;
+        color: #263B45;
+        font-size: .88rem;
+        outline: none;
+        transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+    }
+
+
+        .form_group input::placeholder {
+            color: #9aa9ad;
+        }
+
+
+        /* Focus */
+
+        .form_group input:focus,
+        .form_group select:focus {
+            border-color: #66A3BF;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(102, 163, 191, .13);
+        }
+
+
+        /* Readonly email */
+
+        .form_group input[readonly] {
+            background-color: #f5f7f6;
+            color: #66787f;
+            cursor: not-allowed;
+        }
+
+
+    /* =========================================
+   FIELD VALIDATION
+========================================= */
+
+    .form_group .field-validation-error {
+        color: #b04d4d;
+        font-size: .75rem;
+    }
+
+    .form_group input.input-validation-error,
+    .form_group select.input-validation-error {
+        border-color: #c96b6b;
+    }
+
+        .form_group input.input-validation-error:focus,
+        .form_group select.input-validation-error:focus {
+            box-shadow: 0 0 0 3px rgba(201, 107, 107, .12);
+        }
+
+
+    /* =========================================
+   ROLE SELECT
+========================================= */
+
+    .form_group select {
+        cursor: pointer;
+    }
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.form_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .75rem;
+    margin-top: .75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #edf1f2;
+}
+
+
+    /* Cancel */
+
+    .form_actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: .55rem 1rem;
+        border: 1px solid #d6e1df;
+        border-radius: 6px;
+        background-color: #ffffff;
+        color: #52666e;
+        font-size: .82rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+    }
+
+        .form_actions a:hover {
+            background-color: #f4f7f6;
+            border-color: #c4d4d1;
+            color: #263B45;
+        }
+
+
+    /* Submit */
+
+    .form_actions button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: .55rem 1.15rem;
+        border: 1px solid #3368A0;
+        border-radius: 6px;
+        background-color: #3368A0;
+        color: #ffffff;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(51, 104, 160, .15);
+        transition: background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+        .form_actions button:hover {
+            background-color: #285985;
+            border-color: #285985;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(51, 104, 160, .18);
+        }
+
+        .form_actions button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(51, 104, 160, .12);
+        }
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .reg_wrapper {
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .form_wrapper {
+        padding: 1.5rem;
+    }
+
+    .form_actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+        .form_actions a,
+        .form_actions button {
+            width: 100%;
+        }
+}

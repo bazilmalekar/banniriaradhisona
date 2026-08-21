@@ -1,227 +1,100 @@
-﻿@* @model IEnumerable<UserWithRoleVM>;
-
-<div class="user_wrapper">
-    <div class="header">
-        <p>User Management</p>
-        <h1>Users</h1>
-        <div class="note_actionbtn">
-            <p>Add or delete users who can manage this application</p>
-            <div class="action_btns">
-                <a href="" type="button">Register User</a>
-            </div>
-        </div>
-    </div>
-    <hr />
-    <div class="user_Table wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Username
-                    </th>
-                    <th>
-                        Role
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null || Model.Any())
-                {
-                    @foreach (var user in Model)
-                    {
-                        <tr>
-                            <td>@user.Name</td>
-                            <td>@user.UserName</td>
-                            <td>@user.Roles</td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <p>No usere found</p>
-                }
-            </tbody>
-        </table>
-    </div>
-</div> *@
-
-@model IEnumerable<UserWithRoleVM>
+﻿@model IEnumerable<UserWithRoleVM>
 
 <div class="admin_index">
-
     <!-- PAGE HEADER -->
     <div class="admin_page_header">
-
         <div class="admin_page_title">
-            <span class="admin_page_eyebrow">
-                Administration
-            </span>
-
+            <span class="admin_page_eyebrow">Administration</span>
             <h1>Users</h1>
-
-            <p>
-                Manage users and their access to Banniriaradhisona.
-            </p>
+            <p>Manage users and their access to Banniriaradhisona.</p>
         </div>
-
         <div class="admin_page_actions">
-
-            <a class="admin_primary_button"
-               asp-area="Admin"
-               asp-controller="AppUser"
-               asp-action="Upsert">
-
+            <a class="admin_primary_button" asp-area="Admin" asp-controller="AppUser" asp-action="Register">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="16"
                      height="16"
                      fill="currentColor"
                      viewBox="0 0 16 16">
-
-                    <path fill-rule="evenodd"
-                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                 </svg>
-
-                Add user
+                Add User
             </a>
-
         </div>
     </div>
-
-
     <!-- ALERTS -->
     @if (TempData["successMessage"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show admin_alert"
-             role="alert">
-
+        <div class="alert alert-success alert-dismissible fade show admin_alert" role="alert">
             <strong>Success!</strong>
             @TempData["successMessage"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close">
-            </button>
-
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
-
-
     @if (TempData["errorMessage"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show admin_alert"
-             role="alert">
-
+        <div class="alert alert-danger alert-dismissible fade show admin_alert" role="alert">
             <strong>Error!</strong>
             @TempData["errorMessage"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close">
-            </button>
-
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
-
-
     <!-- USER TABLE -->
-
     <div class="songs_table_wrapper user_table_wrapper">
-
         <table class="songs_list users_list">
-
             <thead>
                 <tr>
-
                     <th class="user_number_column">
                         #
                     </th>
-
                     <th>
                         Name
                     </th>
-
                     <th>
                         Username
                     </th>
-
                     <th>
                         Role
                     </th>
-
                     <th class="user_manage_column">
                         Manage
                     </th>
-
                 </tr>
             </thead>
-
-
             <tbody>
-
                 @if (Model != null && Model.Any())
                 {
                     var count = 1;
-
                     foreach (var user in Model)
                     {
                         <tr>
-
                             <td class="user_number">
                                 @count
                             </td>
-
                             <td class="user_name">
                                 @user.Name
                             </td>
-
                             <td class="user_username">
                                 @user.UserName
                             </td>
-
                             <td class="user_roles">
-
                                 @foreach (var role in user.Roles)
                                 {
-                                    <span class="user_role_badge @role.ToLower()">
-                                        @role
-                                    </span>
+                                    <span class="user_role_badge @role.ToLower()">@role</span>
                                 }
-
                             </td>
-
                             <td class="song_actions">
-
-                                <a class="song_action_button edit"
-                                   asp-area="Admin"
-                                   asp-controller="AppUser"
-                                   asp-action="Upsert"
-                                   asp-route-id="@user.Id">
-
+                                <a class="song_action_button edit" asp-area="Admin" asp-controller="AppUser" asp-action="Register" asp-route-id="@user.Id">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="15"
                                          height="15"
                                          fill="currentColor"
                                          viewBox="0 0 16 16">
-
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z" />
-
                                         <path d="m12.939 2.69-8 8-.805 2.414 2.414-.805 8-8z" />
-
-                                        <path fill-rule="evenodd"
-                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                     </svg>
-
                                     Edit
                                 </a>
-
-
                                 <button type="button"
                                         class="song_action_button delete"
                                         data-bs-toggle="modal"
@@ -229,56 +102,33 @@
                                         data-user-id="@user.Id"
                                         data-user-name="@user.Name"
                                         data-user-email="@user.UserName">
-
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="15"
                                          height="15"
                                          fill="currentColor"
                                          viewBox="0 0 16 16">
-
                                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5" />
-
                                         <path d="M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1z" />
-
                                     </svg>
-
                                     Delete
                                 </button>
-
                             </td>
-
                         </tr>
-
                         count++;
                     }
                 }
                 else
                 {
                     <tr>
-
                         <td colspan="5">
-
                             <div class="songs_empty_state">
-
-                                <strong>
-                                    No users found
-                                </strong>
-
-                                <span>
-                                    There are currently no users available.
-                                </span>
-
+                                <strong>No users found</strong>
+                                <span>There are currently no users available.</span>
                             </div>
-
                         </td>
-
                     </tr>
                 }
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>

@@ -231,6 +231,74 @@
     font-size: .8rem;
 }
 
+/* ==========================================
+   LOGIN ALERT
+========================================== */
+
+.login_alert {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+    padding: .85rem 1rem;
+    border: 1px solid rgba(139, 30, 45, .20);
+    border-radius: 12px;
+    background: rgba(255, 235, 238, .38);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #8B1E2D;
+    box-shadow: 0 5px 15px rgba(139, 30, 45, .08);
+    animation: loginAlertEnter .3s ease-out;
+}
+
+.login_alert_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(139, 30, 45, .10);
+}
+
+    .login_alert_icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+.login_alert_content {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    padding-top: .05rem;
+}
+
+    .login_alert_content strong {
+        font-size: .85rem;
+        font-weight: 700;
+    }
+
+    .login_alert_content span {
+        font-size: .78rem;
+        line-height: 1.4;
+        color: #8B1E2D;
+    }
+
+
+@keyframes loginAlertEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 /* ==========================================
    MOBILE

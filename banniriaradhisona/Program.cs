@@ -41,8 +41,8 @@ builder.Services.AddIdentity<Users, IdentityRole>(options =>
 
 //Register repositories for dependency injection
 builder.Services.AddScoped<ISongRepository, SongRepository>();
-
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAuth, Auth>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

@@ -12,11 +12,31 @@
         </div>
         <form asp-action="Login" method="post">
             @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
+            @* <div asp-validation-summary="ModelOnly" class="validation_summary"></div> *@
+            @if (TempData["errorMessage"] != null)
+            {
+                <div class="login_alert" role="alert">
+                    <div class="login_alert_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="18"
+                             height="18"
+                             fill="currentColor"
+                             viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                        </svg>
+                    </div>
+
+                    <div class="login_alert_content">
+                        <strong>Login failed</strong>
+                        <span>@TempData["errorMessage"]</span>
+                    </div>
+                </div>
+            }
             <div class="form_group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="login_input" placeholder="Username" autocomplete="username" />
-                <span asp-validation-for="Username" class="validation_message"></span>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="login_input" type="email" placeholder="Email address" autocomplete="username" />
+                <span asp-validation-for="Email" class="validation_message"></span>
             </div>
             <div class="form_group">
                 <label asp-for="Password"></label>

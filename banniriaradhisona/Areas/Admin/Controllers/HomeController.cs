@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace banniriaradhisona.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Owner, Admin")]
     public class HomeController : Controller
     {
         private readonly ISongRepository _songRepository;

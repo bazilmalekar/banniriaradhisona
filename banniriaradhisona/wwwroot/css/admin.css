@@ -50,7 +50,10 @@ body {
 }
 
 
-/* BRAND */
+/* =========================
+   BRAND
+========================= */
+
 .admin_brand {
     height: 100%;
     display: flex;
@@ -74,6 +77,11 @@ body {
     display: block;
 }
 
+
+/* =========================
+   NAV ACTIONS
+========================= */
+
 .admin_nav_actions {
     position: absolute;
     right: 1.5rem;
@@ -82,6 +90,43 @@ body {
     gap: .5rem;
 }
 
+
+/* =========================
+   LOGGED-IN USER
+========================= */
+
+.admin_user_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 150px;
+    padding-right: .75rem;
+    margin-right: .1rem;
+    border-right: 1px solid rgba(242, 239, 231, .25);
+}
+
+.admin_user_label {
+    color: rgba(242, 239, 231, .70);
+    font-size: .62rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.admin_user_name {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #F2EFE7;
+    font-size: .74rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+
+/* =========================
+   COMMON ACTION BUTTON
+========================= */
 
 .admin_view_site,
 .admin_logout {
@@ -100,7 +145,10 @@ body {
 }
 
 
-/* View Site */
+/* =========================
+   VIEW SITE
+========================= */
+
 .admin_view_site {
     color: #F2EFE7;
     background-color: rgba(242, 239, 231, .10);
@@ -115,7 +163,10 @@ body {
     }
 
 
-/* Logout */
+/* =========================
+   LOGOUT
+========================= */
+
 .admin_logout {
     color: #F2EFE7;
     background-color: transparent;
@@ -130,9 +181,41 @@ body {
         transform: translateY(-1px);
     }
 
-
 .admin_logout_form {
     margin: 0;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .admin_nav_actions {
+        right: 1rem;
+    }
+
+    .admin_user_info {
+        min-width: 120px;
+    }
+
+    .admin_user_name {
+        max-width: 140px;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .admin_user_info {
+        display: none;
+    }
+
+    .admin_view_site,
+    .admin_logout {
+        padding: .4rem .55rem;
+    }
 }
 
 /* =========================
