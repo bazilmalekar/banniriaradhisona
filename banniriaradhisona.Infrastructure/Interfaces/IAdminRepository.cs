@@ -13,8 +13,10 @@ namespace banniriaradhisona.Infrastructure.Interfaces
 
         Task<IdentityResult> CreateUserAsync(RegisterVM model);
 
-        Task<IdentityResult> EditUserAsync(RegisterVM model);
+        Task<IdentityResult> EditUserAsync(EditUserVM model);
 
-        Task<RegisterVM?> GetUserByIdAsync(string id);
+        Task<EditUserVM?> GetUserByIdAsync(string id);
+
+        Task<IdentityResult> DeleteUserAsync(string id);
     }
 }

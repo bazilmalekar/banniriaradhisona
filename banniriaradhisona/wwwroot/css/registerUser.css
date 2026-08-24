@@ -10,17 +10,27 @@
 }
 
 
-    /* =========================================
+/* =========================================
    HEADER
 ========================================= */
+/* =========================
+   REGISTER / EDIT HEADER
+========================= */
 
-    .reg_wrapper > div:first-child {
+.reg_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+    .reg_header > div {
         display: flex;
         flex-direction: column;
         gap: .25rem;
     }
 
-        .reg_wrapper > div:first-child p:first-child {
+        .reg_header > div p:first-child {
             margin: 0;
             color: #3368A0;
             font-size: .72rem;
@@ -29,32 +39,58 @@
             text-transform: uppercase;
         }
 
-    .reg_wrapper h1 {
+    .reg_header h1 {
         margin: 0;
         color: #3368A0;
         font-size: 1.8rem;
         font-weight: 700;
-        font-weight: 700;
         letter-spacing: -.02rem;
     }
 
-    .reg_wrapper > div:first-child p:last-child {
+    .reg_header > div p:last-child {
         margin: .15rem 0 0;
         color: #6b7d84;
         font-size: .9rem;
     }
 
 
-    /* =========================================
+/* =========================
+   BACK TO USERS BUTTON
+========================= */
+
+.admin_back_button {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem .8rem;
+    border-radius: 7px;
+    color: #3368A0;
+    background: rgba(51, 104, 160, .06);
+    border: 1px solid rgba(51, 104, 160, .18);
+    text-decoration: none;
+    font-size: .78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+    .admin_back_button:hover {
+        color: #ffffff;
+        background-color: #3368A0;
+        border-color: #3368A0;
+        transform: translateY(-1px);
+    }
+
+/* =========================================
    DIVIDER
 ========================================= */
 
-    .reg_wrapper > hr {
-        margin: 1.5rem 0 1.75rem;
-        border: 0;
-        border-top: 1px solid #dfe7e5;
-        opacity: 1;
-    }
+.reg_wrapper > hr {
+    margin: 1.5rem 0 1.75rem;
+    border: 0;
+    border-top: 1px solid #dfe7e5;
+    opacity: 1;
+}
 
 
 /* =========================================

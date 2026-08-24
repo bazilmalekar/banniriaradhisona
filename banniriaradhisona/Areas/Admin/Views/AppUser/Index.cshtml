@@ -83,7 +83,7 @@
                                 }
                             </td>
                             <td class="song_actions">
-                                <a class="song_action_button edit" asp-area="Admin" asp-controller="AppUser" asp-action="Register" asp-route-id="@user.Id">
+                                <a class="song_action_button edit" asp-area="Admin" asp-controller="AppUser" asp-action="EditUser" asp-route-id="@user.Id">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="15"
                                          height="15"
@@ -101,7 +101,8 @@
                                         data-bs-target="#deleteUserModal"
                                         data-user-id="@user.Id"
                                         data-user-name="@user.Name"
-                                        data-user-email="@user.UserName">
+                                        data-user-email="@user.UserName"
+                                        data-user-role="@string.Join(", ", user.Roles)">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          width="15"
                                          height="15"
@@ -132,3 +133,107 @@
         </table>
     </div>
 </div>
+<!-- Delete User Confirmation Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content admin_modal">
+            <!-- HEADER -->
+            <div class="modal-header">
+                <div class="modal_title_wrapper">
+                    <div class="modal_icon delete_modal_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="20"
+                             height="20"
+                             fill="currentColor"
+                             viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                        </svg>
+                    </div>
+                    <h1 class="modal-title" id="deleteUserModalLabel">Delete user?</h1>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- BODY -->
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete
+                    <strong id="deleteUserName"></strong>?
+                </p>
+                <div class="delete_song_details">
+                    <div class="delete_song_detail">
+                        <span>Username</span>
+                        <strong id="deleteUserEmail"></strong>
+                    </div>
+                    <div class="delete_song_detail">
+                        <span>Role</span>
+                        <strong id="deleteUserRole"></strong>
+                    </div>
+                </div>
+                <span class="delete_warning">This action cannot be undone.</span>
+            </div>
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button type="button" class="admin_modal_cancel" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteUserForm" method="post" asp-area="Admin" asp-controller="AppUser" asp-action="DeleteUser">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteUserId" name="id" />
+                    <button type="submit" class="admin_modal_delete">Delete User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        // Alerts
+        const alerts = document.querySelectorAll(".admin_alert");
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                bootstrapAlert.close();
+            }, 5000);
+        });
+
+    // Delete modal
+    const deleteUserModal = document.getElementById("deleteUserModal");
+    const deleteUserId = document.getElementById("deleteUserId");
+    const deleteUserName = document.getElementById("deleteUserName");
+    const deleteUserEmail = document.getElementById("deleteUserEmail");
+    const deleteUserRole = document.getElementById("deleteUserRole");
+    const deleteUserForm = document.getElementById("deleteUserForm");
+    const deleteUserButton = deleteUserForm.querySelector(".admin_modal_delete");
+    const deleteButtons = document.querySelectorAll(".song_action_button.delete");
+
+    // Count Owner users
+    const ownerCount = Array.from(deleteButtons).filter(button => {
+        const roles = button.getAttribute("data-user-role") || "";
+        return roles.split(",").map(role => role.trim().toLowerCase()).includes("owner");}).length;
+            deleteUserModal.addEventListener("show.bs.modal", event => {
+                const button = event.relatedTarget;
+                const userId = button.getAttribute("data-user-id");
+                const userName = button.getAttribute("data-user-name");
+                const userEmail = button.getAttribute("data-user-email");
+                const userRole = button.getAttribute("data-user-role");
+                deleteUserId.value = userId;
+                deleteUserName.textContent = `"${userName}"`;
+                deleteUserEmail.textContent = userEmail;
+                deleteUserRole.textContent = userRole;
+
+                // Check if this is the last Owner
+                const isOwner = userRole.split(",").map(role => role.trim().toLowerCase()).includes("owner");
+                const isLastOwner = isOwner && ownerCount === 1;
+                if (isLastOwner) {
+                    deleteUserButton.disabled = true;
+                    deleteUserButton.textContent = "Cannot Delete";
+                    deleteUserModal.querySelector(".delete_warning").textContent = "The last user with the Owner role cannot be deleted.";
+                }
+                else {
+                    deleteUserButton.disabled = false;
+                    deleteUserButton.textContent = "Delete User";
+                    deleteUserModal.querySelector(".delete_warning").textContent = "This action cannot be undone.";
+                }
+            });
+    });
+</script>

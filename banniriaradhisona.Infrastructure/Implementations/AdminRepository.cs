@@ -77,9 +77,10 @@ namespace banniriaradhisona.Infrastructure.Implementations
             return IdentityResult.Success;
         }
 
-        public async Task<IdentityResult> EditUserAsync(RegisterVM model)
+        public async Task<IdentityResult> EditUserAsync(EditUserVM model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id!);
+            var user = await _userManager.FindByIdAsync(model.Id);
+
             if (user == null)
             {
                 return IdentityResult.Failed(
@@ -88,13 +89,18 @@ namespace banniriaradhisona.Infrastructure.Implementations
                         Description = "User details could not be found."
                     });
             }
+
             user.Name = model.Name;
+
             var updateResult = await _userManager.UpdateAsync(user);
+
             if (!updateResult.Succeeded)
             {
                 return updateResult;
             }
+
             var newRole = model.Role.ToString();
+
             if (!await _roleManager.RoleExistsAsync(newRole))
             {
                 return IdentityResult.Failed(
@@ -103,27 +109,50 @@ namespace banniriaradhisona.Infrastructure.Implementations
                         Description = $"Role '{newRole}' does not exist."
                     });
             }
+
             var currentRoles = await _userManager.GetRolesAsync(user);
+
             if (!currentRoles.Contains(newRole))
             {
                 if (currentRoles.Any())
                 {
-                    var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                    var removeResult =
+                        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
                     if (!removeResult.Succeeded)
                     {
                         return removeResult;
                     }
                 }
-                var addResult = await _userManager.AddToRoleAsync(user, newRole);
+
+                var addResult =
+                    await _userManager.AddToRoleAsync(user, newRole);
+
                 if (!addResult.Succeeded)
                 {
                     return addResult;
                 }
             }
+
             return IdentityResult.Success;
         }
 
-        public async Task<RegisterVM?> GetUserByIdAsync(string id)
+        public async Task<IdentityResult> DeleteUserAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return IdentityResult.Failed(
+                    new IdentityError
+                    {
+                        Description = "User details could not be found."
+                    });
+            }
+            var result = await _userManager.DeleteAsync(user);
+            return result;
+        }
+
+        public async Task<EditUserVM?> GetUserByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -131,7 +160,7 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 return null;
             }
             var roles = await _userManager.GetRolesAsync(user);
-            return new RegisterVM
+            return new EditUserVM
             {
                 Id = user.Id,
                 Name = user.Name,

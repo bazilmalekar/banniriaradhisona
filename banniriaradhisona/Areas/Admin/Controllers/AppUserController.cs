@@ -23,19 +23,9 @@ namespace banniriaradhisona.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Register(string? id)
+        public async Task<IActionResult> Register()
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return View(new RegisterVM());
-            }
-            var user = await _adminRepository.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                TempData["errorMessage"] = "User details not found.";
-                return RedirectToAction(nameof(Index));
-            }
-            return View(user);
+            return View(new RegisterVM());
         }
 
 
@@ -64,29 +54,76 @@ namespace banniriaradhisona.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string? id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["errorMessage"] = "User details not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var user = await _adminRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                TempData["errorMessage"] = "User details not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(user);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RegisterVM model)
+        public async Task<IActionResult> EditUser(EditUserVM model)
         {
             if (!ModelState.IsValid)
             {
-                return View("Register", model);
+                return View(model);
             }
 
             var result = await _adminRepository.EditUserAsync(model);
 
             if (result.Succeeded)
             {
-                TempData["successMessage"] = "User details updated successfully.";
+                TempData["successMessage"] =
+                    "User details updated successfully.";
+
                 return RedirectToAction(nameof(Index));
             }
 
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
             }
 
-            return View("Register", model);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["errorMessage"] = "User details could not be found.";
+                return RedirectToAction(nameof(Index));
+            }
+            var result = await _adminRepository.DeleteUserAsync(id);
+            if (result.Succeeded)
+            {
+                TempData["successMessage"] = "User deleted successfully.";
+                return RedirectToAction(nameof(Index));
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            TempData["errorMessage"] = "Unable to delete the user.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
