@@ -247,6 +247,51 @@ body {
             box-shadow: 0 0 0 3px rgba(102, 163, 191, .15);
         }
 
+/*input field password view toggle*/
+.password_input_wrapper {
+    position: relative;
+    width: 100%;
+}
+
+    .password_input_wrapper input {
+        width: 100%;
+        padding-right: 2.8rem;
+    }
+
+.password_toggle {
+    position: absolute;
+    top: 50%;
+    right: .75rem;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #6b7d84;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color .2s ease, background-color .2s ease;
+}
+
+    .password_toggle:hover {
+        color: #3368A0;
+        background-color: rgba(51, 104, 160, .08);
+    }
+
+    .password_toggle:focus {
+        outline: none;
+        color: #3368A0;
+    }
+
+    .password_toggle svg {
+        pointer-events: none;
+    }
+
+
 
 /* =========================
    VALIDATION

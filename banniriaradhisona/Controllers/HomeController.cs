@@ -20,7 +20,7 @@ namespace banniriaradhisona.Controllers
             var song = await _songRepository.GetFirstOrSongByIdAsync(songId);
             if (song == null)
             {
-                return NotFound();
+                return View("NoSongs");
             }
             return View(song);
         }
