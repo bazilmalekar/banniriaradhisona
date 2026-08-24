@@ -39,7 +39,8 @@
                 <!-- KANNADA TITLE -->
                 <div class="admin_form_group">
                     <label class="required" asp-for="SongTitleKa"></label>
-                    <input type="text" asp-for="SongTitleKa" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಶೀರ್ಷಿಕೆ" autocomplete="off" />
+                    <input type="text" id="songTitleKa" asp-for="SongTitleKa" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಶೀರ್ಷಿಕೆ" autocomplete="off" />
+                    <span class="kannada_hint">Type using English letters, for example: banniri</span>
                     <span asp-validation-for="SongTitleKa" class="field_validation"></span>
                 </div>
                 <!-- ENGLISH TITLE -->
@@ -61,7 +62,7 @@
                     <label class="required" asp-for="SongLyr"></label>
                     <span>[Please add semicolon (;) at the end of each sentence.]</span>
                 </div>
-                <textarea asp-for="SongLyr" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಸಾಹಿತ್ಯವನ್ನು ಇಲ್ಲಿ ನಮೂದಿಸಿ..." rows="18"></textarea>
+                <textarea id="songLyrics" asp-for="SongLyr" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಸಾಹಿತ್ಯವನ್ನು ಇಲ್ಲಿ ನಮೂದಿಸಿ..." rows="18"></textarea>
                 <span asp-validation-for="SongLyr" class="field_validation"></span>
             </div>
         </div>
@@ -130,4 +131,37 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof Sanscript === "undefined") {
+                return;
+            }
+
+            const songTitleInput = document.getElementById("songTitleKa");
+            const songLyricsInput = document.getElementById("songLyrics");
+
+            // SONG TITLE
+            if (songTitleInput) {
+                songTitleInput.addEventListener("input", () => {
+                    songTitleInput.value = Sanscript.t(
+                        songTitleInput.value,
+                        "itrans",
+                        "kannada"
+                    );
+                });
+            }
+
+            // SONG LYRICS
+            if (songLyricsInput) {
+                songLyricsInput.addEventListener("input", () => {
+                    songLyricsInput.value = Sanscript.t(
+                        songLyricsInput.value,
+                        "itrans",
+                        "kannada"
+                    );
+                });
+            }
+        });
+    </script>
 }
