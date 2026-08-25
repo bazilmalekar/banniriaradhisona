@@ -21,17 +21,13 @@ namespace banniriaradhisona.Infrastructure.Implementations
         public async Task<SongVM?> GetFirstOrSongByIdAsync(int? songId)
         {
             Song? song;
-
             if (songId.HasValue)
             {
-                song = await _context.Songs
-                    .FirstOrDefaultAsync(s => s.SongId == songId.Value);
+                song = await _context.Songs.FirstOrDefaultAsync(s => s.SongId == songId.Value);
             }
             else
             {
-                song = await _context.Songs
-                    .OrderBy(s => s.SongTitleEn)
-                    .FirstOrDefaultAsync();
+                song = await _context.Songs.OrderBy(s => s.SongNumber).FirstOrDefaultAsync();
             }
 
             if (song == null)
@@ -39,30 +35,25 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 return null;
             }
 
-            var songCount = await _context.Songs
-                .CountAsync(s =>
-                    string.Compare(s.SongTitleEn, song.SongTitleEn) < 0);
-
             return new SongVM
             {
                 Song = song,
-                SongCount = songCount + 1
+                SongCount = song.SongNumber
             };
         }
 
         public async Task<IEnumerable<Song>> GetAllSongs()
         {
-            return await _context.Songs.OrderBy(s => s.SongTitleEn).ToListAsync();
+            return await _context.Songs.OrderBy(s => s.SongNumber).ToListAsync();
         }
 
         public async Task<IEnumerable<SongVM>> GetAllSongsWithIndex()
         {
-            var songs = await _context.Songs.OrderBy(o => o.SongTitleEn).ToListAsync();
-
-            return songs.Select((song, index) => new SongVM
+            var songs = await _context.Songs.OrderBy(o => o.SongNumber).ToListAsync();
+            return songs.Select(song => new SongVM
             {
                 Song = song,
-                SongCount = index + 1
+                SongCount = song.SongNumber
             });
         }
 
@@ -80,15 +71,54 @@ namespace banniriaradhisona.Infrastructure.Implementations
         public async Task EditSong(Song model)
         {
             var song = await GetSongById(model.SongId);
-            if (song != null)
+            if (song == null)
             {
-                song.SongTitleEn = model.SongTitleEn;
-                song.SongTitleKa = model.SongTitleKa;
-                song.SongLyr = model.SongLyr;
-                song.UpdateDate = DateTime.UtcNow;
-                _context.Songs.Update(song);
-                await Save();
+                return;
             }
+
+            int oldSongNumber = song.SongNumber;
+            int newSongNumber = model.SongNumber;
+
+            if (oldSongNumber != newSongNumber)
+            {
+                if (newSongNumber < oldSongNumber)
+                {
+                    // Moving UP
+                    var songsToShift = await _context.Songs
+                        .Where(s =>
+                            s.SongNumber >= newSongNumber &&
+                            s.SongNumber < oldSongNumber &&
+                            s.SongId != song.SongId)
+                        .ToListAsync();
+                    foreach (var item in songsToShift)
+                    {
+                        item.SongNumber++;
+                    }
+                }
+                else
+                {
+                    // Moving DOWN
+                    var songsToShift = await _context.Songs
+                        .Where(s =>
+                            s.SongNumber > oldSongNumber &&
+                            s.SongNumber <= newSongNumber &&
+                            s.SongId != song.SongId)
+                        .ToListAsync();
+                    foreach (var item in songsToShift)
+                    {
+                        item.SongNumber--;
+                    }
+                }
+                song.SongNumber = newSongNumber;
+            }
+
+            song.SongTitleEn = model.SongTitleEn;
+            song.SongTitleKa = model.SongTitleKa;
+            song.SongLyr = model.SongLyr;
+            song.UpdateDate = DateTime.UtcNow;
+
+            _context.Songs.Update(song);
+            await Save();
         }
 
         public async Task DeleteSong(int id)

@@ -9,6 +9,11 @@ namespace banniriaradhisona.Core.Models
         public int SongId { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
+        [Display(Name = "Song Number")]
+        public int SongNumber { get; set; }
+
+        [Required]
         [Display(Name = "English Title")]
         [StringLength(200)]
         public string SongTitleEn { get; set; } = string.Empty;

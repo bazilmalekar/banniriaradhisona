@@ -20,7 +20,7 @@ namespace banniriaradhisona.Components
                 .Select((s, i) => new SidebarVM
                 {
                     SongId = s.SongId,
-                    SongCount = i + 1,
+                    SongCount = s.SongNumber,
                     SongTitle = s.SongTitleKa,
                     SongTitleEn = s.SongTitleEn
                 })

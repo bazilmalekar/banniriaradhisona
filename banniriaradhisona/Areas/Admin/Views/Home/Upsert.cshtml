@@ -33,14 +33,20 @@
         <div class="song_form_section">
             <div class="song_form_section_header">
                 <h2>Song Information</h2>
-                <span>Enter the Kannada and English titles.</span>
+                <span>Enter the song number and Kannada and English titles.</span>
             </div>
             <div class="song_title_row">
+                <!-- SONG NUMBER -->
+                <div class="admin_form_group song_number_group">
+                    <label class="required" asp-for="SongNumber"></label>
+                    <input asp-for="SongNumber" type="number" min="1" placeholder="Song number" autocomplete="off" />
+                    <span asp-validation-for="SongNumber" class="field_validation"></span>
+                </div>
+
                 <!-- KANNADA TITLE -->
                 <div class="admin_form_group">
                     <label class="required" asp-for="SongTitleKa"></label>
                     <input type="text" id="songTitleKa" asp-for="SongTitleKa" placeholder="ಕನ್ನಡ ಹಾಡಿನ ಶೀರ್ಷಿಕೆ" autocomplete="off" />
-                    <span class="kannada_hint">Type using English letters, for example: banniri</span>
                     <span asp-validation-for="SongTitleKa" class="field_validation"></span>
                 </div>
                 <!-- ENGLISH TITLE -->
@@ -137,29 +143,42 @@
             if (typeof Sanscript === "undefined") {
                 return;
             }
-
             const songTitleInput = document.getElementById("songTitleKa");
             const songLyricsInput = document.getElementById("songLyrics");
 
             // SONG TITLE
             if (songTitleInput) {
                 songTitleInput.addEventListener("input", () => {
-                    songTitleInput.value = Sanscript.t(
-                        songTitleInput.value,
-                        "itrans",
-                        "kannada"
-                    );
+                    const parts = songTitleInput.value.split(".");
+                    songTitleInput.value = parts
+                        .map(part =>
+                            Sanscript.t(
+                                part,
+                                "itrans",
+                                "kannada"
+                            )
+                        )
+                        .join(".");
                 });
             }
 
             // SONG LYRICS
             if (songLyricsInput) {
                 songLyricsInput.addEventListener("input", () => {
-                    songLyricsInput.value = Sanscript.t(
-                        songLyricsInput.value,
-                        "itrans",
-                        "kannada"
-                    );
+                    const lines = songLyricsInput.value.split("\n");
+                    songLyricsInput.value = lines.map(line => {
+                            const parts = line.split(".");
+                            return parts
+                                .map(part =>
+                                    Sanscript.t(
+                                        part,
+                                        "itrans",
+                                        "kannada"
+                                    )
+                                )
+                                .join(".");
+                        })
+                        .join("\n");
                 });
             }
         });

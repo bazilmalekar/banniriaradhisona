@@ -180,8 +180,8 @@ body {
 
 .song_title_row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    grid-template-columns: 20% 40% 40%;
+    gap: 1rem;
 }
 
 
