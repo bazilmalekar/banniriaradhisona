@@ -1,13 +1,45 @@
 ﻿@model IEnumerable<banniriaradhisona.Core.ViewModels.SidebarVM>
 
+    
+@{
+    var currentSongId = ViewData["CurrentSongId"]?.ToString();
+    var firstSongId = Model.FirstOrDefault()?.SongId;
+}
+
 <div class="side_bar">
     <div class="sidebar_search">
-        <input type="text" id="songSearch" placeholder="Search by song number or title..." autocomplete="off" />
+        <div class="search_input_wrapper">
+            <input type="text"
+                   id="songSearch"
+                   placeholder="Search by song number or title..."
+                   autocomplete="off" />
+
+            <button type="button"
+                    id="clearSongSearch"
+                    class="search_clear"
+                    aria-label="Clear search">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     class="bi bi-x-circle-fill"
+                     viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+            </button>
+        </div>
     </div>
     <div class="sidebar_links" id="songList">
         @foreach (var song in Model)
         {
-            <a class="song_link" asp-controller="Home" asp-action="Index" asp-route-songId="@song.SongId" data-song-number="@song.SongCount" data-song-title="@song.SongTitleEn">
+            var isActive = currentSongId == song.SongId.ToString();
+            var isFirstSongWithoutSelection = string.IsNullOrEmpty(currentSongId) && song.SongId == firstSongId;
+            <a class="song_link @(isActive || isFirstSongWithoutSelection ? "active" : "")"
+               asp-controller="Home"
+               asp-action="Index"
+               asp-route-songId="@song.SongId"
+               data-song-number="@song.SongCount"
+               data-song-title="@song.SongTitleEn">
                 <h6>Song No. @song.SongCount</h6>
                 <p>@song.SongTitle</p>
             </a>
@@ -53,5 +85,22 @@
                 noSongsFound.style.display = visibleSongs === 0 ? "block" : "none";
             }, 250); // 250ms debounce
         });
+
+            const songSearch = document.getElementById("songSearch");
+    const clearSongSearch = document.getElementById("clearSongSearch");
+
+    songSearch.addEventListener("input", function () {
+        clearSongSearch.style.display = this.value ? "block" : "none";
+    });
+
+    clearSongSearch.addEventListener("click", function () {
+        songSearch.value = "";
+        songSearch.blur();
+
+        clearSongSearch.style.display = "none";
+
+        // If you have search/filter logic, trigger it here
+        songSearch.dispatchEvent(new Event("input"));
+    });
     });
 </script>

@@ -8,7 +8,15 @@ namespace banniriaradhisona.Infrastructure.Interfaces
 {
     public interface IAuth
     {
-        Task<SignInResult> LoginAsync(LoginVM model);
+        Task<LoginResultVM> LoginAsync(LoginVM model);
+
+        Task<AuthenticatorSetupVM?> GetAuthenticatorSetupAsync();
+
+        Task<bool> VerifyAuthenticatorCodeAsync(string code);
+
+        Task<VerifyTwoFactorVM?> GetTwoFactorUserAsync();
+
+        Task<bool> VerifyTwoFactorAsync(VerifyTwoFactorVM model);
 
         Task LogoutAsync();
     }

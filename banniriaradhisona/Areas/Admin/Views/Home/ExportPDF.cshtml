@@ -1,0 +1,49 @@
+﻿@model IEnumerable<banniriaradhisona.Core.Models.Song>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_ExportPDFLayout.cshtml";
+}
+
+<div class="pdf_wrapper">
+
+    <!-- HEADER -->
+
+    <div class="pdf_header">
+        <img src="~/logo.png"
+             alt="Banniriaradhisona"
+             class="logo" />
+
+        <h1>Banniriaradhisona</h1>
+        <h2>Kannada Song List</h2>
+    </div>
+
+    <hr />
+
+    <!-- SONGS -->
+
+    <div class="songs_columns">
+
+        @foreach (var song in Model)
+        {
+            <article class="pdf_song">
+
+                <div class="song_heading">
+                    <span class="song_number">
+                        @song.SongNumber.
+                    </span>
+
+                    <span class="song_title">
+                        @song.SongTitleKa
+                    </span>
+                </div>
+
+                <div class="song_lyrics">
+                    @song.SongLyr
+                </div>
+
+            </article>
+        }
+
+    </div>
+
+</div>

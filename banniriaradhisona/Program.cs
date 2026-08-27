@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,9 +98,13 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
+app.UseRotativa();
+
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseSession();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

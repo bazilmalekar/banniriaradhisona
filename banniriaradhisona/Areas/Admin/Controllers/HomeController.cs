@@ -2,6 +2,7 @@
 using banniriaradhisona.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 
 namespace banniriaradhisona.Areas.Admin.Controllers
 {
@@ -95,6 +96,26 @@ namespace banniriaradhisona.Areas.Admin.Controllers
                 TempData["errorMessage"] = "Error while deleting the song.";
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadSongsPdf()
+        {
+            var songs = await _songRepository.GetAllSongs();
+            return new ViewAsPdf("ExportPDF", songs)
+            {
+                FileName = "Banniriaradhisona_Songs.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 10,
+                    Right = 10
+                },
+                CustomSwitches = "--enable-local-file-access"
+            };
         }
     }
 }

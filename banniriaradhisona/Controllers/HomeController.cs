@@ -2,6 +2,7 @@ using banniriaradhisona.Infrastructure.Interfaces;
 using banniriaradhisona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Rotativa.AspNetCore;
 using System.Diagnostics;
 
 namespace banniriaradhisona.Controllers

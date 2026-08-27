@@ -1,0 +1,89 @@
+﻿@model banniriaradhisona.Core.ViewModels.AuthenticatorSetupVM
+
+@{
+    ViewData["Title"] = "Set Up Authenticator";
+}
+
+<div class="login_page">
+
+    <div class="login_form">
+
+        <div class="login_header">
+            <h2>Set up Microsoft Authenticator</h2>
+
+            <p>
+                Scan the QR code below using Microsoft Authenticator
+                to secure your account.
+            </p>
+        </div>
+
+        <div class="authenticator_qr">
+            <div id="qrCode"></div>
+        </div>
+
+        <div class="authenticator_instructions">
+            <p>
+                Open Microsoft Authenticator, select
+                <strong>Add account</strong>, and scan the QR code.
+            </p>
+        </div>
+
+        <div class="authenticator_key">
+            <p>Can't scan the QR code?</p>
+
+            <span>
+                @Model.SharedKey
+            </span>
+        </div>
+
+        <form asp-action="SetupAuthenticator" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form_group">
+                <label for="code">
+                    Verification code
+                </label>
+
+                <input type="text"
+                       id="code"
+                       name="code"
+                       class="login_input"
+                       maxlength="6"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       placeholder="Enter 6-digit code" />
+
+                @Html.ValidationMessage(
+                    "code",
+                    null,
+                    new { @class = "validation_message" })
+            </div>
+
+            <button type="submit" class="login_button">
+                Verify & Enable
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const authenticatorUri = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(Model.AuthenticatorUri)
+            );
+
+    new QRCode(document.getElementById("qrCode"), {
+    text: authenticatorUri,
+    width: 200,
+    height: 200
+    });
+
+    });
+</script>

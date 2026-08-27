@@ -128,6 +128,16 @@ namespace banniriaradhisona.Infrastructure.Implementations
             {
                 return;
             }
+            // Get songs after the deleted song
+            var songsAfter = await _context.Songs
+                .Where(s => s.SongNumber > song.SongNumber)
+                .OrderBy(s => s.SongNumber)
+                .ToListAsync();
+            // Move each following song up by one
+            foreach (var item in songsAfter)
+            {
+                item.SongNumber--;
+            }
             _context.Songs.Remove(song);
             await Save();
         }
