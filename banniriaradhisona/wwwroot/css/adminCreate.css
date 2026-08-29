@@ -206,7 +206,7 @@
 
 .song_title_row {
     display: grid;
-    grid-template-columns: 20% 40% 40%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr);
     gap: 1rem;
 }
 
@@ -619,4 +619,105 @@
 .required::after {
     content: " *";
     color: #FF0000;
+}
+
+/* =========================================================
+   RESPONSIVE — SONG FORM
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .add_song {
+        padding: 1rem;
+    }
+
+    .create_song_form {
+        padding: 1.25rem;
+    }
+
+    .song_title_row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .song_form_section_header {
+        margin-bottom: 1rem;
+    }
+
+    .lyrics_label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .35rem;
+    }
+
+    .audio_upload_area {
+        min-height: 160px;
+        padding: 1.5rem;
+    }
+
+    .create_song_actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+        .create_song_actions .admin_cancel_button,
+        .create_song_actions .admin_primary_button {
+            width: 100%;
+            justify-content: center;
+        }
+}
+
+@media (max-width: 450px) {
+
+    .add_song {
+        padding: .75rem;
+    }
+
+    .create_song_form {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .create_song_header {
+        align-items: flex-start;
+    }
+
+        .create_song_header h1 {
+            font-size: 1.5rem;
+        }
+
+        .create_song_header p {
+            font-size: .78rem;
+        }
+
+    .back_dashboard {
+        padding: .5rem .65rem;
+        font-size: .72rem;
+    }
+
+    .song_form_section {
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .admin_form_group input {
+        height: 40px;
+    }
+
+    .admin_form_group textarea {
+        min-height: 260px;
+    }
+
+    .audio_upload_area {
+        min-height: 145px;
+        padding: 1rem;
+    }
+
+    .audio_upload_text strong {
+        font-size: .82rem;
+    }
+
+    .audio_upload_text span {
+        font-size: .72rem;
+    }
 }
