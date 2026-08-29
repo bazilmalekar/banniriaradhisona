@@ -250,7 +250,7 @@ body {
     .custom_nav .logo {
         position: relative;
         z-index: 2;
-        height: 60px;
+        height: 40px;
         width: auto;
         filter: drop-shadow( 0 3px 7px rgba(0, 0, 0, .18) );
         transition: transform .22s ease, filter .22s ease;
@@ -271,6 +271,98 @@ body {
     width: auto;
 }
 
+/* =========================================
+   MOBILE SIDEBAR TOGGLE
+   ========================================= */
+
+.mobile_sidebar_toggle {
+    display: none;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-white);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+
+    /* Hamburger lines */
+
+    .mobile_sidebar_toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform .25s ease, opacity .2s ease;
+    }
+
+
+    /* Hover */
+
+    .mobile_sidebar_toggle:hover {
+        background: rgba(255, 255, 255, .18);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .10);
+    }
+
+
+    /* Press */
+
+    .mobile_sidebar_toggle:active {
+        transform: translateY(-50%) scale(.94);
+    }
+
+
+    /* =========================================
+   HAMBURGER → X
+   ========================================= */
+
+    .mobile_sidebar_toggle.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile_sidebar_toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile_sidebar_toggle.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 767px) {
+
+    .custom_nav {
+        position: relative;
+        /* Keep logo centered */
+        justify-content: center;
+    }
+
+    .mobile_sidebar_toggle {
+        display: flex;
+    }
+
+    .custom_nav .logo {
+        height: 50px;
+    }
+}
 
 /* =========================================================
    CONTENT WRAPPER
@@ -479,7 +571,7 @@ body {
     cursor: pointer;
     user-select: none;
     background: rgba(255, 255, 255, .22);
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
     transition: transform var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
@@ -555,6 +647,128 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+
+
+/* =========================================================
+  MOBILE SIDEBAR
+========================================================= */
+/* =========================================
+   Mobile Sidebar
+   ========================================= */
+
+.mobile_sidebar {
+    display: none;
+}
+
+
+/* Mobile sidebar header */
+
+.mobile_sidebar_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(51, 104, 160, .10);
+}
+
+    .mobile_sidebar_header h5 {
+        margin: 0;
+    }
+
+.mobile_sidebar_close {
+    border: none;
+    background: transparent;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+
+/* Search */
+
+.mobile_sidebar .sidebar_search {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(51, 104, 160, .10);
+}
+
+
+/* =========================================
+   MOBILE SIDEBAR SONG LINKS
+   ========================================= */
+
+.mobile_sidebar_links {
+    padding: .5rem .75rem 1rem;
+    overflow-y: auto;
+}
+
+    .mobile_sidebar_links .song_link {
+        /*        margin-bottom: .5rem;
+        background: linear-gradient( 145deg, rgba(200, 223, 219, .90), rgba(200, 223, 219, .65) );
+        border: 1px solid rgba(255, 255, 255, .70);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);*/
+        border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+
+        .mobile_sidebar_links .song_link:last-of-type {
+            margin-bottom: 0;
+        }
+
+
+/* Overlay */
+
+.mobile_sidebar_overlay {
+    display: none;
+}
+
+
+/* =========================================
+   Mobile breakpoint
+   ========================================= */
+
+@media (max-width: 767px) {
+
+    .sidebar_wrapper {
+        display: none;
+    }
+
+    .mobile_sidebar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: min(85vw, 360px);
+        height: 100vh;
+        z-index: 1050;
+        background: var(--background-sage);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, .12);
+    }
+
+        .mobile_sidebar.open {
+            transform: translateX(0);
+        }
+
+    .mobile_sidebar_overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background: rgba(0, 0, 0, .35);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+        .mobile_sidebar_overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
 }
 
 
@@ -1021,7 +1235,7 @@ body {
    RESPONSIVE — MOBILE
 ========================================================= */
 
-@media (max-width: 700px) {
+/*@media (max-width: 700px) {
 
     html,
     body {
@@ -1047,13 +1261,6 @@ body {
         flex-direction: column;
         overflow: visible;
     }
-
-
-    .sidebar_wrapper {
-        width: 100%;
-        height: 280px;
-    }
-
 
     .song_body_wrapper {
         overflow: visible;
@@ -1081,8 +1288,66 @@ body {
         height: 90px;
         padding: .6rem .9rem;
     }
-}
+}*/
 
+@media (max-width: 700px) {
+
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .main {
+        height: 100vh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .app_body_wrapper {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        padding: .75rem;
+    }
+
+    .app_body {
+        height: 100%;
+        min-height: 0;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .song_body_wrapper {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .song_body {
+        height: 100%;
+        min-height: 0;
+        max-height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 1.5rem;
+    }
+
+        .song_body h1 {
+            font-size: 1.7rem;
+        }
+
+        .song_body p {
+            font-size: 1.1rem;
+            line-height: 2;
+        }
+
+    .media_player {
+        height: 90px;
+        flex-shrink: 0;
+        padding: .6rem .9rem;
+    }
+}
 
 /* =========================================================
    RESPONSIVE — SMALL MOBILE

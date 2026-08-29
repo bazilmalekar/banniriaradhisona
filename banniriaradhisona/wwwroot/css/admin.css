@@ -29,16 +29,13 @@ body {
     color: #263B45;
 }
 
-
 /* =========================
    NAVBAR
 ========================= */
 
-.admin_header {
-    flex-shrink: 0;
-}
-
 .custom_nav {
+    position: relative;
+    z-index: 1100;
     height: 4rem;
     display: flex;
     align-items: center;
@@ -47,6 +44,7 @@ body {
     background-color: #3368A0;
     border-bottom: 3px solid #66A3BF;
     box-shadow: 0 2px 10px rgba(51, 104, 160, .20);
+    flex-shrink: 0;
 }
 
 
@@ -68,6 +66,335 @@ body {
     font-weight: 700;
     letter-spacing: .12rem;
     padding-right: .75rem;
+    border-right: 1px solid rgba(255, 255, 255, .30);
+}
+
+.logo {
+    height: 35px;
+    width: auto;
+    display: block;
+}
+
+
+/* =========================
+   MOBILE HAMBURGER
+========================= */
+
+.admin_mobile_sidebar_toggle {
+    display: none;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .10);
+    color: #F2EFE7;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+    .admin_mobile_sidebar_toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: currentColor;
+        border-radius: 999px;
+        transition: transform .25s ease, opacity .2s ease;
+    }
+
+    .admin_mobile_sidebar_toggle:hover {
+        background: rgba(255, 255, 255, .18);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .10);
+    }
+
+    .admin_mobile_sidebar_toggle:active {
+        transform: translateY(-50%) scale(.94);
+    }
+
+
+    /* Hamburger → X */
+
+    .admin_mobile_sidebar_toggle.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .admin_mobile_sidebar_toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .admin_mobile_sidebar_toggle.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+
+/* =========================
+   USER DROPDOWN
+========================= */
+
+.admin_user_dropdown {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.admin_user_dropdown_toggle {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .4rem .7rem;
+    border: 1px solid rgba(242, 239, 231, .25);
+    border-radius: 7px;
+    background: rgba(242, 239, 231, .10);
+    color: #F2EFE7;
+    font-family: inherit;
+    font-size: .74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+    .admin_user_dropdown_toggle:hover,
+    .admin_user_dropdown_toggle.open {
+        background: rgba(242, 239, 231, .18);
+        border-color: rgba(242, 239, 231, .40);
+    }
+
+    .admin_user_dropdown_toggle svg {
+        transition: transform .2s ease;
+    }
+
+    .admin_user_dropdown_toggle.open svg {
+        transform: rotate(180deg);
+    }
+
+    .admin_user_dropdown_toggle .admin_user_name {
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #F2EFE7;
+    }
+
+
+/* =========================
+   DROPDOWN MENU
+========================= */
+
+.admin_user_dropdown_menu {
+    position: absolute;
+    top: calc(100% + .6rem);
+    right: 0;
+    width: 220px;
+    padding: .5rem;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(38, 59, 69, .12), 0 3px 8px rgba(38, 59, 69, .06);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(.98);
+    transform-origin: top right;
+    transition: opacity .18s ease, visibility .18s ease, transform .18s ease;
+    z-index: 1200;
+}
+
+    .admin_user_dropdown_menu.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+
+/* =========================
+   DROPDOWN HEADER
+========================= */
+
+.admin_user_dropdown_header {
+    display: flex;
+    flex-direction: column;
+    padding: .65rem .7rem;
+}
+
+    .admin_user_dropdown_header span {
+        font-size: .65rem;
+        color: #7a8b92;
+    }
+
+    .admin_user_dropdown_header strong {
+        margin-top: .15rem;
+        color: #263B45;
+        font-size: .78rem;
+        font-weight: 650;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* =========================
+   DROPDOWN DIVIDER
+========================= */
+
+.admin_dropdown_divider {
+    height: 1px;
+    margin: .25rem 0 .4rem;
+    background: rgba(51, 104, 160, .10);
+}
+
+
+/* =========================
+   DROPDOWN LINKS
+========================= */
+
+.admin_dropdown_link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .65rem .7rem;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #263B45;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease;
+}
+
+    .admin_dropdown_link:hover {
+        background: rgba(51, 104, 160, .10);
+        color: #3368A0;
+    }
+
+    .admin_dropdown_link svg {
+        flex-shrink: 0;
+    }
+
+
+/* =========================
+   DROPDOWN LOGOUT
+========================= */
+
+.admin_dropdown_logout:hover {
+    background: rgba(190, 65, 80, .10);
+    color: #BE4150;
+}
+
+.admin_logout_form {
+    margin: 0;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .custom_nav {
+        height: 4rem;
+        padding: 0 .75rem;
+        justify-content: center;
+    }
+
+    .admin_mobile_sidebar_toggle {
+        display: flex;
+    }
+
+    .admin_brand {
+        gap: .55rem;
+    }
+
+    .admin_label {
+        font-size: .65rem;
+        padding-right: .55rem;
+    }
+
+    .admin_brand .logo {
+        height: 38px;
+    }
+
+    .admin_user_dropdown {
+        right: .75rem;
+    }
+
+    .admin_user_dropdown_toggle {
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        padding: 0;
+        border-radius: 11px;
+    }
+
+        .admin_user_dropdown_toggle .admin_user_name {
+            display: none;
+        }
+
+        .admin_user_dropdown_toggle svg {
+            width: 15px;
+            height: 15px;
+        }
+
+    .admin_user_dropdown_menu {
+        width: 220px;
+        right: 0;
+    }
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+/*.admin_header {
+    flex-shrink: 0;
+}
+
+.custom_nav {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
+    background-color: #3368A0;
+    border-bottom: 3px solid #66A3BF;
+    box-shadow: 0 2px 10px rgba(51, 104, 160, .20);
+}*/
+
+
+/* =========================
+   BRAND
+========================= */
+
+/*.admin_brand {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+}
+
+.admin_label {
+    color: #F2EFE7;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12rem;
+    padding-right: .75rem;
     border-right: 1px solid rgba(255,255,255,.30);
 }
 
@@ -75,27 +402,27 @@ body {
     height: 40px;
     width: auto;
     display: block;
-}
+}*/
 
 
 /* =========================
    NAV ACTIONS
 ========================= */
 
-.admin_nav_actions {
+/*.admin_nav_actions {
     position: absolute;
     right: 1.5rem;
     display: flex;
     align-items: center;
     gap: .5rem;
-}
+}*/
 
 
 /* =========================
    LOGGED-IN USER
 ========================= */
 
-.admin_user_info {
+/*.admin_user_info {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -121,14 +448,14 @@ body {
     font-size: .74rem;
     font-weight: 600;
     line-height: 1.4;
-}
+}*/
 
 
 /* =========================
    COMMON ACTION BUTTON
 ========================= */
 
-.admin_view_site,
+/*.admin_view_site,
 .admin_logout {
     display: inline-flex;
     align-items: center;
@@ -142,14 +469,14 @@ body {
     font-weight: 600;
     text-decoration: none;
     transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
-}
+}*/
 
 
 /* =========================
    VIEW SITE
 ========================= */
 
-.admin_view_site {
+/*.admin_view_site {
     color: #F2EFE7;
     background-color: rgba(242, 239, 231, .10);
     border: 1px solid rgba(242, 239, 231, .25);
@@ -160,14 +487,14 @@ body {
         background-color: #F2EFE7;
         border-color: #F2EFE7;
         transform: translateY(-1px);
-    }
+    }*/
 
 
 /* =========================
    LOGOUT
 ========================= */
 
-.admin_logout {
+/*.admin_logout {
     color: #F2EFE7;
     background-color: transparent;
     border: 1px solid rgba(242, 239, 231, .20);
@@ -183,14 +510,14 @@ body {
 
 .admin_logout_form {
     margin: 0;
-}
+}*/
 
 
 /* =========================
    MOBILE
 ========================= */
 
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
 
     .admin_nav_actions {
         right: 1rem;
@@ -216,7 +543,7 @@ body {
     .admin_logout {
         padding: .4rem .55rem;
     }
-}
+}*/
 
 /* =========================
    ADMIN BODY WRAPPER
@@ -748,6 +1075,195 @@ body {
         font-size: .8rem;
     }
 
+/* =========================================================
+   SONG TABLE
+========================================================= */
+
+.songs_table_wrapper {
+    width: 100%;
+    margin-top: 1.25rem;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 12px;
+    overflow-x: auto;
+    box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+}
+
+
+.songs_list {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+
+/* =========================================================
+   MANAGE ACTION GROUP
+========================================================= */
+
+.song_action_group {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+
+/* =========================================================
+   MOBILE TABLE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .songs_table_wrapper {
+        overflow-x: visible;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+
+    /* -----------------------------------------
+       Hide table header
+    ----------------------------------------- */
+
+    .songs_list thead {
+        display: none;
+    }
+
+
+    /* -----------------------------------------
+       Convert table to blocks
+    ----------------------------------------- */
+
+    .songs_list,
+    .songs_list tbody,
+    .songs_list tr,
+    .songs_list td {
+        display: block;
+        width: 100%;
+    }
+
+
+        /* -----------------------------------------
+       Song card
+    ----------------------------------------- */
+
+        .songs_list tbody tr.song_row {
+            margin-bottom: 1rem;
+            padding: .65rem 0;
+            background-color: #ffffff;
+            border: 1px solid rgba(51, 104, 160, .12);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+        }
+
+
+            /* -----------------------------------------
+       Individual cells
+    ----------------------------------------- */
+
+            .songs_list tbody tr.song_row td {
+                display: grid;
+                grid-template-columns: 8rem minmax(0, 1fr);
+                align-items: center;
+                gap: .75rem;
+                padding: .65rem 1rem;
+                border: none;
+                color: #36515B;
+                font-size: .85rem;
+                min-width: 0;
+            }
+
+
+                /* -----------------------------------------
+       Mobile column label
+    ----------------------------------------- */
+
+                .songs_list tbody tr.song_row td::before {
+                    content: attr(data-cell);
+                    color: #6B7D84;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04rem;
+                }
+
+
+            /* -----------------------------------------
+       Song number
+    ----------------------------------------- */
+
+            .songs_list tbody tr.song_row .song_number {
+                font-size: .82rem;
+                font-weight: 700;
+                color: #3368A0;
+            }
+
+
+            /* -----------------------------------------
+       Song title
+    ----------------------------------------- */
+
+            .songs_list tbody tr.song_row .song_title {
+                font-size: .9rem;
+                font-weight: 600;
+                color: #263B45;
+            }
+
+
+            /* -----------------------------------------
+       Dates
+    ----------------------------------------- */
+
+            .songs_list tbody tr.song_row .song_date {
+                font-size: .78rem;
+                line-height: 1.4;
+            }
+
+
+            /* -----------------------------------------
+       Manage
+    ----------------------------------------- */
+
+            .songs_list tbody tr.song_row .song_actions {
+                display: grid;
+                grid-template-columns: 8rem minmax(0, 1fr);
+                align-items: center;
+                gap: .75rem;
+                margin-top: .35rem;
+                padding-top: .8rem;
+                border-top: 1px solid rgba(51, 104, 160, .10);
+            }
+
+
+                /* Manage label */
+
+                .songs_list tbody tr.song_row .song_actions::before {
+                    content: attr(data-cell);
+                    color: #6B7D84;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04rem;
+                }
+
+
+    /* Action buttons */
+
+    .song_action_group {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+        min-width: 0;
+    }
+
+
+        .song_action_group .song_action_button {
+            flex: 0 0 auto;
+            min-width: 0;
+        }
+}
+
 .admin_modal_delete {
     min-height: 38px;
     padding: .5rem 1rem;
@@ -867,32 +1383,6 @@ body {
 
 @media (max-width: 576px) {
 
-    .admin_sidebar {
-        width: 65px;
-    }
-
-    .sidebar_header {
-        display: none;
-    }
-
-    .admin_navigation {
-        padding: .75rem .5rem;
-    }
-
-    .admin_link {
-        justify-content: center;
-        padding: .75rem;
-    }
-
-        .admin_link span:last-child {
-            display: none;
-        }
-
-    .admin_link_icon {
-        width: 22px;
-        height: 22px;
-    }
-
     .admin_body_wrapper {
         padding: .5rem;
     }
@@ -900,4 +1390,139 @@ body {
     .admin_body {
         padding: .75rem;
     }
+}
+
+/* =========================================================
+   ADMIN MOBILE SIDEBAR
+   ========================================================= */
+
+.admin_mobile_sidebar,
+.admin_mobile_sidebar_overlay {
+    display: none;
+}
+
+
+/* =========================================================
+   MOBILE — 767px AND BELOW
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    /* Hide desktop sidebar */
+    .admin_sidebar {
+        display: none;
+    }
+
+
+    /* =========================================
+       MOBILE SIDEBAR
+       ========================================= */
+
+    .admin_mobile_sidebar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: min(85vw, 320px);
+        height: 100vh;
+        z-index: 1300;
+        background: linear-gradient( 145deg, rgba(200, 223, 219, .97), rgba(200, 223, 219, .90) );
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-right: 1px solid rgba(255, 255, 255, .70);
+        box-shadow: 8px 0 30px rgba(38, 59, 69, .18);
+        transform: translateX(-100%);
+        transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+        overflow: hidden;
+    }
+
+
+        .admin_mobile_sidebar.open {
+            transform: translateX(0);
+        }
+
+
+    /* =========================================
+       MOBILE SIDEBAR HEADER
+       ========================================= */
+
+    .sidebar_mobile_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(51, 104, 160, .10);
+        flex-shrink: 0;
+    }
+
+        .sidebar_mobile_header span {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+
+    .admin_mobile_sidebar_close {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, .55);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .30);
+        color: var(--text-primary);
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color .2s ease, transform .2s ease;
+    }
+
+        .admin_mobile_sidebar_close:hover {
+            background: rgba(255, 255, 255, .55);
+        }
+
+        .admin_mobile_sidebar_close:active {
+            transform: scale(.92);
+        }
+
+
+    /* =========================================
+       MOBILE NAVIGATION
+       ========================================= */
+
+    .admin_mobile_sidebar .admin_navigation {
+        flex: 1;
+        padding: .75rem;
+        overflow-y: auto;
+    }
+
+
+    .admin_mobile_sidebar .admin_link {
+        margin-bottom: .4rem;
+    }
+
+
+    /* =========================================
+       OVERLAY
+       ========================================= */
+
+    .admin_mobile_sidebar_overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background: rgba(32, 52, 61, .38);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility .3s ease;
+    }
+
+        .admin_mobile_sidebar_overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
 }

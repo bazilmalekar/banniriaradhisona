@@ -1,22 +1,4 @@
-﻿/** {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-*/
-
-/* =========================
+﻿/* =========================
    ADD SONG
 ========================= */
 
@@ -62,6 +44,50 @@ body {
     margin: .35rem 0 0;
     color: #6B7D84;
     font-size: .85rem;
+}
+
+/* =========================================================
+   RESPONSIVE — ADMIN PAGE HEADER
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .admin_page {
+        padding: 1.25rem;
+    }
+
+    .admin_page_header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .admin_page_title {
+        width: 100%;
+    }
+
+    .admin_page_actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .6rem;
+    }
+
+    /* Search takes the complete row */
+    .admin_song_search {
+        width: 100%;
+        grid-column: 1 / -1;
+    }
+
+        .admin_song_search input {
+            width: 100%;
+        }
+
+    /* Buttons */
+    .admin_primary_button,
+    .admin_secondary_button {
+        width: 100%;
+    }
 }
 
 

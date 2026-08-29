@@ -26,6 +26,7 @@
 <body>
     <div class="main">
         <partial name="_NavbarPratial" />
+        @await Component.InvokeAsync("MobileSidebar")
         <main class="app_body_wrapper">
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             @RenderBody()
@@ -38,5 +39,50 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+        const toggle = document.getElementById("mobileSidebarToggle");
+        const sidebar = document.getElementById("mobileSidebar");
+        const close = document.getElementById("mobileSidebarClose");
+        const overlay = document.getElementById("mobileSidebarOverlay");
+
+        if (!toggle || !sidebar) {
+        return;
+        }
+
+        const openSidebar = () => {
+        sidebar.classList.add("open");
+        overlay?.classList.add("open");
+        toggle.classList.add("open");
+        toggle.setAttribute("aria-expanded", "true");
+        };
+
+        const closeSidebar = () => {
+        sidebar.classList.remove("open");
+        overlay?.classList.remove("open");
+        toggle.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+        };
+
+        toggle.addEventListener("click", openSidebar);
+        close?.addEventListener("click", closeSidebar);
+        overlay?.addEventListener("click", closeSidebar);
+
+        sidebar.querySelectorAll(".song_link").forEach(link => {
+        link.addEventListener("click", closeSidebar);
+        });
+
+        document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+        closeSidebar();
+        }
+        });
+
+        });
+    </script>
 </body>
 </html>
+

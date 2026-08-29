@@ -25,11 +25,7 @@
                 Add song
             </a>
             <!-- EXPORT -->
-            <a class="admin_secondary_button"
-               asp-area="Admin"
-               asp-controller="Home"
-               asp-action="DownloadSongsPdf">
-
+            <a class="admin_secondary_button" asp-area="Admin" asp-controller="Home" asp-action="DownloadSongsPdf">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="16"
                      height="16"
@@ -40,7 +36,6 @@
                     <path fill-rule="evenodd"
                           d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
                 </svg>
-
                 Export Songs
             </a>
         </div>
@@ -65,7 +60,6 @@
         </div>
     }
 
-    <!-- SONG TABLE -->
     <div class="songs_table_wrapper">
         <table class="songs_list" id="songsTable">
             <thead>
@@ -92,34 +86,24 @@
                 {
                     foreach (var song in Model)
                     {
-                        <!--
-                            IMPORTANT:
-                            song_row is used by JavaScript.
-
-                            data-song-number:
-                            Used when searching by song number.
-
-                            data-song-title:
-                            Used when searching by ENGLISH title.
-                        -->
                         <tr class="song_row" data-song-number="@song.SongCount" data-song-title="@song.Song.SongTitleEn">
                             <!-- SONG NUMBER -->
-                            <td class="song_number">
+                            <td class="song_number" data-cell="Song No.">
                                 @song.SongCount
                             </td>
                             <!-- SONG TITLE -->
-                            <td class="song_title">
+                            <td class="song_title" data-cell="Song Title">
                                 @song.Song.SongTitleKa
                             </td>
                             <!-- CREATED DATE -->
-                            <td class="song_date">
+                            <td class="song_date" data-cell="Created">
                                 @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
                                     song.Song.CreatedDate,
                                     "India Standard Time"
                                 ).ToString("dd MMM yyyy, hh:mm tt")
                             </td>
-                            <!-- UPDATED DATE -->
-                            <td class="song_date">
+                            <!-- LAST UPDATED -->
+                            <td class="song_date" data-cell="Last Updated">
                                 @if (song.Song.UpdateDate.HasValue)
                                 {
                                     @TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
@@ -129,51 +113,56 @@
                                 }
                                 else
                                 {
-                                    <span class="not_updated">Not updated</span>
+                                    <span class="not_updated">
+                                        Not updated
+                                    </span>
                                 }
                             </td>
-                            <!-- ACTIONS -->
-                            <td class="song_actions">
-                                <!-- EDIT -->
-                                <a class="song_action_button edit" asp-area="Admin" asp-controller="Home" asp-action="Upsert" asp-route-id="@song.Song.SongId">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z" />
-                                        <path d="m12.939 2.69-8 8-.805 2.414 2.414-.805 8-8z" />
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                    </svg>
-                                    Edit
-                                </a>
-                                <!-- DELETE -->
-                                <button type="button"
-                                        class="song_action_button delete"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        data-song-id="@song.Song.SongId"
-                                        data-song-title="@song.Song.SongTitleKa"
-                                        data-created-date="@TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                                                        song.Song.CreatedDate,
-                                                                                                                        "India Standard Time"
-                                                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")"
-                                        data-updated-date="@(song.Song.UpdateDate.HasValue
-                                                                                                                        ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                                                            song.Song.UpdateDate.Value,
-                                                                                                                            "India Standard Time"
-                                                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")
-                                                                                                                : "Not updated")">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5" />
-                                        <path d="M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1z" />
-                                    </svg>
-                                    Delete
-                                </button>
+                            <!-- MANAGE -->
+                            <td class="song_actions" data-cell="Manage">
+                                <div class="song_action_group">
+                                    <!-- EDIT -->
+                                    <a class="song_action_button edit" asp-area="Admin" asp-controller="Home" asp-action="Upsert" asp-route-id="@song.Song.SongId">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             width="15"
+                                             height="15"
+                                             fill="currentColor"
+                                             viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z" />
+                                            <path d="m12.939 2.69-8 8-.805 2.414 2.414-.805 8-8z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg>
+                                        Edit
+                                    </a>
+                                    <!-- DELETE -->
+                                    <button type="button"
+                                            class="song_action_button delete"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-song-id="@song.Song.SongId"
+                                            data-song-title="@song.Song.SongTitleKa"
+                                            data-created-date="@TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                                                                        song.Song.CreatedDate,
+                                                                                        "India Standard Time"
+                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")"
+                                            data-updated-date="@(song.Song.UpdateDate.HasValue
+                                                                                        ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                                                                        song.Song.UpdateDate.Value,
+                                                                                        "India Standard Time"
+                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")
+                                                                                : "Not updated")">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             width="15"
+                                             height="15"
+                                             fill="currentColor"
+                                             viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5" />
+                                            <path d="M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1z" />
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -184,7 +173,9 @@
                         <td colspan="5">
                             <div class="songs_empty_state">
                                 <strong>No songs found</strong>
-                                <span>There are currently no songs available.</span>
+                                <span>
+                                    There are currently no songs available.
+                                </span>
                             </div>
                         </td>
                     </tr>

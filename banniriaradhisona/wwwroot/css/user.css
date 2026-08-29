@@ -147,13 +147,187 @@ body {
 
 /* MOBILE */
 
-@media (max-width: 768px) {
+/* =========================================================
+   USERS TABLE — MOBILE
+========================================================= */
 
-    .users_list {
-        min-width: 700px;
-    }
+@media (max-width: 900px) {
 
     .user_table_wrapper {
-        overflow-x: auto;
+        overflow-x: visible;
+    }
+
+
+    /* Hide desktop table header */
+
+    .users_list thead {
+        display: none;
+    }
+
+
+    /* Convert table to blocks */
+
+    .users_list,
+    .users_list tbody,
+    .users_list tr,
+    .users_list td {
+        display: block;
+        width: 100%;
+    }
+
+
+        /* User card */
+
+        .users_list tbody tr.user_row {
+            margin-bottom: 1rem;
+            padding: .65rem 0;
+            background-color: #ffffff;
+            border: 1px solid rgba(51, 104, 160, .12);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+            transition: box-shadow .18s ease, transform .18s ease;
+        }
+
+
+            /* Disable desktop hover effect */
+
+            .users_list tbody tr.user_row:hover {
+                background-color: #ffffff;
+                box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+                transform: none;
+            }
+
+
+            /* Individual cells */
+
+            .users_list tbody tr.user_row td {
+                display: grid;
+                grid-template-columns: 7rem minmax(0, 1fr);
+                align-items: center;
+                gap: .75rem;
+                padding: .65rem 1rem;
+                border: none;
+                color: #36515B;
+                font-size: .85rem;
+                min-width: 0;
+            }
+
+
+                /* Mobile labels */
+
+                .users_list tbody tr.user_row td::before {
+                    content: attr(data-cell);
+                    color: #6B7D84;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04rem;
+                }
+
+
+            /* Number */
+
+            .users_list tbody tr.user_row .user_number {
+                color: #3368A0;
+                font-size: .82rem;
+                font-weight: 700;
+            }
+
+
+            /* Name */
+
+            .users_list tbody tr.user_row .user_name {
+                color: #263B45;
+                font-size: .9rem;
+                font-weight: 600;
+                overflow-wrap: anywhere;
+            }
+
+
+            /* Username */
+
+            .users_list tbody tr.user_row .user_username {
+                color: #5d7078;
+                font-size: .82rem;
+                overflow-wrap: anywhere;
+            }
+
+
+            /* Roles */
+
+            .users_list tbody tr.user_row .user_roles {
+                display: flex;
+                align-items: center;
+                gap: .4rem;
+                flex-wrap: wrap;
+            }
+
+
+                /*
+       Because .user_roles is flex,
+       recreate the label separately.
+    */
+
+                .users_list tbody tr.user_row .user_roles::before {
+                    content: attr(data-cell);
+                    flex: 0 0 7rem;
+                    color: #6B7D84;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04rem;
+                }
+
+
+            /* Manage */
+
+            .users_list tbody tr.user_row .song_actions {
+                display: grid;
+                grid-template-columns: 7rem minmax(0, 1fr);
+                align-items: center;
+                gap: .75rem;
+                margin-top: .35rem;
+                padding-top: .8rem;
+                border-top: 1px solid rgba(51, 104, 160, .10);
+                white-space: normal;
+            }
+
+
+                /* Manage label */
+
+                .users_list tbody tr.user_row .song_actions::before {
+                    content: attr(data-cell);
+                    color: #6B7D84;
+                    font-size: .68rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04rem;
+                }
+
+
+            /* Edit/Delete group */
+
+            .users_list tbody tr.user_row .song_action_group {
+                display: flex;
+                align-items: center;
+                gap: .4rem;
+                min-width: 0;
+            }
+}
+
+@media (max-width: 450px) {
+
+    .users_list tbody tr.user_row td {
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+        padding-left: .75rem;
+        padding-right: .75rem;
+    }
+
+    .users_list tbody tr.user_row .user_roles::before {
+        flex-basis: 6.5rem;
+    }
+
+    .users_list tbody tr.user_row .song_actions {
+        grid-template-columns: 6.5rem minmax(0, 1fr);
     }
 }

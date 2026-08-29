@@ -73,16 +73,20 @@
                     foreach (var user in Model)
                     {
                         <tr class="user_row" data-user-name="@user.Name" data-user-username="@user.UserName" data-user-role="@string.Join(" ", user.Roles)">
-                            <td class="user_number">
+                            <!-- NUMBER -->
+                            <td class="user_number" data-cell="#">
                                 @count
                             </td>
-                            <td class="user_name">
+                            <!-- NAME -->
+                            <td class="user_name" data-cell="Name">
                                 @user.Name
                             </td>
-                            <td class="user_username">
+                            <!-- USERNAME -->
+                            <td class="user_username" data-cell="Username">
                                 @user.UserName
                             </td>
-                            <td class="user_roles">
+                            <!-- ROLE -->
+                            <td class="user_roles" data-cell="Role">
                                 @foreach (var role in user.Roles)
                                 {
                                     <span class="user_role_badge @role.ToLower()">
@@ -90,64 +94,34 @@
                                     </span>
                                 }
                             </td>
-                            <td class="song_actions">
-                                <!-- EDIT -->
-                                <a class="song_action_button edit" asp-area="Admin" asp-controller="AppUser" asp-action="EditUser" asp-route-id="@user.Id">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z" />
-                                        <path d="m12.939 2.69-8 8-.805 2.414 2.414-.805 8-8z" />
-                                        <path fill-rule="evenodd"
-                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                    </svg>
-                                    Edit
-                                </a>
-                                <!-- DELETE -->
-                                <button type="button"
-                                        class="song_action_button delete"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteUserModal"
-                                        data-user-id="@user.Id"
-                                        data-user-name="@user.Name"
-                                        data-user-email="@user.UserName"
-                                        data-user-role="@string.Join(", ", user.Roles)">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="15"
-                                         height="15"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5" />
-                                        <path d="M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1z" />
-                                    </svg>
-                                    Delete
-                                </button>
+                            <!-- MANAGE -->
+                            <td class="song_actions" data-cell="Manage">
+                                <div class="song_action_group">
+                                    <!-- EDIT -->
+                                    <a class="song_action_button edit" asp-area="Admin" asp-controller="AppUser" asp-action="EditUser" asp-route-id="@user.Id">
+                                        <!-- existing SVG -->
+                                        Edit
+                                    </a>
+                                    <!-- DELETE -->
+                                    <button type="button"
+                                            class="song_action_button delete"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteUserModal"
+                                            data-user-id="@user.Id"
+                                            data-user-name="@user.Name"
+                                            data-user-email="@user.UserName"
+                                            data-user-role="@string.Join(", ", user.Roles)">
+
+                                        <!-- existing SVG -->
+                                        Delete
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         count++;
                     }
-                    <tr id="noUsersFound" style="display:none;">
-                        <td colspan="5">
-                            <div class="songs_empty_state">
-                                <strong>No users found</strong>
-                                <span>No users match your search.</span>
-                            </div>
-                        </td>
-                    </tr>
                 }
-                else
-                {
-                    <tr>
-                        <td colspan="5">
-                            <div class="songs_empty_state">
-                                <strong>No users found</strong>
-                                <span>There are currently no users available.</span>
-                            </div>
-                        </td>
-                    </tr>
-                }
+
             </tbody>
         </table>
     </div>
@@ -271,7 +245,6 @@
         }
 
         let searchTimeout;
-
         searchInput.addEventListener("input", () => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<banniriaradhisona.Core.ViewModels.SidebarVM>
+
+@{
+    var currentSongId = ViewData["CurrentSongId"]?.ToString();
+    var firstSongId = Model.FirstOrDefault()?.SongId;
+}
+
+<div class="mobile_sidebar" id="mobileSidebar">
+    <div class="mobile_sidebar_header">
+        <h5>Songs</h5>
+        <button type="button" id="mobileSidebarClose" class="mobile_sidebar_close" aria-label="Close songs">&times;</button>
+    </div>
+    <div class="sidebar_search">
+        <div class="search_input_wrapper">
+            <input type="text" id="mobileSongSearch" placeholder="Search by song number or title..." autocomplete="off" />
+            <button type="button" id="clearMobileSongSearch" class="search_clear" aria-label="Clear search">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     class="bi bi-x-circle-fill"
+                     viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="mobile_sidebar_links" id="mobileSongList">
+        @foreach (var song in Model)
+        {
+            var isActive = currentSongId == song.SongId.ToString();
+            var isFirstSongWithoutSelection = string.IsNullOrEmpty(currentSongId) && song.SongId == firstSongId;
+            <a class="song_link @(isActive || isFirstSongWithoutSelection ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-songId="@song.SongId" data-song-number="@song.SongCount" data-song-title="@song.SongTitleEn">
+                <h6>Song No. @song.SongCount</h6>
+                <p>@song.SongTitle</p>
+            </a>
+        }
+        <div id="mobileNoSongsFound"
+             class="no_songs_found">
+            No songs found
+        </div>
+    </div>
+</div>
+<div id="mobileSidebarOverlay"
+     class="mobile_sidebar_overlay">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("mobileSongSearch");
+        const songLinks = document.querySelectorAll("#mobileSongList .song_link");
+        const noSongsFound = document.getElementById("mobileNoSongsFound");
+        const clearSongSearch = document.getElementById("clearMobileSongSearch");
+        if (!searchInput) {
+            return;
+        }
+        let searchTimeout;
+        // Search / Filter
+        searchInput.addEventListener("input", () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchValue = searchInput.value.trim().toLowerCase();
+                let visibleSongs = 0;
+                songLinks.forEach(song => {
+                    const songNumber = song.dataset.songNumber?.toLowerCase() ?? "";
+                    const songTitle = song.dataset.songTitle?.toLowerCase() ?? "";
+                    const matches = songNumber.includes(searchValue) || songTitle.includes(searchValue);
+                    if (matches) {
+                        song.style.display = "block";
+                        // Restart animation
+                        song.classList.remove("filter_show");
+                        void song.offsetWidth;
+                        song.classList.add("filter_show");
+                        visibleSongs++;
+                    }
+                    else {
+                        song.style.display = "none";
+                        song.classList.remove("filter_show");
+                    }
+                });
+                noSongsFound.style.display = visibleSongs === 0 ? "block" : "none";
+            }, 250); // 250ms debounce
+        });
+        // Show / Hide clear button
+        searchInput.addEventListener("input", function () {
+            clearSongSearch.style.display = this.value ? "block": "none";
+        });
+
+        // Clear search
+        clearSongSearch.addEventListener("click", function () {
+            searchInput.value = "";
+            searchInput.blur();
+            clearSongSearch.style.display = "none";
+            // Trigger the normal search/filter logic
+            searchInput.dispatchEvent(
+                new Event("input")
+            );
+        });
+    });
+</script>
