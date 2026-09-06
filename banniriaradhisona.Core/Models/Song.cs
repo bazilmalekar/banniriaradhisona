@@ -13,6 +13,10 @@ namespace banniriaradhisona.Core.Models
         [Display(Name = "Song Number")]
         public int SongNumber { get; set; }
 
+        [StringLength(50)]
+        [Display(Name = "Song Scale")]
+        public string? SongScale { get; set; }
+
         [Required]
         [Display(Name = "English Title")]
         [StringLength(200)]

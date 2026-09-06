@@ -33,16 +33,21 @@
         <div class="song_form_section">
             <div class="song_form_section_header">
                 <h2>Song Information</h2>
-                <span>Enter the song number and Kannada and English titles.</span>
+                <span>Enter the song number, scale, and Kannada and English titles.</span>
             </div>
             <div class="song_title_row">
                 <!-- SONG NUMBER -->
-                <div class="admin_form_group song_number_group">
+                <div class="admin_form_group">
                     <label class="required" asp-for="SongNumber"></label>
                     <input asp-for="SongNumber" type="number" min="1" placeholder="Song number" autocomplete="off" />
                     <span asp-validation-for="SongNumber" class="field_validation"></span>
                 </div>
-
+                <!-- SONG SCALE -->
+                <div class="admin_form_group">
+                    <label asp-for="SongScale"></label>
+                    <input asp-for="SongScale" type="text" placeholder="e.g. D" autocomplete="off" />
+                    <span asp-validation-for="SongScale" class="field_validation"></span>
+                </div>
                 <!-- KANNADA TITLE -->
                 <div class="admin_form_group">
                     <label class="required" asp-for="SongTitleKa"></label>
@@ -167,17 +172,17 @@
                 songLyricsInput.addEventListener("input", () => {
                     const lines = songLyricsInput.value.split("\n");
                     songLyricsInput.value = lines.map(line => {
-                            const parts = line.split(".");
-                            return parts
-                                .map(part =>
-                                    Sanscript.t(
-                                        part,
-                                        "itrans",
-                                        "kannada"
-                                    )
+                        const parts = line.split(".");
+                        return parts
+                            .map(part =>
+                                Sanscript.t(
+                                    part,
+                                    "itrans",
+                                    "kannada"
                                 )
-                                .join(".");
-                        })
+                            )
+                            .join(".");
+                    })
                         .join("\n");
                 });
             }

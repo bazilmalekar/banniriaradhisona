@@ -67,6 +67,9 @@
                     <th class="song_number_column">
                         Song No.
                     </th>
+                    <th class="song_scale_column">
+                        Scale
+                    </th>
                     <th>
                         Song Title
                     </th>
@@ -90,6 +93,18 @@
                             <!-- SONG NUMBER -->
                             <td class="song_number" data-cell="Song No.">
                                 @song.SongCount
+                            </td>
+                            <!-- SONG SCALE -->
+                            <!-- SONG SCALE -->
+                            <td class="song_scale" data-cell="Scale">
+                                @if (string.IsNullOrWhiteSpace(song.Song.SongScale))
+                                {
+                                    <span class="scale_not_set">Not set</span>
+                                }
+                                else
+                                {
+                                    <span class="scale_badge">@song.Song.SongScale</span>
+                                }
                             </td>
                             <!-- SONG TITLE -->
                             <td class="song_title" data-cell="Song Title">
@@ -142,15 +157,15 @@
                                             data-song-id="@song.Song.SongId"
                                             data-song-title="@song.Song.SongTitleKa"
                                             data-created-date="@TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                        song.Song.CreatedDate,
-                                                                                        "India Standard Time"
-                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")"
+                                                                                                                                song.Song.CreatedDate,
+                                                                                                                                "India Standard Time"
+                                                                                                                                ).ToString("dd MMM yyyy, hh:mm tt")"
                                             data-updated-date="@(song.Song.UpdateDate.HasValue
-                                                                                        ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                        song.Song.UpdateDate.Value,
-                                                                                        "India Standard Time"
-                                                                                        ).ToString("dd MMM yyyy, hh:mm tt")
-                                                                                : "Not updated")">
+                                                                                                                                ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                                                                                                                song.Song.UpdateDate.Value,
+                                                                                                                                "India Standard Time"
+                                                                                                                                ).ToString("dd MMM yyyy, hh:mm tt")
+                                                                                                                    : "Not updated")">
 
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              width="15"
@@ -284,10 +299,10 @@
                 let visibleSongs = 0;
                 songRows.forEach(row => {
                     // Get the song number. Example" "25"
-                    const songNumber = row.dataset.songNumber ?.toLowerCase() ?? "";
+                    const songNumber = row.dataset.songNumber?.toLowerCase() ?? "";
 
                     // Get the English title.Example: "Amazing Grace"
-                    const songTitle = row.dataset.songTitle ?.toLowerCase() ?? "";
+                    const songTitle = row.dataset.songTitle?.toLowerCase() ?? "";
                     // Match either Song number OR English title
                     const matches = songNumber.includes(searchValue) || songTitle.includes(searchValue);
                     if (matches) {
@@ -305,13 +320,13 @@
                     noResults = document.createElement("tr");
                     noResults.id = "noSearchResults";
                     noResults.innerHTML = `
-                        <td colspan="5">
-                            <div class="songs_empty_state">
-                                <strong>No songs found</strong>
-                                <span>No songs match your search.</span>
-                            </div>
-                        </td>
-                    `;
+                            <td colspan="5">
+                                <div class="songs_empty_state">
+                                    <strong>No songs found</strong>
+                                    <span>No songs match your search.</span>
+                                </div>
+                            </td>
+                        `;
                     tableBody.appendChild(noResults);
                 }
                 noResults.style.display = visibleSongs === 0 ? "" : "none";

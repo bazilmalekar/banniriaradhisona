@@ -20,6 +20,15 @@
         <div class="song_body">
             <div class="song_header">
                 <h6>Song No. @Model.SongCount</h6>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Song.SongScale))
+                {
+                    <div class="song_scale">
+                        <span class="song_scale_label">Song Scale</span>
+                        <span class="song_scale_value">@Model.Song.SongScale</span>
+                    </div>
+                }
+
                 <h1>@Model.Song.SongTitleKa</h1>
             </div>
             @foreach (var stanza in stanzas)
@@ -141,15 +150,15 @@
             try {
                 await audio.play();
                 playPause.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="16"
-                         height="16"
-                         fill="currentColor"
-                         viewBox="0 0 16 16">
-                        <path d="M5.5 3.5A.5.5 0 0 1 6 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                        <path d="M10.5 3.5A.5.5 0 0 1 11 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                    </svg>
-                `;
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="currentColor"
+                                 viewBox="0 0 16 16">
+                                <path d="M5.5 3.5A.5.5 0 0 1 6 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M10.5 3.5A.5.5 0 0 1 11 4v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                            </svg>
+                        `;
                 playPause.setAttribute("aria-label", "Pause");
                 playPause.setAttribute("title", "Pause");
             }
@@ -162,14 +171,14 @@
         else {
             audio.pause();
             playPause.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="16"
-                     height="16"
-                     fill="currentColor"
-                     viewBox="0 0 16 16">
-                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-                </svg>
-            `;
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="16"
+                             height="16"
+                             fill="currentColor"
+                             viewBox="0 0 16 16">
+                            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                        </svg>
+                    `;
             playPause.setAttribute("aria-label", "Play");
             playPause.setAttribute("title", "Play");
         }

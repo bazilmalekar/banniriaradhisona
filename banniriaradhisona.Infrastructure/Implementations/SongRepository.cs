@@ -112,6 +112,7 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 song.SongNumber = newSongNumber;
             }
 
+            song.SongScale = model.SongScale;
             song.SongTitleEn = model.SongTitleEn;
             song.SongTitleKa = model.SongTitleKa;
             song.SongLyr = model.SongLyr;

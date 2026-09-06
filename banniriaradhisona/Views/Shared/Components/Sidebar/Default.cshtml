@@ -34,7 +34,7 @@
         {
             var isActive = currentSongId == song.SongId.ToString();
             var isFirstSongWithoutSelection = string.IsNullOrEmpty(currentSongId) && song.SongId == firstSongId;
-            <a class="song_link @(isActive || isFirstSongWithoutSelection ? "active" : "")"
+            <a id="songlink_song-@song.SongId" class="song_link @(isActive || isFirstSongWithoutSelection ? "active" : "")"
                asp-controller="Home"
                asp-action="Index"
                asp-route-songId="@song.SongId"
@@ -50,57 +50,4 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchInput = document.getElementById("songSearch");
-        const songLinks = document.querySelectorAll(".song_link");
-        const noSongsFound = document.getElementById("noSongsFound");
-
-        if (!searchInput) {
-            return;
-        }
-        let searchTimeout;
-        searchInput.addEventListener("input", () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const searchValue = searchInput.value.trim().toLowerCase();
-                let visibleSongs = 0;
-                songLinks.forEach(song => {
-                    const songNumber = song.dataset.songNumber?.toLowerCase() ?? "";
-                    const songTitle = song.dataset.songTitle?.toLowerCase() ?? "";
-                    const matches = songNumber.includes(searchValue) || songTitle.includes(searchValue);
-                    if (matches) {
-                        song.style.display = "block";
-                        // Restart animation
-                        song.classList.remove("filter_show");
-                        void song.offsetWidth;
-                        song.classList.add("filter_show");
-                        visibleSongs++;
-                    }
-                    else {
-                        song.style.display = "none";
-                        song.classList.remove("filter_show");
-                    }
-                });
-                noSongsFound.style.display = visibleSongs === 0 ? "block" : "none";
-            }, 250); // 250ms debounce
-        });
-
-            const songSearch = document.getElementById("songSearch");
-    const clearSongSearch = document.getElementById("clearSongSearch");
-
-    songSearch.addEventListener("input", function () {
-        clearSongSearch.style.display = this.value ? "block" : "none";
-    });
-
-    clearSongSearch.addEventListener("click", function () {
-        songSearch.value = "";
-        songSearch.blur();
-
-        clearSongSearch.style.display = "none";
-
-        // If you have search/filter logic, trigger it here
-        songSearch.dispatchEvent(new Event("input"));
-    });
-    });
-</script>
+<script type="text/javascript" src="~/js/sidebar.js"></script>
