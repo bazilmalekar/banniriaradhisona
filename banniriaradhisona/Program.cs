@@ -1,4 +1,5 @@
 using banniriaradhisona.Core.Models;
+using banniriaradhisona.Core.Settings;
 using banniriaradhisona.Data;
 using banniriaradhisona.Infrastructure.Implementations;
 using banniriaradhisona.Infrastructure.Interfaces;
@@ -39,6 +40,9 @@ builder.Services.AddIdentity<Users, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultUI()
 .AddDefaultTokenProviders();
+
+// User secret configuration
+builder.Services.Configure<SeedUserSettings>(builder.Configuration.GetSection("SeedUser"));
 
 //Register repositories for dependency injection
 builder.Services.AddScoped<ISongRepository, SongRepository>();

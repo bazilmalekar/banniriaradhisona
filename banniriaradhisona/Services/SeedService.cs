@@ -1,6 +1,9 @@
-﻿using banniriaradhisona.Data;
+﻿using banniriaradhisona.Core.Models;
+using banniriaradhisona.Core.Settings;
+using banniriaradhisona.Data;
 using Microsoft.AspNetCore.Identity;
-using banniriaradhisona.Core.Models;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Options;
 
 namespace banniriaradhisona.Services
 {
@@ -13,9 +16,11 @@ namespace banniriaradhisona.Services
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Users>>();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<SeedService>>();
+            var seedUserSettings = scope.ServiceProvider.GetRequiredService<IOptions<SeedUserSettings>>().Value;
 
             try
             {
+
                 //Ensure the database is ready.
                 logger.LogInformation("Ensuring the database is created");
                 await context.Database.EnsureCreatedAsync();
@@ -25,13 +30,18 @@ namespace banniriaradhisona.Services
                 await AddRoleAsync(roleManager, "Owner");
                 await AddRoleAsync(roleManager, "Admin");
 
+                // Get Owner details from User Secrets
+                var ownerEmail = seedUserSettings.OwnerEmail;
+                var ownerPassword = seedUserSettings.OwnerPassword;
+                var ownerName = seedUserSettings.OwnerName;
+
                 //Add Super Admin User
-                var OwnerEmail = "testUser@gmail.com";
+                var OwnerEmail = ownerEmail;
                 if (await userManager.FindByEmailAsync(OwnerEmail) == null)
                 {
                     var Owner = new Users
                     {
-                        Name = "Test Owner",
+                        Name = ownerName,
                         UserName = OwnerEmail,
                         NormalizedUserName = OwnerEmail.ToUpper(),
                         Email = OwnerEmail,
@@ -40,7 +50,7 @@ namespace banniriaradhisona.Services
                         SecurityStamp = Guid.NewGuid().ToString()
                     };
 
-                    var result = await userManager.CreateAsync(Owner, "Owner@54321_dd");
+                    var result = await userManager.CreateAsync(Owner, ownerPassword);
                     if (result.Succeeded)
                     {
                         logger.LogInformation("Assigning role to admin");
