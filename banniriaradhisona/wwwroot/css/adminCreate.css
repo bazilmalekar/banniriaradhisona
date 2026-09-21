@@ -433,6 +433,81 @@
     }
 
 
+/* Edit Audio Button */
+.audio_edit_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border: 1px solid rgba(51, 104, 160, 0.25);
+    border-radius: var(--radius-pill);
+    background: rgba(51, 104, 160, 0.08);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    border-radius: 10px;
+}
+
+    .audio_edit_button:hover {
+        background: rgba(51, 104, 160, 0.16);
+        border-color: rgba(51, 104, 160, 0.4);
+        transform: translateY(-1px);
+    }
+
+    .audio_edit_button:active {
+        transform: translateY(0);
+    }
+
+/* AUDIO REMOVE BUTTON */
+.audio_remove_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 16px;
+    border: 1px solid rgba(220, 53, 69, 0.35);
+    border-radius: 10px;
+    background: rgba(220, 53, 69, 0.08);
+    color: #dc3545;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+    .audio_remove_button:hover {
+        background: #dc3545;
+        border-color: #dc3545;
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+    .audio_remove_button:active {
+        transform: translateY(0);
+    }
+
+    .audio_remove_button:focus-visible {
+        outline: 2px solid #dc3545;
+        outline-offset: 3px;
+    }
+
+/* DRAG OVER STATE */
+.audio_upload_area.drag_over {
+    border-color: #4f8cff;
+    background: rgba(79, 140, 255, 0.12);
+    transform: scale(1.01);
+}
+
+/* SMOOTH TRANSITION */
+.audio_upload_area {
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+
 /* =========================
    ACTIONS
 ========================= */
@@ -720,4 +795,106 @@
     .audio_upload_text span {
         font-size: .72rem;
     }
+}
+
+/* Existing audio track action */
+.song_delete_action {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Pending audio removal message */
+#audioRemovalMessage {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    border-radius: 10px;
+    background: rgba(255, 193, 7, 0.08);
+    color: #f0c674;
+    font-size: 0.875rem;
+}
+
+    #audioRemovalMessage strong {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    #audioRemovalMessage span {
+        display: block;
+        opacity: 0.9;
+    }
+
+/* Keep existing track button */
+#toggleExistingAudioButton {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+    /* Pending removal state */
+    #toggleExistingAudioButton.audio-removal-pending {
+        border-color: rgba(25, 135, 84, 0.6);
+        background: rgba(25, 135, 84, 0.12);
+        color: #75d69b;
+    }
+
+    #toggleExistingAudioButton:hover {
+        transform: translateY(-1px);
+    }
+
+/* Existing audio track button */
+#toggleExistingAudioButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid rgba(220, 53, 69, 0.45);
+    border-radius: 8px;
+    background: rgba(220, 53, 69, 0.10);
+    color: #f28b96;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+    /* Delete button hover */
+    #toggleExistingAudioButton:hover {
+        background: rgba(220, 53, 69, 0.20);
+        border-color: rgba(220, 53, 69, 0.75);
+        color: #ffadb5;
+        transform: translateY(-1px);
+    }
+
+    /* Keep Existing Track state */
+    #toggleExistingAudioButton.audio-removal-pending {
+        border-color: rgba(25, 135, 84, 0.55);
+        background: rgba(25, 135, 84, 0.12);
+        color: #75d69b;
+    }
+
+        /* Keep button hover */
+        #toggleExistingAudioButton.audio-removal-pending:hover {
+            background: rgba(25, 135, 84, 0.22);
+            border-color: rgba(25, 135, 84, 0.8);
+            color: #a0e8b9;
+        }
+
+    /* Keyboard accessibility */
+    #toggleExistingAudioButton:focus-visible {
+        outline: 2px solid rgba(120, 180, 255, 0.8);
+        outline-offset: 3px;
+    }
+
+/* Pending removal message */
+#audioRemovalMessage {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    border-radius: 10px;
+    background: rgba(255, 193, 7, 0.08);
+    color: #f0c674;
+    font-size: 0.875rem;
 }

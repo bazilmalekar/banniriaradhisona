@@ -75,21 +75,14 @@ namespace banniriaradhisona.Infrastructure.Implementations
             {
                 return;
             }
-
             int oldSongNumber = song.SongNumber;
             int newSongNumber = model.SongNumber;
-
             if (oldSongNumber != newSongNumber)
             {
                 if (newSongNumber < oldSongNumber)
                 {
                     // Moving UP
-                    var songsToShift = await _context.Songs
-                        .Where(s =>
-                            s.SongNumber >= newSongNumber &&
-                            s.SongNumber < oldSongNumber &&
-                            s.SongId != song.SongId)
-                        .ToListAsync();
+                    var songsToShift = await _context.Songs.Where(s => s.SongNumber >= newSongNumber && s.SongNumber < oldSongNumber && s.SongId != song.SongId).ToListAsync();
                     foreach (var item in songsToShift)
                     {
                         item.SongNumber++;
@@ -99,11 +92,7 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 {
                     // Moving DOWN
                     var songsToShift = await _context.Songs
-                        .Where(s =>
-                            s.SongNumber > oldSongNumber &&
-                            s.SongNumber <= newSongNumber &&
-                            s.SongId != song.SongId)
-                        .ToListAsync();
+                        .Where(s => s.SongNumber > oldSongNumber && s.SongNumber <= newSongNumber && s.SongId != song.SongId).ToListAsync();
                     foreach (var item in songsToShift)
                     {
                         item.SongNumber--;
@@ -111,13 +100,26 @@ namespace banniriaradhisona.Infrastructure.Implementations
                 }
                 song.SongNumber = newSongNumber;
             }
-
+            // Update song information
             song.SongScale = model.SongScale;
             song.SongTitleEn = model.SongTitleEn;
             song.SongTitleKa = model.SongTitleKa;
             song.SongLyr = model.SongLyr;
-            song.UpdateDate = DateTime.UtcNow;
 
+            // Handle audio
+            if (model.RemoveExistingAudio)
+            {
+                // Remove the existing audio reference
+                song.AudioKey = null;
+            }
+            else
+            {
+                // This can be either:
+                // 1. The new uploaded audio key
+                // 2. The existing audio key
+                song.AudioKey = model.AudioKey;
+            }
+            song.UpdateDate = DateTime.UtcNow;
             _context.Songs.Update(song);
             await Save();
         }

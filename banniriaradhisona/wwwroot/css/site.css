@@ -1178,7 +1178,8 @@ body {
     border-radius: var(--radius-pill);
     outline: none;
     cursor: pointer;
-    background: rgba(51, 104, 160, .16);
+    /* Played and remaining portions */
+    background: linear-gradient( to right, var(--primary) 0%, var(--primary) 0%, rgba(51, 104, 160, .16) 0%, rgba(51, 104, 160, .16) 100% );
 }
 
 

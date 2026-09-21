@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace banniriaradhisona.Core.Models
@@ -31,12 +32,19 @@ namespace banniriaradhisona.Core.Models
         [Display(Name = "Kannada Lyrics")]
         public string SongLyr { get; set; } = string.Empty;
 
-        public string? AudioUrl { get; set; }
+        public string? AudioKey { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Audio File")]
+        public IFormFile? AudioFile { get; set; }
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Recently Updated")]
         public DateTime? UpdateDate { get; set; }
+
+        [NotMapped]
+        public bool RemoveExistingAudio { get; set; }
     }
 }

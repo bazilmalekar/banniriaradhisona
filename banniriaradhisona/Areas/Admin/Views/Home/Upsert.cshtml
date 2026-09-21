@@ -25,10 +25,11 @@
     </div>
     <hr />
     <!-- FORM -->
-    <form method="post" asp-area="Admin" asp-controller="Home" asp-action="Upsert" enctype="multipart/form-data" class="create_song_form">
+    <form method="post" id="songUpsertForm" asp-area="Admin" asp-controller="Home" asp-action="Upsert" enctype="multipart/form-data" class="create_song_form">
         @Html.AntiForgeryToken()
         <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
         <input type="hidden" asp-for="@Model.SongId" />
+        <input type="hidden" asp-for="RemoveExistingAudio" id="removeExistingAudio" />
         <!-- SONG INFORMATION -->
         <div class="song_form_section">
             <div class="song_form_section_header">
@@ -84,19 +85,68 @@
                 <span>Add an audio track for this song.</span>
             </div>
             <div class="audio_input">
-                <input type="file" id="audioFile" name="audioFile" accept="audio/*" />
+                <input asp-for="AudioFile" type="file" id="audioFile" accept=".mp3,.wav,.m4a,.ogg,audio/*" />
                 <label for="audioFile" class="audio_upload_area">
                     <div class="audio_upload_icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="28"
+                             height="28"
+                             fill="currentColor"
+                             viewBox="0 0 16 16">
                             <path d="M11 2.5a.5.5 0 0 1 .5.5v7.5a2.5 2.5 0 1 1-1-2V4.07l-6 1.5V12a2.5 2.5 0 1 1-1-2V5.18a.5.5 0 0 1 .379-.485l7-1.75A.5.5 0 0 1 11 2.5" />
                         </svg>
                     </div>
                     <div class="audio_upload_text">
                         <strong>Drag and drop your audio file</strong>
                         <span>or <b>click here</b> to browse</span>
-                        <small>MP3, WAV or other supported audio formats</small>
+                        <small>MP3, WAV, M4A or OGG — maximum 50 MB</small>
                     </div>
                 </label>
+                <span asp-validation-for="AudioFile" class="field_validation"></span>
+                <!-- SELECTED FILE PREVIEW -->
+                <div id="audioPreview" class="audio_preview" hidden>
+                    <div class="audio_preview_header">
+                        <strong>Selected Audio</strong>
+                        <span id="audioFileName"></span>
+                    </div>
+                    <audio id="audioPlayer" controls preload="metadata"></audio>
+                    <!-- BUTTONS BELOW AUDIO PREVIEW -->
+                    <div class="audio_action_buttons">
+                        @if (Model.SongId > 0)
+                        {
+                            <button type="button" id="editAudioButton" class="audio_edit_button">Edit Audio</button>
+                        }
+                        <button type="button" id="removeAudioButton" class="audio_remove_button">
+                            <!-- Keep your existing delete icon and text here -->
+                            Remove selected file
+                        </button>
+                    </div>
+                </div>
+                <!-- EXISTING AUDIO -->
+                @if (!string.IsNullOrWhiteSpace(Model.AudioKey))
+                {
+                    <div class="existing_audio_message">
+                        <strong>✓ Audio track uploaded</strong>
+                        <span>This song already has an audio track.</span>
+                        <small>Select a new file above to replace it.</small>
+                    </div>
+
+                    <div class="song_delete_action">
+                        <button type="button"
+                                id="toggleExistingAudioButton"
+                                class="admin_delete_button">
+                            Delete Existing Track
+                        </button>
+                    </div>
+
+                    <div id="audioRemovalMessage"
+                         class="existing_audio_message"
+                         style="display: none;">
+                        <strong>⚠ Audio track marked for removal</strong>
+                        <span>The track will be removed when you update the song.</span>
+                    </div>
+                }
+
             </div>
         </div>
         <!-- ACTIONS -->
@@ -140,40 +190,48 @@
     </div>
 </div>
 
+<!--Display below model if the audio is being deleted-->
+@if (Model.SongId > 0)
+{
+    <div class="modal fade"
+         id="removeAudioConfirmationModal"
+         tabindex="-1"
+         aria-labelledby="removeAudioConfirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeAudioConfirmationModalLabel">Remove Existing Audio?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The existing audio track will be permanently removed when you update this song.</p>
+                    <p class="mb-0">Do you want to continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirmAudioRemovalButton" class="admin_modal_confirm">Continue Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (typeof Sanscript === "undefined") {
-                return;
-            }
-            const songTitleInput = document.getElementById("songTitleKa");
-            const songLyricsInput = document.getElementById("songLyrics");
+            document.addEventListener("DOMContentLoaded", () => {
+                if (typeof Sanscript === "undefined") {
+                    return;
+                }
+                const songTitleInput = document.getElementById("songTitleKa");
+                const songLyricsInput = document.getElementById("songLyrics");
 
-            // SONG TITLE
-            if (songTitleInput) {
-                songTitleInput.addEventListener("input", () => {
-                    const parts = songTitleInput.value.split(".");
-                    songTitleInput.value = parts
-                        .map(part =>
-                            Sanscript.t(
-                                part,
-                                "itrans",
-                                "kannada"
-                            )
-                        )
-                        .join(".");
-                });
-            }
-
-            // SONG LYRICS
-            if (songLyricsInput) {
-                songLyricsInput.addEventListener("input", () => {
-                    const lines = songLyricsInput.value.split("\n");
-                    songLyricsInput.value = lines.map(line => {
-                        const parts = line.split(".");
-                        return parts
+                // SONG TITLE
+                if (songTitleInput) {
+                    songTitleInput.addEventListener("input", () => {
+                        const parts = songTitleInput.value.split(".");
+                        songTitleInput.value = parts
                             .map(part =>
                                 Sanscript.t(
                                     part,
@@ -182,10 +240,219 @@
                                 )
                             )
                             .join(".");
-                    })
-                        .join("\n");
+                    });
+                }
+
+                // SONG LYRICS
+                if (songLyricsInput) {
+                    songLyricsInput.addEventListener("input", () => {
+                        const lines = songLyricsInput.value.split("\n");
+                        songLyricsInput.value = lines.map(line => {
+                            const parts = line.split(".");
+                            return parts
+                                .map(part =>
+                                    Sanscript.t(
+                                        part,
+                                        "itrans",
+                                        "kannada"
+                                    )
+                                )
+                                .join(".");
+                        })
+                            .join("\n");
+                    });
+                }
+            });
+
+
+            // AUDIO FILE DRAG & DROP + PREVIEW
+            document.addEventListener("DOMContentLoaded", () => {
+                const audioInput = document.getElementById("audioFile");
+                const audioUploadArea = document.querySelector(".audio_upload_area");
+                const audioPreview = document.getElementById("audioPreview");
+                const audioFileName = document.getElementById("audioFileName");
+                const audioPlayer = document.getElementById("audioPlayer");
+                const removeAudioButton = document.getElementById("removeAudioButton");
+                const editAudioButton = document.getElementById("editAudioButton");
+                let audioObjectUrl = null;
+
+                // CHECK REQUIRED ELEMENTS
+                if (
+                    !audioInput ||
+                    !audioUploadArea ||
+                    !audioPreview ||
+                    !audioFileName ||
+                    !audioPlayer ||
+                    !removeAudioButton
+                ) {
+                    console.error("Audio upload elements are missing.");
+                    return;
+                }
+
+                // DISPLAY SELECTED AUDIO FILE
+                function displayAudioFile(file) {
+                    if (!file) {
+                        return;
+                    }
+                    // Validate audio file
+                    const validAudioExtensions = [
+                        ".mp3",
+                        ".wav",
+                        ".m4a",
+                        ".ogg"
+                    ];
+                    const fileName = file.name.toLowerCase();
+                    const isValidAudio = file.type.startsWith("audio/") || validAudioExtensions.some(extension => fileName.endsWith(extension));
+                    if (!isValidAudio) {
+                        alert("Please select a valid audio file.");
+                        return;
+                    }
+
+                    // SET FILE INPUT VALUE
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    audioInput.files = dataTransfer.files;
+
+                    // CLEAN UP PREVIOUS OBJECT URL
+                    if (audioObjectUrl) {
+                        URL.revokeObjectURL(audioObjectUrl);
+                    }
+
+                    // CREATE AUDIO PREVIEW URL
+                    audioObjectUrl = URL.createObjectURL(file);
+
+                    // DISPLAY FILE INFORMATION
+                    const fileSizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+                    audioFileName.textContent = `${file.name} (${fileSizeInMB} MB)`;
+
+                    // SET AUDIO PLAYER SOURCE
+                    audioPlayer.src = audioObjectUrl;
+                    audioPlayer.load();
+
+                    // SHOW PREVIEW
+                    // HIDE UPLOAD AREA
+                    audioPreview.hidden = false;
+                    audioUploadArea.hidden = true;
+                }
+
+                // FILE INPUT CHANGE
+                audioInput.addEventListener("change", () => {
+                    const file = audioInput.files[0];
+                    displayAudioFile(file);
+                });
+
+                // DRAG OVER
+                audioUploadArea.addEventListener("dragover", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.dataTransfer.dropEffect = "copy";
+                    audioUploadArea.classList.add("drag_over");
+                });
+
+                // DRAG LEAVE
+                audioUploadArea.addEventListener("dragleave", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    audioUploadArea.classList.remove("drag_over");
+                });
+
+                // DROP FILE
+                audioUploadArea.addEventListener("drop", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    audioUploadArea.classList.remove("drag_over");
+                    const file = event.dataTransfer.files[0];
+                    displayAudioFile(file);
+                });
+
+            // EDIT AUDIO
+            if (editAudioButton) {
+                editAudioButton.addEventListener("click", () => {
+                    // Show the upload input area
+                    audioUploadArea.hidden = false;
+                    // Hide the audio preview
+                    audioPreview.hidden = true;
+                    // Open file picker
+                    audioInput.click();
                 });
             }
+
+            // REMOVE SELECTED AUDIO FILE
+            removeAudioButton.addEventListener("click", () => {
+                // Clear file input
+                audioInput.value = "";
+                // Stop audio playback
+                audioPlayer.pause();
+                // Remove audio source
+                audioPlayer.removeAttribute("src");
+                audioPlayer.load();
+                // Hide preview
+                audioPreview.hidden = true;
+                // Show upload area again
+                audioUploadArea.hidden = false;
+                // Clean up object URL
+                if (audioObjectUrl) {
+                    URL.revokeObjectURL(audioObjectUrl);
+                    audioObjectUrl = null;
+                }
+            });
+
+            // PREVENT BROWSER NAVIGATION ON DROP
+            document.addEventListener("dragover", (event) => {
+                event.preventDefault();
+            });
+
+            document.addEventListener("drop", (event) => {
+                // Allow drop only inside the upload area
+                if (!audioUploadArea.contains(event.target)) {
+                    event.preventDefault();
+                }
+            });
         });
+
+        // Delete song toggle button
+        const toggleExistingAudioButton = document.getElementById("toggleExistingAudioButton");
+        const removeExistingAudioInput = document.getElementById("removeExistingAudio");
+        const audioRemovalMessage = document.getElementById("audioRemovalMessage");
+
+        if (toggleExistingAudioButton && removeExistingAudioInput && audioRemovalMessage) {
+            toggleExistingAudioButton.addEventListener("click", function () {
+                const isMarkedForRemoval = removeExistingAudioInput.value.toLowerCase() === "true";
+                if (isMarkedForRemoval) {
+                    removeExistingAudioInput.value = "false";
+                    toggleExistingAudioButton.textContent = "Delete Existing Track";
+                    toggleExistingAudioButton.classList.remove("audio-removal-pending");
+                    audioRemovalMessage.style.display = "none";
+                }
+                else {
+                    removeExistingAudioInput.value = "true";
+                    toggleExistingAudioButton.textContent = "Keep Existing Track";
+                    toggleExistingAudioButton.classList.add("audio-removal-pending");
+                    audioRemovalMessage.style.display = "block";
+                }
+            });
+        }
+
+        // Scripts to handle Delete song modal
+        // Scripts to handle audio removal confirmation
+        const songUpsertForm = document.getElementById("songUpsertForm");
+        const removeAudioConfirmationModalElement = document.getElementById("removeAudioConfirmationModal");
+        const confirmAudioRemovalButton = document.getElementById("confirmAudioRemovalButton");
+        if (songUpsertForm && removeAudioConfirmationModalElement && confirmAudioRemovalButton && removeExistingAudioInput) {
+            const removeAudioConfirmationModal = new bootstrap.Modal(removeAudioConfirmationModalElement);
+            let allowFormSubmission = false;
+            songUpsertForm.addEventListener("submit", function (event) {
+                const isMarkedForRemoval = removeExistingAudioInput.value.toLowerCase() === "true";
+                if (isMarkedForRemoval && !allowFormSubmission) {
+                    event.preventDefault();
+                    removeAudioConfirmationModal.show();
+                }
+            });
+            confirmAudioRemovalButton.addEventListener("click", function () {
+                allowFormSubmission = true;
+                removeAudioConfirmationModal.hide();
+                songUpsertForm.requestSubmit();
+            });
+        }
     </script>
 }

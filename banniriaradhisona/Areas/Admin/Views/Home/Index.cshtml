@@ -157,16 +157,15 @@
                                             data-song-id="@song.Song.SongId"
                                             data-song-title="@song.Song.SongTitleKa"
                                             data-created-date="@TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                                                                song.Song.CreatedDate,
-                                                                                                                                "India Standard Time"
-                                                                                                                                ).ToString("dd MMM yyyy, hh:mm tt")"
-                                            data-updated-date="@(song.Song.UpdateDate.HasValue
-                                                                                                                                ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
-                                                                                                                                song.Song.UpdateDate.Value,
-                                                                                                                                "India Standard Time"
-                                                                                                                                ).ToString("dd MMM yyyy, hh:mm tt")
-                                                                                                                    : "Not updated")">
-
+                                                song.Song.CreatedDate,
+                                                "India Standard Time"
+                                                ).ToString("dd MMM yyyy, hh:mm tt")"
+                                                data-updated-date="@(song.Song.UpdateDate.HasValue
+                                                ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                                                song.Song.UpdateDate.Value,
+                                                "India Standard Time"
+                                                ).ToString("dd MMM yyyy, hh:mm tt")
+                                                : "Not updated")">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              width="15"
                                              height="15"

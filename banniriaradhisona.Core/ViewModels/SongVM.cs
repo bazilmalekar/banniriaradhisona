@@ -10,5 +10,7 @@ namespace banniriaradhisona.Core.ViewModels
         public Song Song { get; set; } = null!;
 
         public int SongCount { get; set; }
+
+        public string? AudioUrl { get; set; }
     }
 }

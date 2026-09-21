@@ -85,10 +85,10 @@
                        aria-label="Song progress">
                 <span id="duration">0:00</span>
             </div>
-            @if (!string.IsNullOrWhiteSpace(Model.Song.AudioUrl))
+            @if (!string.IsNullOrWhiteSpace(Model.AudioUrl))
             {
-                <audio id="audioPlayer">
-                    <source src="@Model.Song.AudioUrl" type="audio/mpeg">
+                <audio id="audioPlayer" preload="metadata">
+                    <source src="@Model.AudioUrl" type="audio/mpeg">
                 </audio>
             }
         </div>
@@ -195,8 +195,10 @@
             if (!audio.duration) {
                 return;
             }
-            progress.value = (audio.currentTime / audio.duration) * 100;
+            const percentage = (audio.currentTime / audio.duration) * 100;
+            progress.value = percentage;
             currentTime.textContent = formatTime(audio.currentTime);
+            updateProgressBar();
         });
 
         /* Seek */
@@ -205,24 +207,31 @@
                 return;
             }
             audio.currentTime = (progress.value / 100) * audio.duration;
+            updateProgressBar();
         });
 
         /* Rewind 10 seconds */
         rewind.addEventListener("click", () => {
             audio.currentTime = Math.max(0, audio.currentTime - 10);
+            updateProgressBar();
         });
 
         /* Forward 10 seconds */
         forward.addEventListener("click", () => {
             audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-        });
+            updateProgressBar();
+        }); 
 
         /* Reset when song ends */
         audio.addEventListener("ended", () => {
             playPause.textContent = "▶";
             playPause.setAttribute("aria-label", "Play");
+            // Reset audio and progress position
+            audio.currentTime = 0;
             progress.value = 0;
             currentTime.textContent = "0:00";
+            // Reset the filled progress line
+            updateProgressBar();
         });
     }
 
@@ -241,4 +250,26 @@
             window.location.href = `/?songId=${encodeURIComponent(lastSongId)}`;
         }
     });
+
+    // Timing function
+    function updateProgressBar() {
+        if (!audio || !audio.duration || !progress) {
+            return;
+        }
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        // Account for the thumb width
+        const thumbWidth = 11;
+        const trackWidth = progress.offsetWidth;
+        const correctedPercentage = ((thumbWidth / 2) + ((trackWidth - thumbWidth) * percentage / 100)) / trackWidth * 100;
+        progress.value = percentage;
+        progress.style.background = `
+            linear-gradient(
+                to right,
+                var(--primary) 0%,
+                var(--primary) ${correctedPercentage}%,
+                rgba(51, 104, 160, .16) ${correctedPercentage}%,
+                rgba(51, 104, 160, .16) 100%
+            )
+        `;
+    }
 </script>

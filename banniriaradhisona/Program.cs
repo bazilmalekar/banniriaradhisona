@@ -43,11 +43,13 @@ builder.Services.AddIdentity<Users, IdentityRole>(options =>
 
 // User secret configuration
 builder.Services.Configure<SeedUserSettings>(builder.Configuration.GetSection("SeedUser"));
+builder.Services.Configure<R2Settings>(builder.Configuration.GetSection("R2"));
 
 //Register repositories for dependency injection
 builder.Services.AddScoped<ISongRepository, SongRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddScoped<IR2StorageService, R2StorageService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {
