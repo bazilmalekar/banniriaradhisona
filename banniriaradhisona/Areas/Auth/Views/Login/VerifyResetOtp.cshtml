@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Verify Email";
+}
+
+<div class="login_page">
+    <div class="login_form">
+        <div class="login_header">
+            <h2>Verify Email</h2>
+            <p>We have sent a verification code to your registered email address.</p>
+        </div>
+        <form asp-action="VerifyResetOtp" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
+            <div class="form_group">
+                <label for="code">Verification Code</label>
+                <input type="text"
+                       id="code"
+                       name="code"
+                       class="login_input"
+                       maxlength="6"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       placeholder="Enter 6-digit code"
+                       autofocus
+                       required />
+                @Html.ValidationMessage("code", new { @class = "validation_message" })
+            </div>
+            <button type="submit" class="login_button">Verify</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

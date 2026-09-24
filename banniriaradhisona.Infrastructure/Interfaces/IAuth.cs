@@ -19,5 +19,14 @@ namespace banniriaradhisona.Infrastructure.Interfaces
         Task<bool> VerifyTwoFactorAsync(VerifyTwoFactorVM model);
 
         Task LogoutAsync();
+
+        //Reset Authenticator setup
+        Task<bool> StartAuthenticatorResetAsync();
+
+        Task<bool> VerifyAuthenticatorResetOtpAsync(string code);
+
+        Task<AuthenticatorSetupVM?> GetAuthenticatorResetSetupAsync();
+
+        Task<bool> VerifyAuthenticatorResetCodeAsync(string code);
     }
 }

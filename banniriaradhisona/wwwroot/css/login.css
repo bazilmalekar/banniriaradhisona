@@ -558,3 +558,29 @@
         letter-spacing: .08em;
         word-break: break-all;
     }
+
+
+/* =========================================================
+   RESET AUTHENTICATOR LINK
+========================================================= */
+
+.reset_authenticator {
+    position: relative;
+    z-index: 2;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+    .reset_authenticator a {
+        color: var(--login-accent-secondary);
+        text-decoration: none;
+        font-size: .9rem;
+        font-weight: 600;
+        transition: color var(--login-transition), opacity var(--login-transition);
+    }
+
+        .reset_authenticator a:hover {
+            color: var(--login-accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }

@@ -1,0 +1,55 @@
+﻿@model banniriaradhisona.Core.ViewModels.AuthenticatorSetupVM
+
+@{
+    ViewData["Title"] = "Reset Authenticator";
+}
+
+<div class="login_page">
+    <div class="login_form">
+        <div class="login_header">
+            <h2>Reset Authenticator</h2>
+            <p>Your email has been verified.</p>
+        </div>
+        <div class="authenticator_instructions">
+            <p>Scan the QR code below using your authenticator app.</p>
+        </div>
+        <div class="authenticator_qr">
+            <div id="qrCode"></div>
+        </div>
+        <div class="authenticator_key">
+            <p>If you cannot scan the QR code, enter the following key manually:</p>
+            <span>@Model.SharedKey</span>
+        </div>
+        <form asp-action="ResetAuthenticatorSetup" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="validation_summary"></div>
+            <div class="form_group">
+                <label for="code">Authenticator Code</label>
+                <input type="text"
+                       id="code"
+                       name="code"
+                       class="login_input"
+                       maxlength="6"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       placeholder="Enter 6-digit code"
+                       autofocus
+                       required />
+                @Html.ValidationMessage("code", new { @class = "validation_message" })
+            </div>
+            <button type="submit" class="login_button">Verify & Reset Authenticator</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrCode"), {
+            text: "@Html.Raw(Model.AuthenticatorUri)",
+            width: 200,
+            height: 200
+        });
+    </script>
+}

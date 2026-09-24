@@ -58,11 +58,7 @@ namespace banniriaradhisona.Areas.Auth.Controllers
         public async Task<IActionResult> Logout()
         {
             await _auth.LogoutAsync();
-
-            return RedirectToAction(
-                "Index",
-                "Home",
-                new { area = "" });
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpGet]
@@ -70,12 +66,10 @@ namespace banniriaradhisona.Areas.Auth.Controllers
         public async Task<IActionResult> SetupAuthenticator()
         {
             var model = await _auth.GetAuthenticatorSetupAsync();
-
             if (model == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-
             return View(model);
         }
 
@@ -86,60 +80,37 @@ namespace banniriaradhisona.Areas.Auth.Controllers
         {
             if (string.IsNullOrWhiteSpace(code))
             {
-                ModelState.AddModelError(
-                    "code",
-                    "Please enter the verification code.");
-
+                ModelState.AddModelError("code", "Please enter the verification code.");
                 var model = await _auth.GetAuthenticatorSetupAsync();
-
                 if (model == null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
                 return View(model);
             }
-
             code = code.Trim();
-
             if (code.Length != 6 || !code.All(char.IsDigit))
             {
-                ModelState.AddModelError(
-                    "code",
-                    "Please enter a valid 6-digit verification code.");
-
+                ModelState.AddModelError("code", "Please enter a valid 6-digit verification code.");
                 var model = await _auth.GetAuthenticatorSetupAsync();
-
                 if (model == null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
                 return View(model);
             }
-
             var verified = await _auth.VerifyAuthenticatorCodeAsync(code);
-
             if (!verified)
             {
-                ModelState.AddModelError(
-                    "code",
-                    "The verification code is invalid or has expired.");
-
+                ModelState.AddModelError("code", "The verification code is invalid or has expired.");
                 var model = await _auth.GetAuthenticatorSetupAsync();
-
                 if (model == null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
                 return View(model);
             }
-
-            return RedirectToAction(
-                "Index",
-                "Home",
-                new { area = "Admin" });
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
 
         [HttpGet]
@@ -147,12 +118,10 @@ namespace banniriaradhisona.Areas.Auth.Controllers
         public async Task<IActionResult> VerifyTwoFactor()
         {
             var model = await _auth.GetTwoFactorUserAsync();
-
             if (model == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-
             return View(model);
         }
 
@@ -165,22 +134,13 @@ namespace banniriaradhisona.Areas.Auth.Controllers
             {
                 return View(model);
             }
-
             var verified = await _auth.VerifyTwoFactorAsync(model);
-
             if (!verified)
             {
-                ModelState.AddModelError(
-                    "Code",
-                    "The verification code is invalid or has expired.");
-
+                ModelState.AddModelError("Code", "The verification code is invalid or has expired.");
                 return View(model);
             }
-
-            return RedirectToAction(
-                "Index",
-                "Home",
-                new { area = "Admin" });
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
 
         [HttpGet]
@@ -188,6 +148,102 @@ namespace banniriaradhisona.Areas.Auth.Controllers
         public IActionResult RecoveryCodes()
         {
             return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetAuthenticator()
+        {
+            var started = await _auth.StartAuthenticatorResetAsync();
+            if (!started)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(VerifyResetOtp));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult VerifyResetOtp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyResetOtp(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("code", "Please enter the verification code.");
+                return View();
+            }
+            code = code.Trim();
+            if (code.Length != 6 || !code.All(char.IsDigit))
+            {
+                ModelState.AddModelError("code", "Please enter a valid 6-digit verification code.");
+                return View();
+            }
+            var verified = await _auth.VerifyAuthenticatorResetOtpAsync(code);
+            if (!verified)
+            {
+                ModelState.AddModelError("code", "The verification code is invalid or has expired.");
+                return View();
+            }
+            return RedirectToAction(nameof(ResetAuthenticatorSetup));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetAuthenticatorSetup()
+        {
+            var model = await _auth.GetAuthenticatorResetSetupAsync();
+            if (model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetAuthenticatorSetup(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("code", "Please enter the verification code.");
+                var model = await _auth.GetAuthenticatorResetSetupAsync();
+                if (model == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
+            }
+            code = code.Trim();
+            if (code.Length != 6 || !code.All(char.IsDigit))
+            {
+                ModelState.AddModelError("code", "Please enter a valid 6-digit verification code.");
+                var model = await _auth.GetAuthenticatorResetSetupAsync();
+                if (model == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
+            }
+            var verified = await _auth.VerifyAuthenticatorResetCodeAsync(code);
+            if (!verified)
+            {
+                ModelState.AddModelError("code", "The verification code is invalid or has expired.");
+                var model = await _auth.GetAuthenticatorResetSetupAsync();
+                if (model == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
     }
 }
