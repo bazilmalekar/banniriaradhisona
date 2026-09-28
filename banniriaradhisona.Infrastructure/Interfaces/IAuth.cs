@@ -28,5 +28,12 @@ namespace banniriaradhisona.Infrastructure.Interfaces
         Task<AuthenticatorSetupVM?> GetAuthenticatorResetSetupAsync();
 
         Task<bool> VerifyAuthenticatorResetCodeAsync(string code);
+
+        //Forgot Password
+        Task<bool> StartForgotPasswordAsync(string email);
+
+        Task<bool> VerifyForgotPasswordOtpAsync(string code);
+
+        Task<bool> ResetPasswordAsync(string password);
     }
 }

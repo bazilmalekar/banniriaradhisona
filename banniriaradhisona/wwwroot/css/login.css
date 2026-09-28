@@ -584,3 +584,31 @@
             text-decoration: underline;
             text-underline-offset: 3px;
         }
+
+.forgot_password {
+    position: relative;
+    z-index: 2;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+    .forgot_password a {
+        color: var(--login-accent-secondary);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: color var(--login-transition), opacity var(--login-transition);
+    }
+
+        .forgot_password a:hover {
+            color: var(--login-accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .forgot_password a:focus-visible {
+            outline: 2px solid var(--login-accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+

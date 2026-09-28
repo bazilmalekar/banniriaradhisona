@@ -245,5 +245,101 @@ namespace banniriaradhisona.Areas.Auth.Controllers
             }
             return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
+
+        //Forgot Password
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                ModelState.AddModelError("email", "Please enter your email address.");
+                return View();
+            }
+            email = email.Trim();
+            var started = await _auth.StartForgotPasswordAsync(email);
+            if (!started)
+            {
+                ModelState.AddModelError("email", "We could not find an account with that email address.");
+                return View();
+            }
+            return RedirectToAction(nameof(VerifyForgotPasswordOtp));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult VerifyForgotPasswordOtp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyForgotPasswordOtp(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("code", "Please enter the verification code.");
+                return View();
+            }
+            code = code.Trim();
+            if (code.Length != 6 || !code.All(char.IsDigit))
+            {
+                ModelState.AddModelError("code", "Please enter a valid 6-digit verification code.");
+                return View();
+            }
+            var verified = await _auth.VerifyForgotPasswordOtpAsync(code);
+            if (!verified)
+            {
+                ModelState.AddModelError("code", "The verification code is invalid or has expired.");
+                return View();
+            }
+            return RedirectToAction(nameof(ResetPassword));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(string password, string confirmPassword)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError("password", "Please enter a new password.");
+                return View();
+            }
+            if (string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                ModelState.AddModelError("confirmPassword", "Please confirm your new password.");
+                return View();
+            }
+            if (password != confirmPassword)
+            {
+                ModelState.AddModelError("confirmPassword", "The passwords do not match.");
+                return View();
+            }
+            var reset = await _auth.ResetPasswordAsync(password);
+            if (!reset)
+            {
+                ModelState.AddModelError("", "The password could not be reset.");
+                return View();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

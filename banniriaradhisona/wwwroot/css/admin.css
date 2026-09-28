@@ -1562,3 +1562,330 @@ body {
             visibility: visible;
         }
 }
+
+
+/* =========================
+   CHANGE PASSWORD
+========================= */
+
+.change_password_page {
+    width: 100%;
+    min-height: 100%;
+    padding: 2rem;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.change_password_header {
+    margin-bottom: 1.25rem;
+}
+
+.change_password_eyebrow {
+    display: block;
+    margin-bottom: .3rem;
+    color: #66A3BF;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+}
+
+.change_password_header h1 {
+    margin: 0;
+    color: #3368A0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.change_password_header p {
+    margin: .35rem 0 0;
+    color: #6B7D84;
+    font-size: .85rem;
+}
+
+
+/* =========================
+   FORM CARD
+========================= */
+
+.change_password_card {
+    width: 100%;
+    max-width: 600px;
+    padding: 1.75rem;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+}
+
+
+    /* =========================
+   FORM GROUP
+========================= */
+
+    .change_password_card .admin_form_group {
+        margin-bottom: 1.15rem;
+    }
+
+
+        /* =========================
+   INPUT
+========================= */
+
+        .change_password_card .admin_form_group input {
+            width: 100%;
+            height: 42px;
+            padding: .7rem .85rem;
+            box-sizing: border-box;
+            color: #263B45;
+            background-color: #fbfcfc;
+            border: 1px solid #d9e5e7;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: .85rem;
+            transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+        }
+
+            .change_password_card .admin_form_group input::placeholder {
+                color: #9aabad;
+            }
+
+            .change_password_card .admin_form_group input:focus {
+                background-color: #ffffff;
+                border-color: #66A3BF;
+                box-shadow: 0 0 0 3px rgba(102, 163, 191, .15);
+            }
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.change_password_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .6rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #edf1f2;
+}
+
+
+    /* =========================
+   CHANGE PASSWORD BUTTON
+========================= */
+
+    .change_password_actions .admin_primary_button {
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: .5rem 1rem;
+        color: #ffffff;
+        background-color: #3368A0;
+        border: 1px solid #3368A0;
+        border-radius: 8px;
+        font-size: .78rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+        .change_password_actions .admin_primary_button:hover {
+            color: #ffffff;
+            background-color: #285887;
+            border-color: #285887;
+            box-shadow: 0 4px 10px rgba(51, 104, 160, .18);
+            transform: translateY(-1px);
+        }
+
+        .change_password_actions .admin_primary_button:active {
+            transform: translateY(0);
+        }
+
+
+/* =========================
+   VALIDATION
+========================= */
+
+.change_password_card .validation_summary {
+    margin-bottom: 1rem;
+}
+
+.change_password_card .field_validation {
+    display: block;
+    margin-top: .35rem;
+    color: #d14c5d;
+    font-size: .72rem;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .change_password_page {
+        padding: 1.25rem;
+    }
+
+    .change_password_card {
+        max-width: 100%;
+        padding: 1.25rem;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .change_password_page {
+        padding: .75rem;
+    }
+
+    .change_password_header h1 {
+        font-size: 1.5rem;
+    }
+
+    .change_password_header p {
+        font-size: .78rem;
+    }
+
+    .change_password_card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .change_password_actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+        .change_password_actions .back_dashboard,
+        .change_password_actions .admin_primary_button {
+            width: 100%;
+            justify-content: center;
+        }
+}
+
+/* =========================
+   PASSWORD SUCCESS
+========================= */
+
+.password_success_card {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem 1.75rem;
+    background-color: #ffffff;
+    background-color: #ffffff;
+    border: 1px solid rgba(51, 104, 160, .12);
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(51, 104, 160, .06);
+    text-align: center;
+}
+
+
+/* =========================
+   SUCCESS ICON
+========================= */
+
+.password_success_icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3368A0;
+    background-color: #C8DFDB;
+    border-radius: 50%;
+}
+
+    .password_success_icon svg {
+        display: block;
+    }
+
+
+/* =========================
+   SUCCESS CONTENT
+========================= */
+
+.password_success_card h2 {
+    margin: 0 0 .5rem;
+    color: #3368A0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.password_success_card p {
+    max-width: 450px;
+    margin: 0 auto 1.5rem;
+    color: #6B7D84;
+    font-size: .85rem;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   CONTINUE BUTTON
+========================= */
+
+.password_success_card .admin_primary_button {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 1.25rem;
+    color: #ffffff;
+    background-color: #3368A0;
+    border: 1px solid #3368A0;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+    .password_success_card .admin_primary_button:hover {
+        color: #ffffff;
+        background-color: #285887;
+        border-color: #285887;
+        box-shadow: 0 4px 10px rgba(51, 104, 160, .18);
+        transform: translateY(-1px);
+    }
+
+    .password_success_card .admin_primary_button:active {
+        transform: translateY(0);
+    }
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .password_success_card {
+        max-width: 100%;
+        padding: 1.5rem 1.25rem;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .password_success_card {
+        padding: 1.5rem 1rem;
+        border-radius: 10px;
+    }
+
+        .password_success_card p {
+            font-size: .78rem;
+        }
+}

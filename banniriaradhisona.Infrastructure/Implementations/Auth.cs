@@ -414,5 +414,147 @@ namespace banniriaradhisona.Infrastructure.Implementations
             httpContext.Session.Remove("MfaRememberMe");
             return true;
         }
+
+        //Forgot Password
+        public async Task<bool> StartForgotPasswordAsync(string email)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                return false;
+            }
+            email = email?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+            var userEmail = await _userManager.GetEmailAsync(user);
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return false;
+            }
+            var otp = RandomNumberGenerator.GetInt32(100000, 1000000);
+            httpContext.Session.SetString("ForgotPasswordOtp", otp.ToString());
+            httpContext.Session.SetString("ForgotPasswordOtpExpiry", DateTime.UtcNow.AddMinutes(10).Ticks.ToString());
+            // Store the email so we know which account
+            // the password reset belongs to.
+            httpContext.Session.SetString("ForgotPasswordEmail", userEmail);
+            var subject = "Password Reset Verification";
+            var htmlBody = $"""
+                    <p>Hello,</p>
+                    <p>We received a request to reset your Aradhisuva account password.</p>
+                    <p>Your verification code is:</p>
+                    <h2>{otp}</h2>
+                    <p>This code will expire in 10 minutes.</p>
+                    <p>If you did not request a password reset, you can safely ignore this email.</p>
+                    <p>
+                        Regards,<br />
+                        Aradhisuva.com
+                    </p>
+                    """;
+            await _emailService.SendEmailAsync(userEmail, subject, htmlBody);
+            return true;
+        }
+
+        public async Task<bool> VerifyForgotPasswordOtpAsync(string code)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                return false;
+            }
+            var storedOtp = httpContext.Session.GetString("ForgotPasswordOtp");
+            var expiryValue = httpContext.Session.GetString("ForgotPasswordOtpExpiry");
+            if (string.IsNullOrEmpty(storedOtp) || string.IsNullOrEmpty(expiryValue))
+            {
+                return false;
+            }
+            if (!long.TryParse(expiryValue, out var expiryTicks))
+            {
+                return false;
+            }
+            var expiry = new DateTime(expiryTicks, DateTimeKind.Utc);
+            if (DateTime.UtcNow > expiry)
+            {
+                httpContext.Session.Remove("ForgotPasswordOtp");
+                httpContext.Session.Remove("ForgotPasswordOtpExpiry");
+                return false;
+            }
+            code = code?.Trim() ?? string.Empty;
+            if (code != storedOtp)
+            {
+                return false;
+            }
+            // Email OTP has been successfully verified.
+            httpContext.Session.SetString("ForgotPasswordVerified", "true");
+            // OTP is single-use.
+            httpContext.Session.Remove("ForgotPasswordOtp");
+            httpContext.Session.Remove("ForgotPasswordOtpExpiry");
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(string password)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                return false;
+            }
+            var verified = httpContext.Session.GetString("ForgotPasswordVerified");
+            if (verified != "true")
+            {
+                return false;
+            }
+            var email = httpContext.Session.GetString("ForgotPasswordEmail");
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+            // Generate a password reset token through ASP.NET Core Identity.
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, password);
+
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+
+            // Password reset completed successfully.
+            httpContext.Session.Remove("ForgotPasswordVerified");
+            httpContext.Session.Remove("ForgotPasswordEmail");
+
+            // Security notification.
+            var userEmail = await _userManager.GetEmailAsync(user);
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                var subject = "Password Reset Successful";
+                var htmlBody = """
+                        <p>Hello,</p>
+                        <p>Your Aradhisuva account password has been successfully reset.</p>
+                        <p>If you did not perform this action, please secure your account immediately.</p>
+                        <p>
+                            Regards,<br />
+                            Aradhisuva.com
+                        </p>
+                        """;
+
+                await _emailService.SendEmailAsync(
+                    userEmail,
+                    subject,
+                    htmlBody);
+            }
+
+            return true;
+        }
     }
 }

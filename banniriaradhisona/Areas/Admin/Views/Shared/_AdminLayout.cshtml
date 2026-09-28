@@ -68,6 +68,20 @@
                             </svg>
                             <span>View Site</span>
                         </a>
+                        <!-- Change Password -->
+                        <a asp-area="Admin"
+                           asp-controller="Account"
+                           asp-action="ChangePassword"
+                           class="admin_dropdown_link">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="currentColor"
+                                 viewBox="0 0 16 16">
+                                <path d="M10 1a4 4 0 0 0-3.92 4.85L1.15 10.78A.5.5 0 0 0 1 11.14V14.5a.5.5 0 0 0 .5.5H5a.5.5 0 0 0 .35-.15l1-1A.5.5 0 0 0 6.5 13v-1h1a.5.5 0 0 0 .5-.5v-1h1a.5.5 0 0 0 .35-.15l.8-.8A4 4 0 1 0 10 1m0 1a3 3 0 1 1-2.12 5.12.5.5 0 0 0-.7 0L6.29 8H5.5a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0-.5.5v.79L2 12.79V11.35l4.71-4.71a.5.5 0 0 0 0-.7A3 3 0 0 1 10 2m0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                            </svg>
+                            <span>Change Password</span>
+                        </a>
                         <!-- Logout -->
                         <form asp-area="Auth" asp-controller="Login" asp-action="Logout" method="post" class="admin_logout_form">
                             @Html.AntiForgeryToken()
