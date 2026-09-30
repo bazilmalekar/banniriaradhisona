@@ -22,11 +22,7 @@ public class R2StorageService : IR2StorageService
         _s3Client = new AmazonS3Client(credentials, config);
     }
 
-    public async Task<string> UploadAsync(
-    Stream fileStream,
-    string objectKey,
-    string contentType,
-    CancellationToken cancellationToken = default)
+    public async Task<string> UploadAsync(Stream fileStream, string objectKey, string contentType, CancellationToken cancellationToken = default)
     {
         var request = new PutObjectRequest
         {
@@ -34,32 +30,25 @@ public class R2StorageService : IR2StorageService
             Key = objectKey,
             InputStream = fileStream,
             ContentType = contentType,
-
             // Required for Cloudflare R2
             DisablePayloadSigning = true,
             DisableDefaultChecksumValidation = true
         };
-
         await _s3Client.PutObjectAsync(request, cancellationToken);
-
         return objectKey;
     }
 
-    public async Task DeleteAsync(
-    string objectKey,
-    CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string objectKey, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(objectKey))
         {
             return;
         }
-
         var request = new DeleteObjectRequest
         {
             BucketName = _settings.BucketName,
             Key = objectKey
         };
-
         await _s3Client.DeleteObjectAsync(request, cancellationToken);
     }
 }

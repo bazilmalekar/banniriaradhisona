@@ -20,7 +20,6 @@
         <div class="song_body">
             <div class="song_header">
                 <h6>Song No. @Model.SongCount</h6>
-
                 @if (!string.IsNullOrWhiteSpace(Model.Song.SongScale))
                 {
                     <div class="song_scale">
@@ -28,21 +27,28 @@
                         <span class="song_scale_value">@Model.Song.SongScale</span>
                     </div>
                 }
-
                 <h1>@Model.Song.SongTitleKa</h1>
             </div>
+            <div class="lyrics_wrapper">
             @foreach (var stanza in stanzas)
-            {
-                <p>
-                    @foreach (var line in stanza)
-                    {
-                        @line
-                        <br />
-                    }
-                </p>
-            }
+                {
+                    <p>
+                        @foreach (var line in stanza)
+                        {
+                            if (line.Trim() == "ಪಲ್ಲವಿ")
+                            {
+                                <span class="pallavi">@line</span>
+                            }
+                            else
+                            {
+                                @line
+                            }
+                            <br />
+                        }
+                    </p>
+                }
+            </div>
         </div>
-
         <div class="media_player">
             <div class="player_controls">
                 <button id="rewindBtn"

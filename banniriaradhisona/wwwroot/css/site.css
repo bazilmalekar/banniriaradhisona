@@ -963,10 +963,20 @@ body {
    LYRICS
 ========================================================= */
 
+.song_body .lyrics_wrapper {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+    .song_body .lyrics_wrapper .pallavi {
+        font-weight: 600;
+        font-size: 1.15rem;
+    }
+
 .song_body p {
     max-width: 850px;
     margin: 0 auto 2rem;
-    text-align: center;
+    text-align: start;
     font-size: 1.2rem;
     line-height: 2.2;
     color: var(--text-primary);
@@ -975,6 +985,7 @@ body {
     margin-bottom: 1.25rem;
     line-height: 1.85;
     color: var(--text-primary);
+    word-break: break-word;
 }
 
 
