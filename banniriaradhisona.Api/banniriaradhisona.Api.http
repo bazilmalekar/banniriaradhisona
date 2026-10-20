@@ -1,6 +1,0 @@
-@banniriaradhisona.Api_HostAddress = http://localhost:5126
-
-GET {{banniriaradhisona.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
