@@ -91,7 +91,8 @@
                        aria-label="Song progress">
                 <span id="duration">0:00</span>
             </div>
-            @if (!string.IsNullOrWhiteSpace(Model.AudioUrl))
+            @* @if (!string.IsNullOrWhiteSpace(Model.AudioUrl)) *@
+            @if (!string.IsNullOrWhiteSpace(Model.Song.AudioKey))
             {
                 <audio id="audioPlayer" preload="metadata">
                     <source src="@Model.AudioUrl" type="audio/mpeg">

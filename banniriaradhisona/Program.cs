@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,13 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.Expiration = TimeSpan.FromDays(7);
 });
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto;
+});
+
 var app = builder.Build();
 
 //calls the seed method once, when the application starts
@@ -105,6 +113,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseForwardedHeaders();
 
 app.UseRotativa();
 
