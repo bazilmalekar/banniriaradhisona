@@ -1,0 +1,26 @@
+[data-theme="light"] {
+    color-scheme: light;
+
+    /* Default */
+    --default-text: #172B3A;
+    --default-bg: #F6F9FF;
+    --default-bg-body: #F6F9FF;
+
+    /* Body */
+    --text-color: var(--default-text);
+    --body-bg: var(--default-bg-body);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Default */
+    --default-text: #F1F5F9;
+    --default-bg: #1B2835;
+    --default-bg-body: #101923;
+
+    /* Body */
+    --text-color: var(--default-text);
+    --body-bg: var(--default-bg-body);
+
+}

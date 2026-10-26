@@ -1,0 +1,38 @@
+
+@import "tailwindcss";
+@import "./theme.css"; 
+
+@plugin "daisyui" {
+    themes: light --default, dark;
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+    --color-background: var(--body-bg);
+    --color-surface: var(--card-bg);
+    --color-primary: var(--nav-bg);
+    --color-foreground: var(--text-color);
+    --color-muted: var(--song-subtitle);
+    --color-border: var(--card-border);
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--body-bg);
+    color: var(--text-color);
+    transition:
+        background-color 250ms ease-in-out,
+        color 250ms ease-in-out;
+}

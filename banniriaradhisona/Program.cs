@@ -110,6 +110,15 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
         ForwardedHeaders.XForwardedProto
 });
 
+app.UseCors(policy =>
+{
+    policy
+        .WithOrigins("http://localhost:58683")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+});
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
