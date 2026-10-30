@@ -1,0 +1,13 @@
+@reference "../../../App.css";
+
+.app-header {
+    background-image: url("/header-wave.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dark theme */
+[data-theme="dark"] .app-header {
+    background-image: url("/header-wave-dark.png");
+}

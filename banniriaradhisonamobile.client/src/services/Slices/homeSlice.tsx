@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { axiosPublic } from '../axios';
-import { handleAsyncError } from '../../utils/handleAsyncError';
-// import { useNavigate } from 'react-router';
-// import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-// import type { PayloadAction } from '@reduxjs/toolkit';
-// import type { RootState } from '../store';
-
+// import { handleAsyncError } from '../../utils/handleAsyncError';
+import axios from 'axios';
 
 export interface Song {
     songId: number;
@@ -32,17 +28,26 @@ export interface SongDetailsState {
     data: SongDetails | null;
     dataState: "idle" | "success" | "loading" | "failed";
     error: string | null;
+    errorCode: number | null;
+}
+
+interface ApiError {
+    message: string;
+    errorCode: number | null;
 }
 
 export const initialState: SongDetailsState = {
     data: null,
     dataState: "idle",
     error: null,
+    errorCode: null
 };
 
-
-
-export const getSong = createAsyncThunk("homeSlice/getSong", async ({ id }: { id?: number }, { rejectWithValue }) => {
+export const getSong = createAsyncThunk<
+    SongDetails,
+    { id?: number },
+    { rejectValue: ApiError }
+>("homeSlice/getSong", async ({ id }: { id?: number }, { rejectWithValue }) => {
     try {
         //Read the saved song ID
         const localId = localStorage.getItem("ara");
@@ -57,19 +62,31 @@ export const getSong = createAsyncThunk("homeSlice/getSong", async ({ id }: { id
                     : undefined;
 
         //Fetch the song
-        const response = await axiosPublic.get("https://localhost:7086/api/Songs/getSong",
+        const response = await axiosPublic.get("/api/Songs/getSong",
             {
                 params: requestedId != null ? { songId: requestedId } : {},
             }
         );
-
         const result = response.data;
-
         //Save the returned song ID
         localStorage.setItem("ara", String(result.song.songId));
         return result;
     } catch (err) {
-        return handleAsyncError("An error occurred while fetching the song", err, rejectWithValue);
+        if (axios.isAxiosError(err)) {
+            return rejectWithValue({
+                message: err.response
+                    ? `API request failed: ${err.response.status}`
+                    : err.request
+                        ? "No response from the server. Please check your internet connection and try again."
+                        : err.message,
+                errorCode: err.response?.status ?? 0,
+            });
+        }
+
+        return rejectWithValue({
+            message: err instanceof Error ? err.message : "An unexpected error occurred.",
+            errorCode: null,
+        });
     }
 });
 
@@ -81,23 +98,28 @@ export const homeSlice = createSlice({
         builder
             .addCase(getSong.pending, (state) => {
                 state.dataState = "loading";
-                state.error = "null";
+                state.error = null;
+                state.errorCode = null;
             })
-            .addCase(getSong.fulfilled, (state, action: PayloadAction<SongDetails>) => {
+            .addCase(getSong.fulfilled, (state, action) => {
                 return {
                     ...state,
                     dataState: "success",
                     data: action.payload,
-                    error: null
+                    error: null,
+                    errorCode: null,
                 }
             })
             .addCase(getSong.rejected, (state, action) => {
-                return {
-                    ...state,
-                    error: (action.payload as string) ?? action.error.message ?? "Failed to fetch song."
-                }
-            })
+                state.dataState = "failed";
+                state.error =
+                    action.payload?.message ??
+                    action.error.message ??
+                    "Failed to fetch song.";
+                state.errorCode = action.payload?.errorCode ?? null;
+            });
     }
+
 })
 
 export const { } = homeSlice.actions

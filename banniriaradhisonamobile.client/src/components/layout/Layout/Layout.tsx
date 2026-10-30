@@ -5,14 +5,14 @@ import NavigationBar from "../NavigationBar/NavigationBar";
 
 const Layout: React.FC = () => {
     return (
-        <div className="body_wrapper">
+        <div className="flex h-dvh flex-col overflow-hidden bg-transparent text-foreground">
             <AppHeadder />
-            <main className="app_body">
+            <main className="flex min-h-0 flex-1 flex-col overflow-hidden">
                 <Outlet />
             </main>
             <NavigationBar />
         </div>
     );
-}
+};
 
 export default Layout;

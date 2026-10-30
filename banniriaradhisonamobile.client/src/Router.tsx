@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import Layout from "./components/layout/Layout/Layout";
+import HomeSkeleton from "./shared/SkeletonLoading/HomeSkeleton";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const SongsList = lazy(() => import("./pages/SongsList/SongsList"));
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: (
-                    <Suspense fallback={<p>Loading</p>}>
+                    <Suspense fallback={<HomeSkeleton />}>
                         < HomePage />
                     </Suspense>
                 )
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
             {
                 path: "/song",
                 element: (
-                    <Suspense fallback={<p>Loading</p>}>
+                    <Suspense fallback={<HomeSkeleton />}>
                         < HomePage />
                     </Suspense>
                 )
