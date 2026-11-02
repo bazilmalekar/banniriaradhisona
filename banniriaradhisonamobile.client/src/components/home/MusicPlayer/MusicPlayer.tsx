@@ -9,12 +9,8 @@ const formatTime = (seconds: number): string => {
     if (!Number.isFinite(seconds) || seconds < 0) {
         return "0:00";
     }
-
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60)
-        .toString()
-        .padStart(2, "0");
-
+    const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
     return `${minutes}:${remainingSeconds}`;
 };
 
@@ -26,13 +22,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
     const [duration, setDuration] = useState(0);
     const [showMessage, setShowMessage] = useState(false);
 
-    const progress = duration > 0
-        ? (currentTime / duration) * 100
-        : 0;
+    const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
     useEffect(() => {
         const audio = audioRef.current;
-
         setIsPlaying(false);
         setCurrentTime(0);
         setDuration(0);
@@ -46,12 +39,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
 
     const togglePlayback = async () => {
         const audio = audioRef.current;
-
         if (!audioUrl || !audio) {
             setShowMessage(true);
             return;
         }
-
         setShowMessage(false);
 
         if (audio.paused) {
@@ -67,24 +58,17 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
 
     const seekBy = (seconds: number) => {
         const audio = audioRef.current;
-
         if (!audio || !Number.isFinite(audio.duration)) {
             return;
         }
-
-        audio.currentTime = Math.max(
-            0,
-            Math.min(audio.currentTime + seconds, audio.duration)
-        );
+        audio.currentTime = Math.max(0, Math.min(audio.currentTime + seconds, audio.duration));
     };
 
     const handleSeek = (value: number) => {
         const audio = audioRef.current;
-
         if (!audio || !Number.isFinite(audio.duration)) {
             return;
         }
-
         audio.currentTime = (value / 100) * audio.duration;
         setCurrentTime(audio.currentTime);
     };
@@ -108,10 +92,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
                 <div className="relative">
                     {/* Progress and timestamps */}
                     <div className="mb-2 flex items-center gap-3 text-xs font-medium tabular-nums text-[#52769B] dark:text-[#B5CCD8] sm:text-sm">
-                        <span className="w-9 shrink-0">
-                            {formatTime(currentTime)}
-                        </span>
-
+                        <span className="w-9 shrink-0">{formatTime(currentTime)}</span>
                         <input
                             type="range"
                             min={0}
@@ -127,10 +108,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
                             }}
                             className="h-1.5 min-w-0 flex-1 cursor-pointer appearance-none rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#438FC7]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent [&::-webkit-slider-thumb]:size-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-[#438FC7] [&::-webkit-slider-thumb]:shadow-md dark:[&::-webkit-slider-thumb]:border-[#D9F3EC] dark:[&::-webkit-slider-thumb]:bg-[#62B7C5] [&::-moz-range-thumb]:size-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:bg-[#438FC7] dark:[&::-moz-range-thumb]:border-[#D9F3EC] dark:[&::-moz-range-thumb]:bg-[#62B7C5]"
                         />
-
-                        <span className="w-9 shrink-0 text-right">
-                            {formatTime(duration)}
-                        </span>
+                        <span className="w-9 shrink-0 text-right">{formatTime(duration)}</span>
                     </div>
 
                     {/* Playback controls */}
@@ -158,13 +136,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
                                 />
                             </svg>
                         </button>
-
                         {/* Play / pause */}
                         <button
                             type="button"
                             onClick={togglePlayback}
                             aria-label={isPlaying ? "Pause" : "Play"}
-                            className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#438FC7] text-white shadow-[0_7px_16px_rgba(48,75,104,0.36),0_3px_5px_rgba(48,75,104,0.16)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_23px_rgba(48,75,104,0.42),0_4px_7px_rgba(48,75,104,0.2)] active:translate-y-0 active:scale-95 dark:bg-[#397A9A] dark:shadow-[0_7px_16px_rgba(0,0,0,0.42)] dark:hover:shadow-[0_12px_23px_rgba(0,0,0,0.5)]"
+                            // className="flex size-14 shrink-0 items-center justify-center rounded-full border-0 bg-[#438FC7] text-white no-underline shadow-[0_7px_16px_rgba(48,75,104,0.36),0_3px_5px_rgba(48,75,104,0.16)] transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_10px_20px_rgba(48,75,104,0.38)] active:scale-95 dark:bg-[#397A9A] dark:shadow-[0_7px_16px_rgba(0,0,0,0.42)] dark:hover:shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                            className="relative z-50 flex size-14 shrink-0 items-center justify-center rounded-full border-0 bg-[#438FC7] text-white no-underline [text-decoration:none!important] [border-bottom:0!important] [box-shadow:0_7px_16px_rgba(48,75,104,0.36)]"
                         >
                             {isPlaying ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-pause-fill" viewBox="0 0 16 16">
@@ -176,35 +154,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioUrl }) => {
                                 </svg>
                             )}
                         </button>
-                        {/* Play / pause */}
-                        {/* Play / pause */}
-                        {/* <button
-                            type="button"
-                            onClick={togglePlayback}
-                            aria-label={isPlaying ? "Pause" : "Play"}
-                            className="flex size-14 shrink-0 items-center justify-center rounded-full text-[#527B9B] transition duration-200 hover:bg-[#DCEFFA]/70 hover:text-[#287CA8] active:scale-90 dark:text-[#B5CEDC] dark:hover:bg-white/10 dark:hover:text-[#8BD5C8]"
-                        >
-                            {isPlaying ? (
-                                <svg
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                    className="size-10 drop-shadow-[0_0_6px_rgba(100,190,240,0.75)] transition-all duration-200"
-                                >
-                                    <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5" />
-                                </svg>
-                            ) : (
-                                <svg
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                    className="size-10 drop-shadow-[0_0_6px_rgba(100,190,240,0.75)] transition-all duration-200"
-                                >
-                                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
-                                </svg>
-                            )}
-                        </button> */}
-
                         {/* Forward 10 seconds */}
                         <button
                             type="button"

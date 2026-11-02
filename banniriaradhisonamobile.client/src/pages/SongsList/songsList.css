@@ -1,0 +1,25 @@
+@reference "../../App.css";
+
+.song-card-enter {
+    opacity: 0;
+    animation: songFadeUp 450ms ease-out forwards;
+}
+
+@keyframes songFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .song-card-enter {
+        opacity: 1;
+        animation: none;
+    }
+}

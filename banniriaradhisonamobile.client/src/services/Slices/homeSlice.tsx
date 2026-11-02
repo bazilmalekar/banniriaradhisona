@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosPublic } from '../axios';
 // import { handleAsyncError } from '../../utils/handleAsyncError';
 import axios from 'axios';
@@ -91,7 +91,7 @@ export const getSong = createAsyncThunk<
 });
 
 export const homeSlice = createSlice({
-    name: 'home',
+    name: 'homeSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

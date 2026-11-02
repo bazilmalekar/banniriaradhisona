@@ -6,9 +6,9 @@ import { useNavigate, useSearchParams } from "react-router";
 import { formatLyrics } from "../../utils/formatLyrics";
 import MusicPlayer from "../../components/home/MusicPlayer/MusicPlayer";
 import "./homepage.css";
-import SongNotFound from "../../shared/ErrorPages/SongNotFound";
+import SongNotFound from "../../shared/ErrorPages/home/SongNotFound";
 import HomeSkeleton from "../../shared/SkeletonLoading/HomeSkeleton";
-import SongErrorState from "../../shared/ErrorPages/SongErrorState";
+import SongErrorState from "../../shared/ErrorPages/home/SongErrorState";
 
 const HomePage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -44,16 +44,13 @@ const HomePage: React.FC = () => {
 
     if (dataState === "failed" && error) {
         if (errorCode === 404) {
-
             return <SongNotFound />;
         }
         return (
             <SongErrorState
                 title="Unable to load song"
                 message={error ?? undefined}
-                onRetry={() => {
-                    void dispatch(getSong({ id: songId }));
-                }}
+                onRetry={() => { void dispatch(getSong({ id: songId })) }}
             />
         );
     }

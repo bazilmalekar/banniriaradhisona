@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import homeSlice from './Slices/homeSlice'
+import songSlice from './Slices/songSlice'
 
 export const store = configureStore({
     reducer: {
-        homeSlice
+        homeSlice,
+        songSlice
     }
 })
 
