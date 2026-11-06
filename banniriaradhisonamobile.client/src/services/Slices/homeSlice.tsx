@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { axiosPublic } from '../axios';
+import { axiosPublic, BASE_URL } from '../axios';
 // import { handleAsyncError } from '../../utils/handleAsyncError';
 import axios from 'axios';
+import { Capacitor } from '@capacitor/core';
 
 export interface Song {
     songId: number;
@@ -43,11 +44,7 @@ export const initialState: SongDetailsState = {
     errorCode: null
 };
 
-export const getSong = createAsyncThunk<
-    SongDetails,
-    { id?: number },
-    { rejectValue: ApiError }
->("homeSlice/getSong", async ({ id }: { id?: number }, { rejectWithValue }) => {
+export const getSong = createAsyncThunk<SongDetails, { id?: number }, { rejectValue: ApiError }>("homeSlice/getSong", async ({ id }: { id?: number }, { rejectWithValue }) => {
     try {
         //Read the saved song ID
         const localId = localStorage.getItem("ara");

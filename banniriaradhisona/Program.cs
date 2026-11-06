@@ -110,16 +110,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
         ForwardedHeaders.XForwardedProto
 });
 
-app.UseCors(policy =>
-{
-    policy
-        .WithOrigins("http://localhost:58683")
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
-});
+//app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseStaticFiles();
 
@@ -128,6 +124,15 @@ app.UseForwardedHeaders();
 app.UseRotativa();
 
 app.UseRouting();
+
+app.UseCors(policy =>
+{
+    policy
+        .WithOrigins("https://localhost", "http://localhost", "http://localhost:58683")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+});
 
 app.UseSession();
 

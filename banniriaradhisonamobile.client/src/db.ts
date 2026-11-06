@@ -1,15 +1,16 @@
 import { Dexie, type EntityTable } from "dexie"
 
 interface Favorite {
-    id: number;
+    songId: number;
+    addedAt: number;
 }
 
-const db = new Dexie("FriendsDatabase") as Dexie & {
-    favorites: EntityTable<Favorite, "id">
+const db = new Dexie("AraDb") as Dexie & {
+    favorites: EntityTable<Favorite, "songId">
 }
 
 db.version(1).stores({
-    favorites: "++id"
+    favorites: "songId, addedAt"
 });
 
 export const favoritesTable = db.table("favorites");

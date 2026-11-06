@@ -9,6 +9,7 @@ import "./homepage.css";
 import SongNotFound from "../../shared/ErrorPages/home/SongNotFound";
 import HomeSkeleton from "../../shared/SkeletonLoading/HomeSkeleton";
 import SongErrorState from "../../shared/ErrorPages/home/SongErrorState";
+import MarkFavourite from "../../components/home/MarkFavourite/MarkFavourite";
 
 const HomePage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -35,9 +36,7 @@ const HomePage: React.FC = () => {
                 console.error("Failed to fetch song:", error);
             }
         };
-
         void loadSong();
-
     }, [dispatch, songId, navigate, data?.song.songId]);
 
     if (dataState === "loading") return <HomeSkeleton />;
@@ -94,23 +93,10 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="flex shrink-0 items-center gap-1 pt-1">
                     {/* Favourite */}
-                    <button
-                        type="button"
-                        aria-label="Add to favourites"
-                        className="flex size-10 items-center justify-center rounded-full text-[#59799F] transition-colors hover:bg-sky-100/70 hover:text-rose-500 dark:text-slate-300 dark:hover:bg-slate-700"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            className="size-7"
-                            aria-hidden="true"
-                        >
-                            <path d="m8 14-1.1-1C2.7 9.2 1 7.5 1 5.3 1 3.3 2.6 1.8 4.5 1.8c1.3 0 2.5.7 3.5 1.9 1-1.2 2.2-1.9 3.5-1.9C13.4 1.8 15 3.3 15 5.3c0 2.2-1.7 3.9-5.9 7.7L8 14Z" />
-                        </svg>
-                    </button>
+                    <MarkFavourite
+                        songId={data?.song.songId}
+                        songNumber={data?.song.songNumber}
+                        songTitleKa={data?.song.songTitleKa} />
                     {/* More options */}
                     <button
                         type="button"

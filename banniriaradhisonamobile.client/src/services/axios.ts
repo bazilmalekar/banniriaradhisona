@@ -15,7 +15,13 @@ import { Capacitor } from "@capacitor/core";
 
 const getBaseUrl = () => {
     if (import.meta.env.PROD) {
-        return "https://test.aradhisuva.com";
+        // return "https://test.aradhisuva.com";
+
+        if (Capacitor.isNativePlatform()) {
+            return Capacitor.getPlatform() === "android"
+                ? "http://10.0.2.2:5245"
+                : "http://localhost:5245";
+        }
     }
 
     const platform = Capacitor.getPlatform();

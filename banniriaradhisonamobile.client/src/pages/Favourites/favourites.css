@@ -1,0 +1,104 @@
+@reference "../../App.css";
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.favourites-banner_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    flex-shrink: 0;
+    overflow: hidden;
+
+    margin: 0.5rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+
+    border-radius: 1.5rem;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.favourites-banner_icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+}
+
+.favourites-banner_content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+}
+
+.favourites-banner_content h1 {
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.favourites-banner_content p {
+    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+@media (min-width: 640px) {
+    .favourites-banner_content h1 {
+        font-size: 1.875rem;
+    }
+
+    .favourites-banner_content p {
+        font-size: 1.125rem;
+    }
+}
+
+/* handle delete favorite button */
+.isDeleted {
+    visibility: hidden;
+}
+
+.fav_row.deleted {
+    animation: deleteFav 500ms ease-in-out forwards;
+    pointer-events: none;
+}
+
+.fav_row.deleted {
+    overflow: hidden;
+    animation: deleteFav 500ms ease-in-out forwards;
+}
+
+@keyframes deleteFav {
+    from {
+        opacity: 1;
+        max-height: 100px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 0;
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: -8px;
+        border-width: 0;
+        box-shadow: none;
+    }
+}
