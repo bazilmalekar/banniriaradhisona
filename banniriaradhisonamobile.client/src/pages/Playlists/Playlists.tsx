@@ -48,40 +48,8 @@ const Playlists: React.FC = () => {
 
     const isEditMode = editingPlaylist !== null;
 
-    // const handleCreatePlaylist = (e: React.SubmitEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     const name = playlistName.trim();
-    //     if (!name) {
-    //         setError("Please enter a playlist name.");
-    //         return;
-    //     }
-    //     const alreadyExists = PlaylistData.some((playlist) => playlist.playlistName.toLowerCase() === name.toLowerCase());
-    //     if (alreadyExists) {
-    //         setError("A playlist with this name already exists.");
-    //         return;
-    //     }
-    //     const color = playlistColors[(nextId - 1) % playlistColors.length];
-
-    //     const newPlaylist: Playlist = {
-    //         playlistId: crypto.randomUUID(),
-    //         playlistName: name,
-    //         userId: null,
-    //         colorKey: color.key
-    //     };
-
-    //     // setPlaylists((prev) => [...prev, newPlaylist]);
-    //     dispatch(createPlaylist(newPlaylist));
-    //     setNextId((prev) => prev + 1);
-
-    //     setPlaylistName("");
-    //     setError("");
-    //     setShowCreateModal(false);
-    // };
-
-
     const handleCreatePlaylist = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const name = playlistName.trim();
 
         if (!name) {
@@ -109,25 +77,19 @@ const Playlists: React.FC = () => {
                         colorKey: editingPlaylist.colorKey
                     })
                 ).unwrap();
-
                 // Keep modal open to display edit success animation.
                 return;
             }
-
             // Create mode
             const color = playlistColors[(nextId - 1) % playlistColors.length];
-
             const newPlaylist: Playlist = {
                 playlistId: crypto.randomUUID(),
                 playlistName: name,
                 userId: null,
                 colorKey: color.key
             };
-
             await dispatch(createPlaylist(newPlaylist)).unwrap();
-
             setNextId((prev) => prev + 1);
-
             setPlaylistName("");
             setError("");
             setShowCreateModal(false);
@@ -144,7 +106,6 @@ const Playlists: React.FC = () => {
         dispatch(resetEditPlaylistStatus());
         setShowCreateModal(true);
     };
-
 
     const closeModal = () => {
         setShowCreateModal(false);
@@ -166,13 +127,11 @@ const Playlists: React.FC = () => {
 
     useEffect(() => {
         if (EditPlaylistStatus !== "success") return;
-
         const timer = setTimeout(() => {
             setShowCreateModal(false);
             setEditingPlaylist(null);
             dispatch(resetEditPlaylistStatus());
         }, 1500);
-
         return () => clearTimeout(timer);
     }, [dispatch, EditPlaylistStatus]);
 
@@ -188,7 +147,6 @@ const Playlists: React.FC = () => {
                 dark:bg-[#263F4B]
                 border border-[#DCEBF0]/80 dark:border-white/10
             ">
-
                 {/* Playlist icon */}
                 <div className="
                     flex size-16 shrink-0 items-center justify-center
@@ -221,7 +179,6 @@ const Playlists: React.FC = () => {
                     ">
                         Playlists
                     </h1>
-
                     <p className="
                         mt-1 text-sm font-medium
                         text-[#71869E] dark:text-[#A9C0CC]
@@ -232,7 +189,6 @@ const Playlists: React.FC = () => {
                             : "playlists"} in your collection
                     </p>
                 </div>
-
                 {/* Create button */}
                 <button
                     type="button"
@@ -257,24 +213,12 @@ const Playlists: React.FC = () => {
                     <span>Create</span>
                 </button>
             </div>
-
             {/* Playlist collection */}
-            <div className="
-                min-h-0 flex-1 overflow-y-auto
-                overscroll-contain px-3 pb-5
-                sm:px-5
-            ">
-
-
-
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pb-5 sm:px-5">
                 {PlaylistData.length > 0 ? (
                     <div className="space-y-2">
-
                         {PlaylistData.map((playlist, index) => {
-                            const color = playlistColors.find(
-                                (item) => item.key === playlist.colorKey
-                            )!;
-
+                            const color = playlistColors.find((item) => item.key === playlist.colorKey)!;
                             return (
                                 <div
                                     key={playlist.playlistId}
@@ -312,7 +256,6 @@ const Playlists: React.FC = () => {
                                         ) {
                                             return;
                                         }
-
                                         void dispatch(
                                             deletePlaylist({ playlistId: playlist.playlistId })
                                         )
@@ -327,13 +270,7 @@ const Playlists: React.FC = () => {
                                     }}
                                 >
                                     {/* Colour accent */}
-                                    <div
-                                        style={{
-                                            backgroundColor: color.accent,
-                                        }}
-                                        className="h-12 w-1.5 shrink-0 rounded-full"
-                                    />
-
+                                    <div style={{ backgroundColor: color.accent, }} className="h-12 w-1.5 shrink-0 rounded-full" />
                                     {/* Playlist information */}
                                     <div className="min-w-0 flex-1">
                                         <h2 className="
@@ -343,7 +280,6 @@ const Playlists: React.FC = () => {
                                         ">
                                             {playlist.playlistName}
                                         </h2>
-
                                         <p className="
                                             mt-1 text-sm
                                             text-[#71869E] dark:text-[#A9C0CC]
@@ -352,7 +288,6 @@ const Playlists: React.FC = () => {
                                             5 songs
                                         </p>
                                     </div>
-
                                     {/* More options */}
                                     <button
                                         type="button"
@@ -387,11 +322,9 @@ const Playlists: React.FC = () => {
                                             <circle cx="12" cy="19" r="1.8" />
                                         </svg>
                                     </button>
-
                                 </div>
                             );
                         })}
-
                     </div>
                 ) : (
 
@@ -428,7 +361,6 @@ const Playlists: React.FC = () => {
                                 <path fillRule="evenodd" d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5" />
                             </svg>
                         </div>
-
                         <h2 className="
                             text-lg font-semibold
                             text-[#526B8D] dark:text-slate-200
@@ -457,7 +389,6 @@ const Playlists: React.FC = () => {
                     </div>
                 )}
             </div>
-
             <CreateEditModal
                 showCreateModal={showCreateModal}
                 closeModal={closeModal}
@@ -469,14 +400,12 @@ const Playlists: React.FC = () => {
                 error={error}
                 setError={setError}
             />
-
             <DeleteConfirmModal
                 showDeleteConfirm={showDeleteConfirm}
                 playlistData={playlistData}
                 setShowDeleteConfirm={setShowDeleteConfirm}
                 handleDeletePlaylist={handleDeletePlaylist}
             />
-
             <ActionBottomSheet
                 isOpen={!!playlistData}
                 onClose={() => setPlaylistData(null)}

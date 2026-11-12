@@ -4,7 +4,6 @@ import React from "react";
 const PlaylistListSkeleton: React.FC = () => {
     return (
         <section className="relative flex min-h-0 flex-1 flex-col overflow-hidden animate-pulse">
-
             {/* Header skeleton */}
             <div className="
                 mx-2 my-2 flex shrink-0 items-center gap-4
@@ -12,7 +11,6 @@ const PlaylistListSkeleton: React.FC = () => {
                 dark:bg-[#263F4B]
                 border border-[#DCEBF0]/80 dark:border-white/10
             ">
-
                 {/* Playlist icon placeholder */}
                 <div className="
                     flex size-16 shrink-0 items-center justify-center
@@ -22,18 +20,13 @@ const PlaylistListSkeleton: React.FC = () => {
                 ">
                     <div className="size-8 rounded-lg bg-[#BBDCF2] dark:bg-slate-600" />
                 </div>
-
                 {/* Heading placeholders */}
                 <div className="min-w-0 flex-1 space-y-2">
                     <div className="h-6 w-36 max-w-[70%] rounded-md bg-[#C8DFEF] dark:bg-slate-600" />
                     <div className="h-4 w-52 max-w-[85%] rounded-md bg-[#D5E7F2] dark:bg-slate-700" />
                 </div>
-
                 {/* Create button placeholder */}
-                <div className="
-                    h-10 w-24 shrink-0 rounded-xl
-                    bg-[#BBDCF2] dark:bg-slate-600
-                " />
+                <div className=" h-10 w-24 shrink-0 rounded-xl bg-[#BBDCF2] dark:bg-slate-600" />
             </div>
 
             {/* Playlist cards skeleton */}
@@ -42,7 +35,6 @@ const PlaylistListSkeleton: React.FC = () => {
                 px-3 pb-5 sm:px-5
             ">
                 <div className="space-y-2">
-
                     {Array.from({ length: 6 }).map((_, index) => (
                         <div
                             key={index}
@@ -69,38 +61,13 @@ const PlaylistListSkeleton: React.FC = () => {
                                     ][index % 4]}
                                 `}
                             />
-
                             {/* Playlist information */}
                             <div className="min-w-0 flex-1 space-y-2">
-                                <div
-                                    className="
-                                        h-5 rounded-md
-                                        bg-[#DCEAF3]
-                                        dark:bg-slate-700
-                                        sm:h-6
-                                    "
-                                    style={{
-                                        width: `${[65, 80, 55, 72, 60, 75][index]}%`
-                                    }}
-                                />
-
-                                <div
-                                    className="
-                                        h-3.5 rounded-md
-                                        bg-[#E5EFF5]
-                                        dark:bg-slate-700/70
-                                    "
-                                    style={{
-                                        width: `${[22, 28, 18, 25, 20, 30][index]}%`
-                                    }}
-                                />
+                                <div className="h-5 rounded-md bg-[#DCEAF3] dark:bg-slate-700 sm:h-6" style={{ width: `${[65, 80, 55, 72, 60, 75][index]}%` }} />
+                                <div className=" h-3.5 rounded-md bg-[#E5EFF5] dark:bg-slate-700/70" style={{ width: `${[22, 28, 18, 25, 20, 30][index]}%` }} />
                             </div>
-
                             {/* More options placeholder */}
-                            <div className="
-                                flex size-9 shrink-0
-                                items-center justify-center
-                            ">
+                            <div className="flex size-9 shrink-0 items-center justify-center">
                                 <div className="flex flex-col gap-1">
                                     <span className="size-1.5 rounded-full bg-[#D0DFE9] dark:bg-slate-600" />
                                     <span className="size-1.5 rounded-full bg-[#D0DFE9] dark:bg-slate-600" />

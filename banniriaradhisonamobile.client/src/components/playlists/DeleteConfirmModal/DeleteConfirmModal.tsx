@@ -45,14 +45,11 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
                         >
                             Delete playlist?
                         </h2>
-
                         <p className="mt-3 text-sm leading-relaxed text-[#526871] dark:text-[#A9C0CC]">
                             Are you sure you want to delete
                             {" "}<strong>{playlistData.playlistName}</strong>?
-                            This action cannot be undone. Your songs and downloads
-                            will not be deleted.
+                            This action cannot be undone. Your songs and downloads will not be deleted.
                         </p>
-
                         <div className="mt-6 flex justify-end gap-3">
                             <button
                                 type="button"
@@ -61,7 +58,6 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
                             >
                                 Cancel
                             </button>
-
                             <button
                                 type="button"
                                 onClick={handleDeletePlaylist}

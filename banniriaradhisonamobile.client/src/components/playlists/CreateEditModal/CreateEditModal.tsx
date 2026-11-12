@@ -74,11 +74,9 @@ const CreateEditModal: React.FC<CreateEditModalProps> = ({
                                         />
                                     </svg>
                                 </div>
-
                                 <h2 className="text-xl font-bold text-[#304B68] dark:text-[#E3EEF4]">
                                     Playlist Updated!
                                 </h2>
-
                                 <p className="mt-2 text-sm text-[#526871] dark:text-[#A9C0CC]">
                                     Your playlist has been updated successfully.
                                 </p>
@@ -95,11 +93,7 @@ const CreateEditModal: React.FC<CreateEditModalProps> = ({
                                 >
                                     {isEditMode ? "Edit Playlist" : "Create Playlist"}
                                 </h2>
-
-                                <form
-                                    onSubmit={handleCreatePlaylist}
-                                    className="mt-5 space-y-4"
-                                >
+                                <form onSubmit={handleCreatePlaylist} className="mt-5 space-y-4">
                                     <div>
                                         <label
                                             htmlFor="playlistName"
@@ -110,7 +104,6 @@ const CreateEditModal: React.FC<CreateEditModalProps> = ({
                                         >
                                             Playlist name
                                         </label>
-
                                         <input
                                             id="playlistName"
                                             type="text"
@@ -135,14 +128,10 @@ const CreateEditModal: React.FC<CreateEditModalProps> = ({
                                                 dark:text-[#E3EEF4]
                                             "
                                         />
-
                                         {error && (
-                                            <p className="mt-2 text-sm text-red-600">
-                                                {error}
-                                            </p>
+                                            <p className="mt-2 text-sm text-red-600">{error}</p>
                                         )}
                                     </div>
-
                                     <div className="flex justify-end gap-3 pt-2">
                                         <button
                                             type="button"
@@ -151,7 +140,6 @@ const CreateEditModal: React.FC<CreateEditModalProps> = ({
                                         >
                                             Cancel
                                         </button>
-
                                         <button
                                             type="submit"
                                             className="btn ara-btn-primary rounded-xl px-4 py-2.5 font-medium"

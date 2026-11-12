@@ -249,18 +249,13 @@ export const playlistSlice = createSlice({
             })
             .addCase(editPlaylist.fulfilled, (state, action) => {
                 state.EditPlaylistStatus = "success";
-
-                const index = state.PlaylistData.findIndex(
-                    playlist => playlist.playlistId === action.payload.playlistId
-                );
-
+                const index = state.PlaylistData.findIndex(playlist => playlist.playlistId === action.payload.playlistId);
                 if (index !== -1) {
                     state.PlaylistData[index] = {
                         ...state.PlaylistData[index],
                         ...action.payload
                     };
                 }
-
                 state.EditPlaylistError = null;
             })
             .addCase(editPlaylist.rejected, (state, action) => {
