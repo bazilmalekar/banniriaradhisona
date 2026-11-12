@@ -1,0 +1,68 @@
+/* Base button */
+.ara-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    border-radius: 0.75rem;
+    cursor: pointer;
+
+    transition: all 150ms ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Primary button */
+.ara-btn-primary {
+    border: 0;
+    background-color: var(--btn-primary);
+    color: white;
+    box-shadow: var(--btn-primary-shadow);
+}
+
+.ara-btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+    box-shadow: var(--btn-primary-shadow-hover);
+}
+
+.ara-btn-primary:active {
+    transform: scale(0.95);
+    background-color: var(--btn-primary-active);
+    box-shadow: 0 2px 5px rgba(48, 75, 104, 0.2);
+}
+
+/* Secondary button */
+.ara-btn-secondary {
+    border: 1px solid var(--border-primary);
+    background-color: transparent;
+    color: #526871;
+}
+
+.ara-btn-secondary:hover {
+    background-color: #F2F7F8;
+}
+
+.ara-btn-secondary:active {
+    transform: scale(0.95);
+    background-color: #E7F1EF;
+}
+
+/* Keyboard focus */
+.ara-btn:focus-visible {
+    outline: 2px solid var(--btn-primary);
+    outline-offset: 2px;
+}
+
+/* Disabled */
+.ara-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .ara-btn {
+        transition: none;
+    }
+}

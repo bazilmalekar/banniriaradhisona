@@ -6,7 +6,8 @@ import { fetchFavourites, removeFavourite, type FavoriteSongs } from "../../serv
 import "./favourites.css";
 import FavouritesListSkeleton from "../../shared/SkeletonLoading/FavouritesListSkeleton";
 import SongErrorState from "../../shared/ErrorPages/home/SongErrorState";
-import { createPortal } from "react-dom";
+import ActionBottomSheet from "../../shared/ActionBottomSheet/ActionBottomSheet";
+
 
 const Favourites: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -22,49 +23,6 @@ const Favourites: React.FC = () => {
         songId: undefined,
         isdeleted: false
     });
-    const touchStartY = useRef(0);
-    const currentTranslateY = useRef(0);
-    const sheetRef = useRef<HTMLDivElement>(null);
-
-    const [translateY, setTranslateY] = useState(0);
-    const [isDragging, setIsDragging] = useState(false);
-    const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-    useEffect(() => {
-        if (!selectedSong) {
-            setIsSheetOpen(false);
-            return;
-        }
-        const frame = requestAnimationFrame(() => { setIsSheetOpen(true) });
-        return () => cancelAnimationFrame(frame);
-    }, [selectedSong]);
-
-    const handleTouchStart = (e: React.TouchEvent) => {
-        touchStartY.current = e.touches[0].clientY;
-        setIsDragging(true);
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-        const distance = Math.max(0, e.touches[0].clientY - touchStartY.current);
-        currentTranslateY.current = distance;
-        setTranslateY(distance);
-    };
-
-    const handleTouchEnd = () => {
-        setIsDragging(false);
-        if (currentTranslateY.current > 80) {
-            const height = sheetRef.current?.offsetHeight ?? 300;
-            setTranslateY(height);
-            setTimeout(() => {
-                setSelectedSong(null);
-                setTranslateY(0);
-                currentTranslateY.current = 0;
-            }, 250);
-        } else {
-            setTranslateY(0);
-            currentTranslateY.current = 0;
-        }
-    };
 
     // Fetch songs if they haven't been loaded yet
     useEffect(() => {
@@ -82,7 +40,7 @@ const Favourites: React.FC = () => {
         setSelectedSong(song);
     };
 
-    const handleDeleteFavourite = (songId: number) => {
+    const handleDeleteFavourite = (songId?: number) => {
         setIsDeletedSong({
             songId,
             isdeleted: true
@@ -220,62 +178,40 @@ const Favourites: React.FC = () => {
                     </div>
                 )}
             </div>
-
-            {selectedSong && createPortal(
-                <div
-                    className="fixed inset-0 z-[9999] flex items-end justify-center bg-black/30 backdrop-blur-[2px]"
-                    onClick={() => setSelectedSong(null)}
-                >
-                    <div
-                        ref={sheetRef}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label="Song options"
-                        className="w-full max-w-lg rounded-t-2xl bg-white p-4 pb-6 dark:bg-[#1D303A]"
-                        style={{
-                            transform: `translateY(calc(${isSheetOpen ? "0%" : "100%"} + ${translateY}px))`,
-                            transition: isDragging
-                                ? "none"
-                                : "transform 450ms cubic-bezier(0.22, 1, 0.36, 1)",
-                            touchAction: "pan-x",
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                    >
-                        {/* Sheet handle */}
-                        <div className="mx-auto mb-5 h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-600" />
-                        {/* Song details */}
-                        <div className="mb-5">
-                            <h3 className="text-lg font-semibold text-[#304B68] dark:text-[#E3EEF4]">{selectedSong.songTitleKa}</h3>
-                            <p className="mt-1 text-sm text-[#8295AD] dark:text-slate-400">Song {String(selectedSong.songNumber).padStart(3, "0")} </p>
-                        </div>
-                        {/* Remove favourite */}
-                        <button
-                            type="button"
-                            className="mt-1 flex w-full items-center gap-4 rounded-xl bg-red-50 px-4 py-3.5 text-left text-red-600 transition-colors hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20"
-                            onClick={() => handleDeleteFavourite(selectedSong.songId)}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.8"
-                                className="size-6"
-                                aria-hidden="true"
+            <ActionBottomSheet
+                isOpen={!!selectedSong}
+                onClose={() => setSelectedSong(null)}
+            >
+                {
+                    selectedSong && (
+                        <>
+                            <div className="mb-5">
+                                <h3 className="text-lg font-semibold text-[#304B68] dark:text-[#E3EEF4]">{selectedSong?.songTitleKa}</h3>
+                                <p className="mt-1 text-sm text-[#8295AD] dark:text-slate-400">Song {String(selectedSong?.songNumber).padStart(3, "0")} </p>
+                            </div>
+                            <button
+                                type="button"
+                                className="mt-1 flex w-full items-center gap-4 rounded-xl bg-red-50 px-4 py-3.5 text-left text-red-600 transition-colors hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20"
+                                onClick={() => handleDeleteFavourite(selectedSong?.songId)}
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m4 4 16 16" />
-                            </svg>
-                            <span className="font-medium">Remove from favourites</span>
-                        </button>
-                    </div>
-                </div>,
-                document.body
-            )
-            }
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                    className="size-6"
+                                    aria-hidden="true"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m4 4 16 16" />
+                                </svg>
+                                <span className="font-medium">Remove from favourites</span>
+                            </button>
+                        </>
+                    )
+                }
+            </ActionBottomSheet>
         </section >
     );
 };

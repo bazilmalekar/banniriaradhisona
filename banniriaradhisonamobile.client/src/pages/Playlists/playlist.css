@@ -1,0 +1,68 @@
+/* Playlist modal entrance */
+@keyframes playlistModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.playlist-modal-enter {
+    animation: playlistModalEnter 220ms ease-out both;
+}
+
+/* Backdrop fade */
+@keyframes playlistBackdropEnter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.playlist-backdrop-enter {
+    animation: playlistBackdropEnter 180ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .playlist-modal-enter,
+    .playlist-backdrop-enter {
+        animation: none;
+    }
+}
+
+/* Delete playlist animation */
+/* Shared card deletion animation */
+@keyframes deleteCard {
+    from {
+        opacity: 1;
+        max-height: 100px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 0;
+        border-width: 1px;
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: -8px;
+        border-width: 0;
+        box-shadow: none;
+    }
+}
+
+.card-deleted {
+    overflow: hidden;
+    pointer-events: none;
+    animation: deleteCard 500ms ease-in-out forwards;
+}

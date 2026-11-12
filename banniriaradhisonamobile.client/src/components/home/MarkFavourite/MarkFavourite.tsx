@@ -10,12 +10,14 @@ interface MarkFavouriteProps {
     songId?: number;
     songNumber?: number;
     songTitleKa?: string;
+    songTitleEn?: string;
 }
 
 const MarkFavourite: React.FC<MarkFavouriteProps> = ({
     songId,
     songNumber,
-    songTitleKa
+    songTitleKa,
+    songTitleEn
 }) => {
     const dispatch = useAppDispatch();
 
@@ -35,12 +37,12 @@ const MarkFavourite: React.FC<MarkFavouriteProps> = ({
         if (isFavourite) {
             setAnimation("remove");
             setTimeout(async () => {
-                const result = await dispatch(markFavourite({ songId, songNumber, songTitleKa }));
+                const result = await dispatch(markFavourite({ songId, songNumber, songTitleKa, songTitleEn }));
                 if (markFavourite.fulfilled.match(result)) setShowFilledHeart(false);
                 setAnimation(null);
             }, 250);
         } else {
-            const result = await dispatch(markFavourite({ songId, songNumber, songTitleKa }));
+            const result = await dispatch(markFavourite({ songId, songNumber, songTitleKa, songTitleEn }));
             if (markFavourite.fulfilled.match(result)) {
                 setShowFilledHeart(true);
                 setAnimation("add");

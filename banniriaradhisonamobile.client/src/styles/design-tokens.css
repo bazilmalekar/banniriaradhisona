@@ -1,0 +1,17 @@
+:root {
+    /* Primary button */
+    --btn-primary: #438FC7;
+    --btn-primary-hover: #397FB5;
+    --btn-primary-active: #326F9E;
+
+    /* Primary shadow */
+    --btn-primary-shadow:
+        0 5px 12px rgba(48, 75, 104, 0.25);
+
+    --btn-primary-shadow-hover:
+        0 7px 16px rgba(48, 75, 104, 0.32);
+
+    /* Borders */
+    --border-primary: #C8DFDB;
+    --border-light: #DCEBF0;
+}

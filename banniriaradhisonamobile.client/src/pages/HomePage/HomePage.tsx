@@ -96,7 +96,8 @@ const HomePage: React.FC = () => {
                     <MarkFavourite
                         songId={data?.song.songId}
                         songNumber={data?.song.songNumber}
-                        songTitleKa={data?.song.songTitleKa} />
+                        songTitleKa={data?.song.songTitleKa}
+                        songTitleEn={data?.song.songTitleEn} />
                     {/* More options */}
                     <button
                         type="button"

@@ -3,10 +3,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { favoritesTable } from "../../db";
 import { handleAsyncError } from "../../utils/handleAsyncError";
 
+export interface Favorite {
+    songId: number;
+    addedAt: number;
+}
+
 export interface FavoriteSongs {
     songId: number;
     songNumber?: number;
     songTitleKa?: string;
+    songTitleEn?: string;
     addedAt: number;
 }
 
@@ -14,6 +20,7 @@ interface MarkFavouritePayload {
     songId: number;
     songNumber?: number;
     songTitleKa?: string;
+    songTitleEn?: string;
 }
 
 interface FavouriteToggleResult {
@@ -51,7 +58,7 @@ const initialState: FavouritesState = {
 // Add favourite
 export const markFavourite = createAsyncThunk<FavouriteToggleResult, MarkFavouritePayload, { rejectValue: ApiError }>(
     "favourites/markFavourite",
-    async ({ songId, songNumber, songTitleKa }, { rejectWithValue }) => {
+    async ({ songId, songNumber, songTitleKa, songTitleEn }, { rejectWithValue }) => {
         try {
             const existing = await favoritesTable.get(songId);
             if (existing) {
@@ -65,6 +72,7 @@ export const markFavourite = createAsyncThunk<FavouriteToggleResult, MarkFavouri
                 songId,
                 songNumber,
                 songTitleKa,
+                songTitleEn,
                 addedAt: Date.now()
             };
             await favoritesTable.add(favourite);

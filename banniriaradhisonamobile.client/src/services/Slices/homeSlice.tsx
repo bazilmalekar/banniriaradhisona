@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { axiosPublic, BASE_URL } from '../axios';
+import { axiosPublic } from '../axios';
 // import { handleAsyncError } from '../../utils/handleAsyncError';
 import axios from 'axios';
-import { Capacitor } from '@capacitor/core';
+// import { Capacitor } from '@capacitor/core';
 
 export interface Song {
     songId: number;
